@@ -1,3 +1,4 @@
+import Header from '@/components/Header'
 import {ClerkProvider} from '@clerk/nextjs'
 import type {Metadata} from 'next'
 import '../globals.css'
@@ -15,7 +16,12 @@ export default function RootLayout({
 	return (
 		<ClerkProvider dynamic>
 			<html lang='en'>
-				<body className={` antialiased`}>{children}</body>
+				<body className={` antialiased`}>
+					<main>
+						<Header />
+						{children}
+					</main>
+				</body>
 			</html>
 		</ClerkProvider>
 	)
