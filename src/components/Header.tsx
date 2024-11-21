@@ -56,7 +56,7 @@ const Header = () => {
 							</div>
 						</div>
 					) : (
-						<SignUpButton mode='modal' />
+						<SignUpButton mode='redirect' />
 					)}
 				</ClerkLoaded>
 			</div>
