@@ -34,7 +34,7 @@ const CategorySelectorComponent = ({categories}: CategorySelectorProps) => {
 					{value
 						? categories &&
 							categories.find(category => category._id === value)?.title
-						: 'filter by Category'}
+						: 'Filter by Category'}
 					<ChevronsUpDown className='ml-2 h-4 shrink-0' />
 				</Button>
 			</PopoverTrigger>
