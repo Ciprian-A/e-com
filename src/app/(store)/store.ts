@@ -11,8 +11,8 @@ interface BasketState {
 	addItem: (product: Product) => void
 	removeItem: (productId: string) => void
 	clearBasket: () => void
-	getTotalPrice: () => void
-	getItemCount: (productId: string) => void
+	getTotalPrice: () => number
+	getItemCount: (productId: string) => number
 	getGroupedItems: () => BasketItem[]
 }
 
