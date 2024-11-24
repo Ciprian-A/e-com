@@ -6,7 +6,7 @@ import {imageUrl} from '@/lib/imageUrl'
 
 const ProductThumb = ({product}: {product: Product}) => {
 	const isOutOfStock = !product?.stock || product?.stock <= 0
-	console.log({isOutOfStock})
+
 	return (
 		<Link
 			href={`/product/${product?.slug?.current}`}
