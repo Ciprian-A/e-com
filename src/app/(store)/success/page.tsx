@@ -17,7 +17,7 @@ const SuccessPage = () => {
 			clearBasket()
 		}
 	}, [orderNumber, clearBasket])
-
+	console.log('test')
 	return (
 		<div className='flex flex-col items-center justify-center min-h-screen bg-gray-50'>
 			<div className='bg-white p-12 rounded-xl shadow-lg max-w-2xl w-full mx-4'>
