@@ -37,9 +37,9 @@ export const createCheckoutSession = async (
 		const baseUrl =
 			process.env.NODE_ENV === 'production'
 				? `https://${process.env.VERCEL_URL}`
-				: `${process.env.NEXT_PUBLIC_BASE_URL}/basket`
+				: `${process.env.NEXT_PUBLIC_BASE_URL}`
 
-		const successUrl = `${baseUrl}/success?session_id={CHECKOUT_SESSIOON_ID}&orderNumber=${metadata.orderNumber}`
+		const successUrl = `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}&orderNumber=${metadata.orderNumber}`
 		const cancelUrl = `${baseUrl}/basket`
 
 		const session = await stripe.checkout.sessions.create({

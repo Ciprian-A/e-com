@@ -24,7 +24,7 @@ const SuccessPage = () => {
 				<div className='flex justify-center mb-8'>
 					<div className='h-16 w-16 bg-green-100 rounded-full flex items-center justify-center'>
 						<svg
-							className='h=8 w-8 text=green-600'
+							className='h-8 w-8 text-green-600'
 							fill='none'
 							stroke='currentColor'
 							viewBox='0 0 24 24'>
@@ -32,7 +32,7 @@ const SuccessPage = () => {
 								strokeLinecap='round'
 								strokeLinejoin='round'
 								strokeWidth={2}
-								d='MS 1314 4L19 7'
+								d='M5 13l4 4L19 7'
 							/>
 						</svg>
 					</div>
