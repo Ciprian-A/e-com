@@ -71,7 +71,7 @@ export const createCheckoutSession = async (
 		})
 		return session.url
 	} catch (error) {
-		console.error('Error crating checkout session:', error)
+		console.error('Error creating checkout session:', error)
 		return ''
 	}
 }

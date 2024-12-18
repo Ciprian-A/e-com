@@ -39,7 +39,7 @@ export const orderType = defineType({
 		}),
 		defineField({
 			name: 'email',
-			title: 'Email',
+			title: 'Customer Email',
 			type: 'string',
 			validation: Rule => Rule.required().email()
 		}),
@@ -92,7 +92,7 @@ export const orderType = defineType({
 			name: 'totalPrice',
 			title: 'Total Price',
 			type: 'number',
-			validation: Rule => Rule.required()
+			validation: Rule => Rule.required().min(0)
 		}),
 		defineField({
 			name: 'currrency',
@@ -104,7 +104,7 @@ export const orderType = defineType({
 			name: 'amountDiscount',
 			title: 'Amount Discoount',
 			type: 'number',
-			validation: Rule => Rule.required()
+			validation: Rule => Rule.required().min(0)
 		}),
 		defineField({
 			name: 'status',

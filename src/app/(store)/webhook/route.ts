@@ -74,7 +74,7 @@ async function createOrderInSanity(session: Stripe.Checkout.Session) {
 	}))
 
 	const order = await backendClient.create({
-		_type: 'orders',
+		_type: 'order',
 		orderNumber,
 		stripeCheckoutSessionId: id,
 		stripePaymentIntentId: payment_intent,
