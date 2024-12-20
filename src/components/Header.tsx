@@ -1,11 +1,12 @@
-'use client'
-
 import {UserInfo} from './UserInfo'
 import {Basket} from './Basket'
 import {Search} from './Search'
 import Logo from './Logo'
+import {getAllCategories} from '@/sanity/lib/products/getAllCategories'
 
-const Header = () => {
+const Header = async () => {
+	const categories = await getAllCategories()
+	console.log({categories})
 	return (
 		<header className='flex w-full flex-wrap justify-between items-center px-4 py-2'>
 			<div className='flex flex-1 flex-wrap justify-between items-center'>

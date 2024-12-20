@@ -1,4 +1,4 @@
-import React from 'react'
+'use client'
 import Link from 'next/link'
 import {TrolleyIcon} from '@sanity/icons'
 import useBasketStore from '@/app/(store)/store'
