@@ -41,7 +41,7 @@ const CategorySelectorComponent = ({categories}: CategorySelectorProps) => {
 			<PopoverContent>
 				<Command>
 					<CommandInput
-						placeholder='Cearch category...'
+						placeholder='Search category...'
 						className='h-9'
 						onKeyDown={e => {
 							if (e.key === 'Enter') {
