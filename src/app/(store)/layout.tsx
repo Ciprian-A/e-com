@@ -8,8 +8,8 @@ import {draftMode} from 'next/headers'
 import {DisableDraftMode} from '@/components/DisableDraftMode'
 
 export const metadata: Metadata = {
-	title: 'Prime-Shop',
-	description: 'Prome-Shop E-Commerce app'
+	title: 'Shoppy',
+	description: 'Shoppy E-Commerce app'
 }
 
 export default async function RootLayout({
