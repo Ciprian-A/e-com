@@ -1,18 +1,11 @@
 'use client'
 import useBasketStore from '@/app/(store)/store'
-import {
-	ClerkLoaded,
-	SignedIn,
-	SignUpButton,
-	UserButton,
-	useUser
-} from '@clerk/nextjs'
 import {TrolleyIcon} from '@sanity/icons'
 import Form from 'next/form'
 import Link from 'next/link'
+import {UserInfo} from './UserInfo'
 
 const Header = () => {
-	const {user} = useUser()
 	const itemCount = useBasketStore(state =>
 		state.items.reduce((total, item) => total + item.quantity, 0)
 	)
@@ -46,26 +39,7 @@ const Header = () => {
 					</span>
 					<span>My Basket</span>
 				</Link>
-				<ClerkLoaded>
-					<SignedIn>
-						<Link
-							href='/orders'
-							className='flex flex-1 relative justify-center sm:justify-start sm:flex-none items-center space-x-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
-							My Orders
-						</Link>
-					</SignedIn>
-					{user ? (
-						<div className='flex items-center space-x-2'>
-							<UserButton />
-							<div className='hidden sm:block text-xs'>
-								<p className='text-gray-400'>Welcome Back</p>
-								<p className='font-bold'>{user.firstName}!</p>
-							</div>
-						</div>
-					) : (
-						<SignUpButton mode='redirect' />
-					)}
-				</ClerkLoaded>
+				<UserInfo />
 			</div>
 		</header>
 	)
