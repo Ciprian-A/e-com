@@ -7,7 +7,6 @@ import CategorySelectorComponent from './ui/category-selector'
 
 const Header = async () => {
 	const categories = await getAllCategories()
-	console.log({categories})
 	return (
 		<header className='flex w-full flex-wrap justify-between items-center px-4 py-2'>
 			<div className='flex flex-1 flex-wrap justify-between items-center'>
