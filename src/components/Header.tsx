@@ -59,7 +59,7 @@ const Header = () => {
 							<UserButton />
 							<div className='hidden sm:block text-xs'>
 								<p className='text-gray-400'>Welcome Back</p>
-								<p className='font-bold'>{user.fullName}!</p>
+								<p className='font-bold'>{user.firstName}!</p>
 							</div>
 						</div>
 					) : (
