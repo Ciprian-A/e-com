@@ -8,6 +8,7 @@ import {
 	useUser
 } from '@clerk/nextjs'
 import Link from 'next/link'
+import {UlistIcon} from '@sanity/icons'
 
 export const UserInfo = () => {
 	const {user} = useUser()
@@ -17,7 +18,8 @@ export const UserInfo = () => {
 				<Link
 					href='/orders'
 					className='flex flex-1 relative justify-center sm:justify-start sm:flex-none items-center space-x-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
-					My Orders
+					<UlistIcon className='w-6 h-6' />
+					<span>My Orders</span>
 				</Link>
 			</SignedIn>
 			{user ? (
