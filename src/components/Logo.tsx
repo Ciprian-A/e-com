@@ -1,13 +1,17 @@
 import React from 'react'
 import Link from 'next/link'
+import shoppyLogo from '../../public/logoLight.png'
+import Image from 'next/image'
 
 const Logo = () => {
 	return (
-		<Link
-			href='/'
-			className='text-2xl font-bold text-blue-500 hover:opacity-50 cursor-pointer mx-auto sm:mx-0'>
-			Shoppy
-		</Link>
+		<div>
+			<Link
+				href='/'
+				className='text-2xl font-bold hover:bg-gray-900 cursor-pointer mx-auto flex items-center gap-2'>
+				<Image src={shoppyLogo} alt='shoppy logo' width={90} />
+			</Link>
+		</div>
 	)
 }
 

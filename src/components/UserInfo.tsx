@@ -17,15 +17,15 @@ export const UserInfo = () => {
 			<SignedIn>
 				<Link
 					href='/orders'
-					className='flex flex-1 relative justify-center sm:justify-start sm:flex-none items-center space-x-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
+					className='flex flex-1 relative justify-center sm:justify-start sm:flex-none items-center space-x-2 hover:bg-gray-200 text-black font-bold py-1 px-2 rounded'>
 					<UlistIcon className='w-6 h-6' />
-					<span>My Orders</span>
+					<span className='hidden md:visible'>My Orders</span>
 				</Link>
 			</SignedIn>
 			{user ? (
 				<div className='flex items-center space-x-2'>
 					<UserButton />
-					<div className='hidden sm:block text-xs'>
+					<div className='hidden md:block text-xs'>
 						<p className='text-gray-400'>Welcome Back</p>
 						<p className='font-bold'>{user.firstName}!</p>
 					</div>
