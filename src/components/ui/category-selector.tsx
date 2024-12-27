@@ -19,7 +19,7 @@ interface CategorySelectorProps {
 	categories: Category[]
 }
 
-const CategorySelectorComponent = ({categories}: CategorySelectorProps) => {
+const CategorySelector = ({categories}: CategorySelectorProps) => {
 	const [open, setOpen] = useState<boolean>(false)
 	const [value, setValue] = useState<string>('')
 	const router = useRouter()
@@ -87,4 +87,4 @@ const CategorySelectorComponent = ({categories}: CategorySelectorProps) => {
 	)
 }
 
-export default CategorySelectorComponent
+export default CategorySelector

@@ -3,7 +3,7 @@ import {Basket} from './Basket'
 import {Search} from './Search'
 import Logo from './Logo'
 import {getAllCategories} from '@/sanity/lib/products/getAllCategories'
-import CategorySelectorComponent from './ui/category-selector'
+import CategorySelector from './ui/category-selector'
 
 const Header = async () => {
 	const categories = await getAllCategories()
@@ -14,7 +14,7 @@ const Header = async () => {
 				<Logo />
 				<div className='flex flex-1 flex-wrap space-x-4 justify-between items-center'>
 					<div className='w-full  sm:w-[200px]'>
-						<CategorySelectorComponent categories={categories} />
+						<CategorySelector categories={categories} />
 					</div>
 					<Search />
 				</div>
@@ -34,7 +34,7 @@ const Header = async () => {
 				</div>
 				<div className='flex items-center w-full h-[40px] space-x-4'>
 					<div className='sm:w-[200px]'>
-						<CategorySelectorComponent categories={categories} />
+						<CategorySelector categories={categories} />
 					</div>
 					<Search />
 				</div>
