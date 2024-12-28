@@ -1,4 +1,5 @@
 // import AddToBasketButton from '@/components/AddToBasketButton'
+import ProductDetails from '@/components/ProductDetails'
 import SizeSelector from '@/components/SizeSelector'
 import {Separator} from '@/components/ui/separator'
 import {imageUrl} from '@/lib/imageUrl'
@@ -50,7 +51,7 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 					)}
 				</div>
 				{/*Product details* */}
-				<div className='flex flex-col justify-between w-full'>
+				<div className='flex flex-col w-full'>
 					<div className='w-[50%]'>
 						<h1 className='text-3xl font-bold mb-4'>{product.name}</h1>
 						<div className='text-3xl font-bold mb-4'>
@@ -63,18 +64,17 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 							</p>
 							<SizeSelector />
 						</div>
-						<div className='flex flex-col space-y-2 mt-8 w-full'>
-							<p className='text-lg font-bold'>Product details:</p>
-							<ul>
+						<div className='mt-8 w-full'>
+							<ProductDetails trigger='Product details:'>
 								{detArr.map(dt => (
-									<li key={dt[0]}>
-										<div className='flex w-full justify-between space-x-8 '>
-											<p className='font-bold w-[50%]'>{dt[0]}</p>
-											<p className='text-left w-[50%]'>{dt[1]}</p>
-										</div>
-									</li>
+									<div
+										key={dt[0]}
+										className='flex w-full justify-between space-x-8 '>
+										<p className='font-bold w-[50%]'>{dt[0]}</p>
+										<p className='text-left w-[50%]'>{dt[1]}</p>
+									</div>
 								))}
-							</ul>
+							</ProductDetails>
 						</div>
 					</div>
 					<div>
