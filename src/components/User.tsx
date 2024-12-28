@@ -15,43 +15,43 @@ import {UserIcon, LeaveIcon} from '@sanity/icons'
 
 const User = ({username}: {username: string}) => {
 	return (
-		<TooltipHeader description='Your account'>
-			<div className='hover:bg-gray-200 py-1 px-2 rounded cursor-pointer'>
-				<DropdownMenu>
+		<div className='hover:bg-gray-200 py-1 px-2 rounded cursor-pointer'>
+			<DropdownMenu>
+				<TooltipHeader description='Your account'>
 					<DropdownMenuTrigger asChild>
 						<UserIcon className='w-6 h-6 ' />
 					</DropdownMenuTrigger>
-					<DropdownMenuContent className='w-56'>
-						<DropdownMenuLabel>
-							{username && (
-								<div className='flex items-center space-x-2'>
-									<UserIcon className='w-6 h-6 ' />
-									<div className='hidden md:block text-xs'>
-										<p className='text-gray-400'>Welcome Back</p>
-										<p className='font-bold'>{username}!</p>
-									</div>
+				</TooltipHeader>
+				<DropdownMenuContent align='end'>
+					<DropdownMenuLabel>
+						{username && (
+							<div className='flex items-center space-x-2'>
+								<UserIcon className='w-6 h-6 ' />
+								<div className='hidden md:block text-xs'>
+									<p className='text-gray-400'>Welcome Back</p>
+									<p className='font-bold'>{username}!</p>
 								</div>
-							)}
-						</DropdownMenuLabel>
-						<DropdownMenuSeparator />
-						<DropdownMenuGroup>
-							<DropdownMenuItem>
-								<Orders />
-							</DropdownMenuItem>
-						</DropdownMenuGroup>
-						<DropdownMenuSeparator />
+							</div>
+						)}
+					</DropdownMenuLabel>
+					<DropdownMenuSeparator />
+					<DropdownMenuGroup>
 						<DropdownMenuItem>
-							<SignOutButton>
-								<div className='flex items-center space-x-2 cursor-pointer'>
-									<LeaveIcon className='w-6 h-6 ' />
-									<span>Log Out</span>
-								</div>
-							</SignOutButton>
+							<Orders />
 						</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
-			</div>
-		</TooltipHeader>
+					</DropdownMenuGroup>
+					<DropdownMenuSeparator />
+					<DropdownMenuItem>
+						<SignOutButton>
+							<div className='flex items-center space-x-2 cursor-pointer'>
+								<LeaveIcon className='w-6 h-6 ' />
+								<span>Log Out</span>
+							</div>
+						</SignOutButton>
+					</DropdownMenuItem>
+				</DropdownMenuContent>
+			</DropdownMenu>
+		</div>
 	)
 }
 

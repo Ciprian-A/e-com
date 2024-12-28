@@ -11,7 +11,7 @@ interface TooltipHeaderProps {
 }
 const TooltipHeader = ({children, description}: TooltipHeaderProps) => {
 	return (
-		<TooltipProvider delayDuration={100}>
+		<TooltipProvider delayDuration={100} disableHoverableContent={false}>
 			<Tooltip>
 				<TooltipTrigger asChild>{children}</TooltipTrigger>
 				<TooltipContent>
