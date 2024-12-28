@@ -16,7 +16,7 @@ import {UserIcon, LeaveIcon} from '@sanity/icons'
 const User = ({username}: {username: string}) => {
 	return (
 		<TooltipHeader description='Your account'>
-			<div className='hover:bg-gray-200 py-1 px-2 rounded'>
+			<div className='hover:bg-gray-200 py-1 px-2 rounded cursor-pointer'>
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
 						<UserIcon className='w-6 h-6 ' />
