@@ -9,7 +9,7 @@ export const Basket = () => {
 		state.items.reduce((total, item) => total + item.quantity, 0)
 	)
 	return (
-		<TooltipHeader description='My Basket'>
+		<TooltipHeader description='Basket'>
 			<Link
 				href='/basket'
 				className='group flex flex-1 relative justify-center sm:justify-start sm:flex-none items-center space-x-2 hover:bg-gray-200 text-black font-bold py-1 px-2 rounded'>
