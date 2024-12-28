@@ -1,30 +1,17 @@
 'use client'
 
-import {
-	ClerkLoaded,
-	SignedIn,
-	SignUpButton,
-	UserButton,
-	useUser
-} from '@clerk/nextjs'
+import {ClerkLoaded, SignedIn, SignUpButton, useUser} from '@clerk/nextjs'
 
-import Orders from './Orders'
+import User from './User'
 
 export const UserInfo = () => {
 	const {user} = useUser()
 	return (
 		<ClerkLoaded>
-			<SignedIn>
-				<Orders />
-			</SignedIn>
-			{user ? (
-				<div className='flex items-center space-x-2'>
-					<UserButton />
-					<div className='hidden md:block text-xs'>
-						<p className='text-gray-400'>Welcome Back</p>
-						<p className='font-bold'>{user.firstName}!</p>
-					</div>
-				</div>
+			{user && user.firstName ? (
+				<SignedIn>
+					<User username={user.firstName} />
+				</SignedIn>
 			) : (
 				<SignUpButton mode='redirect' />
 			)}

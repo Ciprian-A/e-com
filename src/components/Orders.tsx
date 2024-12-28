@@ -1,16 +1,16 @@
 import Link from 'next/link'
 import {UlistIcon} from '@sanity/icons'
-import TooltipHeader from './TooltipHeader'
 
 const Orders = () => {
 	return (
-		<TooltipHeader description='Orders'>
+		<div>
 			<Link
 				href='/orders'
-				className='flex flex-1 relative justify-center sm:justify-start sm:flex-none items-center space-x-2 hover:bg-gray-200 text-black font-bold py-1 px-2 rounded'>
+				className='flex flex-1 items-center space-x-2 text-black font-base rounded'>
 				<UlistIcon className='w-6 h-6' />
+				<div>Orders</div>
 			</Link>
-		</TooltipHeader>
+		</div>
 	)
 }
 
