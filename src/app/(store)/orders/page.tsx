@@ -14,7 +14,7 @@ async function Orders() {
 		<div className='flex flex-col items-center min-h-screen bg-gray-50 p-4'>
 			<div className='bg-white p-4 sm:p-8 reounded-xl shadow-lg w-full max-w-4xl'>
 				<h1 className='text-4xl font-bld text-gray-900 tracking-tight mb-8'>
-					My Orders
+					Orders History
 				</h1>
 				{orders.length === 0 ? (
 					<div className='text-center text-gray-600'>
