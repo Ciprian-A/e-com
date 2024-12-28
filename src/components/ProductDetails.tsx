@@ -12,7 +12,7 @@ const ProductDetails = ({trigger, children}: ProductDetailsProps) => {
 	return (
 		<Accordion type='single' collapsible>
 			<AccordionItem value='item-1'>
-				<AccordionTrigger>{trigger}</AccordionTrigger>
+				<AccordionTrigger className='text-base'>{trigger}</AccordionTrigger>
 				<AccordionContent>{children} </AccordionContent>
 			</AccordionItem>
 		</Accordion>

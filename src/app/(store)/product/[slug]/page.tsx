@@ -8,11 +8,13 @@ import {PortableText} from 'next-sanity'
 import Image from 'next/image'
 import {notFound} from 'next/navigation'
 import React from 'react'
+import {HeartIcon} from '@sanity/icons' //, HeartFilledIcon
+
 const prodDetails = {
-	'Care instructions': 'Hand Wash',
+	'Outer material': 'Leather',
 	'Sole material': 'Rubber',
-	'Shaft height': 'Ankle',
-	'Outer material': 'Linen'
+	'Inner material': 'Textile',
+	'Closure type': 'Lace-up'
 }
 const detArr = Object.entries(prodDetails)
 
@@ -37,12 +39,15 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 				<div
 					className={`relative aspect-[4/3] overflow-hidden rounded-lg shadow-lg ${isOutOfStock ? 'opacity-50' : ''}`}>
 					{product.image && (
-						<Image
-							src={imageUrl(product.image).url()}
-							alt={product.name ?? ''}
-							fill
-							className='object-cover transition-transform duration-300 hover:scale-105'
-						/>
+						<div>
+							<Image
+								src={imageUrl(product.image).url()}
+								alt={product.name ?? ''}
+								fill
+								className=' object-cover transition-transform duration-300 hover:scale-105'
+							/>
+							<HeartIcon className='w-14 h-14 p-2 absolute top-2 right-2 bg-white rounded-full' />
+						</div>
 					)}
 					{isOutOfStock && (
 						<div className='absolute inset-0 flex items-center justify-center bg-black bg-opacity-50'>
@@ -59,7 +64,7 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 						</div>
 						<Separator className='my-4' />
 						<div>
-							<p className='text-md mb-2'>
+							<p className='text-base mb-2'>
 								Size<span className='text-red-500'>*</span>:
 							</p>
 							<SizeSelector />
