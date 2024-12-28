@@ -14,7 +14,9 @@ const CategoryPage = async ({params}: {params: Promise<{slug: string}>}) => {
 				<h1 className='text-3xl font-bold mb-6 text-center'>
 					{slug
 						.split('-')
-						.map(word => word.charAt(0).toUpperCase() + word.slice(1))}{' '}
+						.map(
+							word => word.charAt(0).toUpperCase() + word.slice(1) + ' '
+						)}{' '}
 					Collection
 				</h1>
 				<ProductsView products={products} categories={categories} />

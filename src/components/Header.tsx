@@ -4,6 +4,7 @@ import {Search} from './Search'
 import Logo from './Logo'
 import {getAllCategories} from '@/sanity/lib/products/getAllCategories'
 import CategorySelector from './ui/category-selector'
+import Favourites from './Favourites'
 
 const Header = async () => {
 	const categories = await getAllCategories()
@@ -18,6 +19,7 @@ const Header = async () => {
 					</div>
 					<Search />
 				</div>
+				<Favourites />
 				<div className='flex items-center space-x-4 mt-4 sm:mt-0 flex-1 sm:flex-none'>
 					<Basket />
 					<UserInfo />
@@ -25,9 +27,10 @@ const Header = async () => {
 			</div>
 			{/** visible for screen size md lower */}
 			<div className=' flex-column px-4 py-3 space-y-4 md:hidden '>
-				<div className='flex flex-row justify-between'>
+				<div className='flex flex-row justify-between items-center'>
 					<Logo />
 					<div className='flex space-x-4'>
+						<Favourites />
 						<Basket />
 						<UserInfo />
 					</div>
