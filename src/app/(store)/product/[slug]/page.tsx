@@ -46,7 +46,7 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 								fill
 								className=' object-cover transition-transform duration-300 hover:scale-105'
 							/>
-							<HeartIcon className='w-14 h-14 p-2 absolute top-2 right-2 bg-white rounded-full' />
+							<HeartIcon className='w-14 h-14 p-2 absolute top-2 right-2 bg-white shadow-md hover:shadow-xl rounded-full' />
 						</div>
 					)}
 					{isOutOfStock && (
