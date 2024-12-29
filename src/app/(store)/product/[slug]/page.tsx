@@ -11,6 +11,7 @@ import React from 'react'
 import {HeartIcon} from '@sanity/icons' //, HeartFilledIcon
 import BuyItNow from '@/components/BuyItNow'
 import AddToBasket1 from '@/components/AddToBasket1'
+import AddToFavouritesButton from '@/components/AddToFavouritesButton'
 
 const prodDetails = {
 	'Outer material': 'Leather',
@@ -85,9 +86,10 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 								</ProductDetails>
 							</div>
 						</div>
-						<div className='w-[50%] flex flex-col space-y-3'>
+						<div className='w-[50%] flex flex-col space-y-3 '>
 							<BuyItNow />
 							<AddToBasket1 />
+							<AddToFavouritesButton />
 						</div>
 					</div>
 					<div>
