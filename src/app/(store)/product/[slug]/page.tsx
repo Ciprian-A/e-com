@@ -9,6 +9,7 @@ import Image from 'next/image'
 import {notFound} from 'next/navigation'
 import React from 'react'
 import {HeartIcon} from '@sanity/icons' //, HeartFilledIcon
+import BuyItNow from '@/components/BuyItNow'
 
 const prodDetails = {
 	'Outer material': 'Leather',
@@ -57,29 +58,34 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 				</div>
 				{/*Product details* */}
 				<div className='flex flex-col w-full'>
-					<div className='w-[50%]'>
-						<h1 className='text-3xl font-bold mb-4'>{product.name}</h1>
-						<div className='text-3xl font-bold mb-4'>
-							£{product.price?.toFixed(2)}
+					<div className=' flex flex-row space-x-8'>
+						<div className='w-[50%]'>
+							<h1 className='text-3xl font-bold mb-4'>{product.name}</h1>
+							<div className='text-3xl font-bold mb-4'>
+								£{product.price?.toFixed(2)}
+							</div>
+							<Separator className='my-4' />
+							<div>
+								<p className='text-base mb-2'>
+									Size<span className='text-red-500'>*</span>:
+								</p>
+								<SizeSelector />
+							</div>
+							<div className='mt-8 w-full'>
+								<ProductDetails trigger='Product details:'>
+									{detArr.map(dt => (
+										<div
+											key={dt[0]}
+											className='flex w-full justify-between space-x-8 '>
+											<p className='font-bold w-[50%]'>{dt[0]}</p>
+											<p className='text-left w-[50%]'>{dt[1]}</p>
+										</div>
+									))}
+								</ProductDetails>
+							</div>
 						</div>
-						<Separator className='my-4' />
-						<div>
-							<p className='text-base mb-2'>
-								Size<span className='text-red-500'>*</span>:
-							</p>
-							<SizeSelector />
-						</div>
-						<div className='mt-8 w-full'>
-							<ProductDetails trigger='Product details:'>
-								{detArr.map(dt => (
-									<div
-										key={dt[0]}
-										className='flex w-full justify-between space-x-8 '>
-										<p className='font-bold w-[50%]'>{dt[0]}</p>
-										<p className='text-left w-[50%]'>{dt[1]}</p>
-									</div>
-								))}
-							</ProductDetails>
+						<div className='w-[50%]  flex flex-col space-y-2'>
+							<BuyItNow />
 						</div>
 					</div>
 					<div>
