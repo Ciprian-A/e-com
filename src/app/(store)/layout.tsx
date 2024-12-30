@@ -8,7 +8,7 @@ import {draftMode} from 'next/headers'
 import {DisableDraftMode} from '@/components/DisableDraftMode'
 
 export const metadata: Metadata = {
-	title: 'Shoppy',
+	title: 'Shoppy - Home',
 	description: 'Shoppy E-Commerce app'
 }
 
