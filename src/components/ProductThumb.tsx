@@ -8,14 +8,17 @@ import {HeartIcon, HeartFilledIcon} from '@sanity/icons'
 const ProductThumb = ({product}: {product: Product}) => {
 	const isOutOfStock = !product?.stock || product?.stock <= 0
 	const isFavourite = product.favourite
-
+	const preventRedirect = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+		e.preventDefault()
+		e.stopPropagation()
+	}
 	return (
 		<Link
 			href={`/product/${product?.slug?.current}`}
 			className={`group flex flex-col bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden ${isOutOfStock ? 'opactity-50' : ''}`}>
 			<div className='group relative aspect-[4/3] w-full h-full overflow-hidden '>
 				{product.image && (
-					<div>
+					<div className=''>
 						<Image
 							className='object-cover '
 							src={imageUrl(product.image).url()}
@@ -24,9 +27,15 @@ const ProductThumb = ({product}: {product: Product}) => {
 							sizes='(max-width: 768px 100vw, (max-width: 1200px) 50vw, 33vw'
 						/>
 						{isFavourite ? (
-							<HeartFilledIcon className='child w-10 h-10 p-1 absolute top-6 right-2 opacity-0 group-hover:top-2 group-hover:right-2 transition-all group-hover:opacity-100 bg-white shadow hover:shadow-md rounded-full text-red-500' />
+							<HeartFilledIcon
+								className='child w-10 h-10 p-1 absolute top-6 right-2 opacity-0 group-hover:top-2 group-hover:right-2 transition-all group-hover:opacity-100 bg-white shadow hover:shadow-md rounded-full text-red-500'
+								onClick={preventRedirect}
+							/>
 						) : (
-							<HeartIcon className='child w-10 h-10 p-1 absolute top-6 right-2 opacity-0 group-hover:top-2 group-hover:right-2 transition-all group-hover:opacity-100 bg-white shadow hover:shadow-md rounded-full' />
+							<HeartIcon
+								className='child w-10 h-10 p-1 absolute top-6 right-2 opacity-0 group-hover:top-2 group-hover:right-2 transition-all group-hover:opacity-100 bg-white shadow hover:shadow-md rounded-full'
+								onClick={preventRedirect}
+							/>
 						)}
 					</div>
 				)}
