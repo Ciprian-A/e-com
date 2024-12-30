@@ -9,7 +9,7 @@ import {
 	type CarouselApi
 } from '@/components/ui/carousel'
 import Image from 'next/image'
-import {HeartIcon} from '@sanity/icons' //, HeartFilledIcon
+import {HeartIcon, HeartFilledIcon} from '@sanity/icons'
 import {imageUrl} from '@/lib/imageUrl'
 import {useEffect, useState} from 'react'
 import {Product} from '../../sanity.types'
@@ -30,7 +30,7 @@ const ImageCarousel = ({product}: {product: Product}) => {
 	}, [api])
 
 	return (
-		<Carousel setApi={setApi}>
+		<Carousel setApi={setApi} opts={{loop: true}}>
 			<CarouselContent className='relative'>
 				<CarouselItem className='flex w-full justify-center items-center'>
 					<div className=''>
@@ -66,13 +66,17 @@ const ImageCarousel = ({product}: {product: Product}) => {
 					</div>
 				</CarouselItem>
 			</CarouselContent>
-			<HeartIcon className='w-14 h-14 p-2 absolute top-2 right-2 bg-white shadow hover:shadow-lg rounded-full cursor-pointer focus:outline-none' />
+			{product.favourite ? (
+				<HeartFilledIcon className='w-14 h-14 p-2 absolute top-2 right-2 bg-white shadow hover:shadow-lg rounded-full cursor-pointer focus:outline-none text-red-500' />
+			) : (
+				<HeartIcon className='w-14 h-14 p-2 absolute top-2 right-2 bg-white shadow hover:shadow-lg rounded-full cursor-pointer focus:outline-none' />
+			)}
 			<CarouselPrevious
-				className='absolute top-1/2 left-4'
+				className='absolute top-1/2 left-4 w-14 h-14'
 				onClick={() => api?.scrollTo(current - 1)}
 			/>
 			<CarouselNext
-				className='absolute top-1/2 right-4 '
+				className='absolute top-1/2 right-4 w-14 h-14'
 				onClick={() => api?.scrollTo(current + 1)}
 			/>
 		</Carousel>
