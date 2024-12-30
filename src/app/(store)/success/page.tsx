@@ -9,7 +9,6 @@ import useBasketStore from '../store'
 const SuccessPage = () => {
 	const searchParams = useSearchParams()
 	const orderNumber = searchParams.get('orderNumber')
-	const sessionId = searchParams.get('session_id')
 	const clearBasket = useBasketStore(state => state.clearBasket)
 
 	useEffect(() => {
@@ -51,12 +50,6 @@ const SuccessPage = () => {
 								<span className='font-mono text-sm text-green-600'>
 									{orderNumber}
 								</span>
-							</p>
-						)}
-						{sessionId && (
-							<p className='text-gray-600 flex justify-between'>
-								<span>Transaction ID:</span>
-								<span className='font-mono text-sm'>{sessionId}</span>
 							</p>
 						)}
 					</div>
