@@ -3,10 +3,11 @@ import {Product} from '../../sanity.types'
 import Link from 'next/link'
 import Image from 'next/image'
 import {imageUrl} from '@/lib/imageUrl'
-import {HeartIcon} from '@sanity/icons'
+import {HeartIcon, HeartFilledIcon} from '@sanity/icons'
 
 const ProductThumb = ({product}: {product: Product}) => {
 	const isOutOfStock = !product?.stock || product?.stock <= 0
+	const isFavourite = product.favourite
 
 	return (
 		<Link
@@ -22,7 +23,11 @@ const ProductThumb = ({product}: {product: Product}) => {
 							fill
 							sizes='(max-width: 768px 100vw, (max-width: 1200px) 50vw, 33vw'
 						/>
-						<HeartIcon className='child w-10 h-10 p-1 absolute top-6 right-2 opacity-0 group-hover:top-2 group-hover:right-2 transition-all group-hover:opacity-100 bg-white shadow hover:shadow-md rounded-full' />
+						{isFavourite ? (
+							<HeartFilledIcon className='child w-10 h-10 p-1 absolute top-6 right-2 opacity-0 group-hover:top-2 group-hover:right-2 transition-all group-hover:opacity-100 bg-white shadow hover:shadow-md rounded-full text-red-500' />
+						) : (
+							<HeartIcon className='child w-10 h-10 p-1 absolute top-6 right-2 opacity-0 group-hover:top-2 group-hover:right-2 transition-all group-hover:opacity-100 bg-white shadow hover:shadow-md rounded-full' />
+						)}
 					</div>
 				)}
 				{isOutOfStock && (
