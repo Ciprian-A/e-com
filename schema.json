@@ -981,6 +981,13 @@
         },
         "optional": true
       },
+      "favourite": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
+        },
+        "optional": true
+      },
       "categories": {
         "type": "objectAttribute",
         "value": {

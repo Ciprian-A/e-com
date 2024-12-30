@@ -39,6 +39,11 @@ export const productType = defineType({
 			validation: Rule => Rule.required()
 		}),
 		defineField({
+			name: 'favourite',
+			title: 'Favourites',
+			type: 'boolean'
+		}),
+		defineField({
 			name: 'categories',
 			title: 'Categories',
 			type: 'array',

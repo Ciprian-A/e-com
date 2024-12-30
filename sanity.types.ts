@@ -163,6 +163,7 @@ export type Product = {
     _key: string;
   }>;
   price?: number;
+  favourite?: boolean;
   categories?: Array<{
     _ref: string;
     _type: "reference";
@@ -347,6 +348,7 @@ export type MY_ORDERS_QUERYResult = Array<{
         _key: string;
       }>;
       price?: number;
+      favourite?: boolean;
       categories?: Array<{
         _ref: string;
         _type: "reference";
@@ -433,6 +435,7 @@ export type ALL_PRODUCTS_QUERYResult = Array<{
     _key: string;
   }>;
   price?: number;
+  favourite?: boolean;
   categories?: Array<{
     _ref: string;
     _type: "reference";
@@ -496,6 +499,7 @@ export type PRODUCT_BY_ID_QUERYResult = {
     _key: string;
   }>;
   price?: number;
+  favourite?: boolean;
   categories?: Array<{
     _ref: string;
     _type: "reference";
@@ -559,6 +563,7 @@ export type PRODUCTS_BY_CATEGORY_QUERYResult = Array<{
     _key: string;
   }>;
   price?: number;
+  favourite?: boolean;
   categories?: Array<{
     _ref: string;
     _type: "reference";
@@ -622,6 +627,7 @@ export type PRODUCT_SEARCH_QUERYResult = Array<{
     _key: string;
   }>;
   price?: number;
+  favourite?: boolean;
   categories?: Array<{
     _ref: string;
     _type: "reference";
