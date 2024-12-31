@@ -74,6 +74,13 @@ export const clothingType = defineType({
 			validation: Rule => Rule.required()
 		}),
 		defineField({
+			name: 'images',
+			title: 'Product Image Galery',
+			type: 'array',
+			of: [{type: 'image', options: {hotspot: true, layout: 'grid'}}],
+			validation: Rule => Rule.required().min(1)
+		}),
+		defineField({
 			name: 'description',
 			title: 'Description',
 			type: 'blockContent'
