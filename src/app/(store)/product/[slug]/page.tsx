@@ -69,11 +69,10 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 										<p className='text-left w-[50%]'>{dt[1]}</p>
 									</div>
 								))}
-								{/* </ProductDetails> */}
 							</div>
 						</div>
 						<div className='w-[35%] flex flex-col space-y-3 border rounded-md p-3'>
-							<p>£ 11.99</p>
+							<p>£ {product?.price}</p>
 							<p className='text-green-600 text-xl font-semibold'>In stock</p>
 							<QuantitySelector qty={10} />
 							<BuyItNow />
