@@ -12,9 +12,9 @@ import Image from 'next/image'
 import {HeartIcon, HeartFilledIcon} from '@sanity/icons'
 import {imageUrl} from '@/lib/imageUrl'
 import {useEffect, useState} from 'react'
-import {Product} from '../../sanity.types'
+import {Footwear, Clothing} from '../../sanity.types'
 
-const ImageCarousel = ({product}: {product: Product}) => {
+const ImageCarousel = ({product}: {product: Footwear | Clothing}) => {
 	const [api, setApi] = useState<CarouselApi>()
 	const [current, setCurrent] = useState(0)
 

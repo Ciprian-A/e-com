@@ -1,8 +1,8 @@
 import React from 'react'
-import {Category, Product} from '@/../sanity.types'
+import {Category, Clothing, Footwear} from '@/../sanity.types'
 import ProductGrid from './ProductGrid'
 interface ProductsViewProps {
-	products: Product[]
+	products: Clothing[] | Footwear[]
 	categories?: Category[]
 }
 
