@@ -32,6 +32,7 @@ export const footwearType = defineType({
 							name: 'size',
 							title: 'Size',
 							type: 'string',
+							validation: Rule => Rule.required(),
 							options: {
 								list: [
 									{title: '3', value: '3'},
@@ -59,7 +60,18 @@ export const footwearType = defineType({
 							type: 'number',
 							validation: Rule => Rule.required()
 						})
-					]
+					],
+					preview: {
+						select: {
+							size: 'size',
+							stock: 'stock'
+						},
+						prepare(select) {
+							return {
+								title: `${select.stock} items size ${select.size} in stock`
+							}
+						}
+					}
 				})
 			]
 		}),
