@@ -1,9 +1,9 @@
 import {TrolleyIcon} from '@sanity/icons'
-import {defineField, defineType} from 'sanity'
+import {defineArrayMember, defineField, defineType} from 'sanity'
 
-export const productType = defineType({
-	name: 'product',
-	title: 'Products',
+export const clothingType = defineType({
+	name: 'clothing',
+	title: 'Clothing',
 	type: 'document',
 	icon: TrolleyIcon,
 	fields: [
@@ -19,6 +19,40 @@ export const productType = defineType({
 			type: 'slug',
 			options: {source: 'name', maxLength: 96},
 			validation: Rule => Rule.required()
+		}),
+		defineField({
+			name: 'sizesAndStock',
+			title: 'Sizes and Stock',
+			type: 'array',
+			of: [
+				defineArrayMember({
+					type: 'object',
+					fields: [
+						defineField({
+							name: 'size',
+							title: 'Size',
+							type: 'string',
+							options: {
+								list: [
+									{title: 'XS', value: 'XS'},
+									{title: 'S', value: 'S'},
+									{title: 'M', value: 'M'},
+									{title: 'L', value: 'L'},
+									{title: 'XL', value: 'XL'},
+									{title: '2XL', value: '2XL'},
+									{title: '3XL', value: '3XL'}
+								]
+							}
+						}),
+						defineField({
+							name: 'stock',
+							title: 'Stock',
+							type: 'number',
+							validation: Rule => Rule.required()
+						})
+					]
+				})
+			]
 		}),
 		defineField({
 			name: 'image',
@@ -48,12 +82,6 @@ export const productType = defineType({
 			title: 'Categories',
 			type: 'array',
 			of: [{type: 'reference', to: {type: 'category'}}]
-		}),
-		defineField({
-			name: 'stock',
-			title: 'Stock',
-			type: 'number',
-			validation: Rule => Rule.required()
 		})
 	],
 	preview: {
