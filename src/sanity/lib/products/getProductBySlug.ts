@@ -4,7 +4,7 @@ import {sanityFetch} from '../live'
 export const getProductBySlug = async (slug: string) => {
 	const PRODUCT_BY_ID_QUERY = defineQuery(`
       *[
-        _type == 'product' 
+        _type in [ 'clothing', 'footwear']
         && slug.current == $slug   
       ] | order(name asc) [0]
     `)

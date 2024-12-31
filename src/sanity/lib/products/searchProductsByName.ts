@@ -4,7 +4,7 @@ import {sanityFetch} from '../live'
 export const searchProductsByName = async (searchParam: string) => {
 	const PRODUCT_SEARCH_QUERY = defineQuery(`
     *[
-      _type == 'product'
+      _type in [ 'clothing', 'footwear']
       && name match $searchParam
     ] | order(name asc)
     `)
