@@ -35,11 +35,12 @@ export const footwearType = defineType({
 							validation: Rule => Rule.required(),
 							options: {
 								list: [
-									{title: '3', value: '3'},
-									{title: '4', value: '4'},
 									{title: '5', value: '5'},
+									{title: '5.5', value: '5.5'},
 									{title: '6', value: '6'},
+									{title: '6.5', value: '6.5'},
 									{title: '7', value: '7'},
+									{title: '7.5', value: '7.5'},
 									{title: '8', value: '8'},
 									{title: '8.5', value: '8.5'},
 									{title: '9', value: '9'},
@@ -49,8 +50,7 @@ export const footwearType = defineType({
 									{title: '11', value: '11'},
 									{title: '11.5', value: '11.5'},
 									{title: '12', value: '12'},
-									{title: '12.5', value: '12.5'},
-									{title: '13', value: '13'}
+									{title: '12.5', value: '12.5'}
 								]
 							}
 						}),

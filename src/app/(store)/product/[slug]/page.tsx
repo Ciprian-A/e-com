@@ -32,7 +32,7 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 		return notFound()
 	}
 	const isOutOfStock = !product?.sizesAndStock?.some(p => (p?.stock ?? 0) > 0)
-
+	//const sizes = product?.sizesAndStock?.map(p => ({size: p.size}))
 	return (
 		<div className='container mx-auto px-4 py-8'>
 			<div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
@@ -57,7 +57,10 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 								<p className='text-base mb-2'>
 									Size<span className='text-red-500'>*</span>
 								</p>
-								<SizeSelector />
+								<SizeSelector
+									type={product._type}
+									sizes={product?.sizesAndStock}
+								/>
 							</div>
 							<div className='mt-8 w-full'>
 								<p>Product details</p>

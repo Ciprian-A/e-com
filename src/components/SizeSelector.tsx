@@ -5,8 +5,15 @@ import {
 	SelectTrigger,
 	SelectValue
 } from '@/components/ui/select'
+import {Clothing, Footwear} from '../../sanity.types'
 
-function SizeSelector() {
+interface SizeSelectorProps {
+	type: 'footwear' | 'clothing'
+	sizes: Footwear['sizesAndStock'] | Clothing['sizesAndStock']
+}
+
+function SizeSelector({type, sizes}: SizeSelectorProps) {
+	console.log({type, sizes})
 	return (
 		<div className=''>
 			<Select>
