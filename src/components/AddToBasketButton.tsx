@@ -1,10 +1,10 @@
 'use client'
 import React, {useEffect, useState} from 'react'
-import {Product} from '../../sanity.types'
+import {Footwear, Clothing} from '../../sanity.types'
 import useBasketStore from '@/app/(store)/store'
 
 type AddToBasketButtonProps = {
-	product: Product
+	product: Clothing | Footwear
 	disabled: boolean
 }
 

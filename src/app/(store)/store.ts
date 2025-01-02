@@ -1,14 +1,14 @@
-import {Product} from '@/../sanity.types'
+import {Footwear, Clothing} from '@/../sanity.types'
 import {create} from 'zustand'
 import {persist} from 'zustand/middleware'
 
 export interface BasketItem {
-	product: Product
+	product: Clothing | Footwear
 	quantity: number
 }
 interface BasketState {
 	items: BasketItem[]
-	addItem: (product: Product) => void
+	addItem: (product: Clothing | Footwear) => void
 	removeItem: (productId: string) => void
 	clearBasket: () => void
 	getTotalPrice: () => number
