@@ -2,7 +2,7 @@ import React from 'react'
 import {Category, Clothing, Footwear} from '@/../sanity.types'
 import ProductGrid from './ProductGrid'
 interface ProductsViewProps {
-	products: Clothing[] | Footwear[]
+	products: (Clothing | Footwear)[]
 	categories?: Category[]
 }
 

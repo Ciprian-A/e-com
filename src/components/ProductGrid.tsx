@@ -2,7 +2,7 @@
 import {Footwear, Clothing} from '../../sanity.types'
 import {AnimatePresence, motion} from 'framer-motion'
 import ProductThumb from './ProductThumb'
-const ProductGrid = ({products}: {products: Clothing[] | Footwear[]}) => {
+const ProductGrid = ({products}: {products: (Clothing | Footwear)[]}) => {
 	return (
 		<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4'>
 			{products?.map(product => (
