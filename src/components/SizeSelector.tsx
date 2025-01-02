@@ -12,8 +12,28 @@ interface SizeSelectorProps {
 	sizes: Footwear['sizesAndStock'] | Clothing['sizesAndStock']
 }
 
+const allFotwearSizes = [
+	'5',
+	'5.5',
+	'6',
+	'6.5',
+	'7',
+	'7.5',
+	'8',
+	'8.5',
+	'9',
+	'9.5',
+	'10',
+	'10.5',
+	'11',
+	'11.5',
+	'12',
+	'12.5'
+]
+const allClothingSizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL']
+
 function SizeSelector({type, sizes}: SizeSelectorProps) {
-	console.log({type, sizes})
+	const availableSizeList = sizes?.map(p => p.size) as string[]
 	return (
 		<div className=''>
 			<Select>
@@ -21,11 +41,23 @@ function SizeSelector({type, sizes}: SizeSelectorProps) {
 					<SelectValue placeholder='Select a size' />
 				</SelectTrigger>
 				<SelectContent>
-					<SelectItem value='7 uk'>7 UK</SelectItem>
-					<SelectItem value='8 uk'>8 UK</SelectItem>
-					<SelectItem value='9 uk'>9 UK</SelectItem>
-					<SelectItem value='10 uk'>10 UK</SelectItem>
-					<SelectItem value='11 uk'>11 UK</SelectItem>
+					{type === 'footwear'
+						? allFotwearSizes.map((size: string) => (
+								<SelectItem
+									key={size}
+									value={size}
+									disabled={!availableSizeList?.includes(size)}>
+									{size}
+								</SelectItem>
+							))
+						: allClothingSizes.map((size: string) => (
+								<SelectItem
+									key={size}
+									value={size}
+									disabled={!availableSizeList?.includes(size)}>
+									{size}
+								</SelectItem>
+							))}
 				</SelectContent>
 			</Select>
 		</div>
