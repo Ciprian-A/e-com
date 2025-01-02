@@ -67,6 +67,42 @@ export const clothingType = defineType({
 			]
 		}),
 		defineField({
+			name: 'productDetails',
+			title: 'Product Details',
+			type: 'array',
+			of: [
+				defineArrayMember({
+					type: 'object',
+					fields: [
+						defineField({
+							name: 'detail',
+							title: 'Detail',
+							type: 'string',
+							validation: Rule => Rule.required()
+						}),
+						defineField({
+							name: 'value',
+							title: 'Value',
+							type: 'string',
+							validation: Rule => Rule.required()
+						})
+					],
+					preview: {
+						select: {
+							detail: 'detail',
+							value: 'value'
+						},
+						prepare(select) {
+							return {
+								title: select.detail,
+								subtitle: select.value
+							}
+						}
+					}
+				})
+			]
+		}),
+		defineField({
 			name: 'image',
 			title: 'Product Image',
 			type: 'image',

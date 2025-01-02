@@ -762,6 +762,43 @@
         },
         "optional": true
       },
+      "productDetails": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "array",
+          "of": {
+            "type": "object",
+            "attributes": {
+              "detail": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
+              "value": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              }
+            },
+            "rest": {
+              "type": "object",
+              "attributes": {
+                "_key": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "optional": true
+      },
       "image": {
         "type": "objectAttribute",
         "value": {
@@ -1272,15 +1309,11 @@
                   "of": [
                     {
                       "type": "string",
-                      "value": "3"
-                    },
-                    {
-                      "type": "string",
-                      "value": "4"
-                    },
-                    {
-                      "type": "string",
                       "value": "5"
+                    },
+                    {
+                      "type": "string",
+                      "value": "5.5"
                     },
                     {
                       "type": "string",
@@ -1288,7 +1321,15 @@
                     },
                     {
                       "type": "string",
+                      "value": "6.5"
+                    },
+                    {
+                      "type": "string",
                       "value": "7"
+                    },
+                    {
+                      "type": "string",
+                      "value": "7.5"
                     },
                     {
                       "type": "string",
@@ -1329,10 +1370,6 @@
                     {
                       "type": "string",
                       "value": "12.5"
-                    },
-                    {
-                      "type": "string",
-                      "value": "13"
                     }
                   ]
                 },
@@ -1342,6 +1379,43 @@
                 "type": "objectAttribute",
                 "value": {
                   "type": "number"
+                },
+                "optional": true
+              }
+            },
+            "rest": {
+              "type": "object",
+              "attributes": {
+                "_key": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "optional": true
+      },
+      "productDetails": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "array",
+          "of": {
+            "type": "object",
+            "attributes": {
+              "detail": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
+              "value": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
                 },
                 "optional": true
               }

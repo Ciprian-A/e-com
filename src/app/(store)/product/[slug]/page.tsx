@@ -10,14 +10,6 @@ import AddToFavouritesButton from '@/components/AddToFavouritesButton'
 import ImageCarousel from '@/components/ImageCarousel'
 import QuantitySelector from '@/components/QuantitySelector'
 
-const prodDetails = {
-	'Outer material': 'Leather',
-	'Sole material': 'Rubber',
-	'Inner material': 'Textile',
-	'Closure type': 'Lace-up'
-}
-const detArr = Object.entries(prodDetails)
-
 export const dynamic = 'force-static'
 export const revalidate = 60 // revaliate at most every 60 seconds
 
@@ -32,7 +24,6 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 		return notFound()
 	}
 	const isOutOfStock = !product?.sizesAndStock?.some(p => (p?.stock ?? 0) > 0)
-	//const sizes = product?.sizesAndStock?.map(p => ({size: p.size}))
 	return (
 		<div className='container mx-auto px-4 py-8'>
 			<div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
@@ -64,12 +55,12 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 							</div>
 							<div className='mt-8 w-full'>
 								<p>Product details</p>
-								{detArr.map(dt => (
+								{product?.productDetails?.map(p => (
 									<div
-										key={dt[0]}
+										key={p._key}
 										className='flex w-full justify-between space-x-8 '>
-										<p className='font-bold w-[50%]'>{dt[0]}</p>
-										<p className='text-left w-[50%]'>{dt[1]}</p>
+										<p className='font-bold w-[50%]'>{p.detail}</p>
+										<p className='text-left w-[50%]'>{p.value}</p>
 									</div>
 								))}
 							</div>

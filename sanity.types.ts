@@ -131,6 +131,11 @@ export type Clothing = {
     stock?: number;
     _key: string;
   }>;
+  productDetails?: Array<{
+    detail?: string;
+    value?: string;
+    _key: string;
+  }>;
   image?: {
     asset?: {
       _ref: string;
@@ -204,8 +209,13 @@ export type Footwear = {
   name?: string;
   slug?: Slug;
   sizesAndStock?: Array<{
-    size?: "3" | "4" | "5" | "6" | "7" | "8" | "8.5" | "9" | "9.5" | "10" | "10.5" | "11" | "11.5" | "12" | "12.5" | "13";
+    size?: "5" | "5.5" | "6" | "6.5" | "7" | "7.5" | "8" | "8.5" | "9" | "9.5" | "10" | "10.5" | "11" | "11.5" | "12" | "12.5";
     stock?: number;
+    _key: string;
+  }>;
+  productDetails?: Array<{
+    detail?: string;
+    value?: string;
     _key: string;
   }>;
   image?: {
@@ -409,6 +419,11 @@ export type MY_ORDERS_QUERYResult = Array<{
         stock?: number;
         _key: string;
       }>;
+      productDetails?: Array<{
+        detail?: string;
+        value?: string;
+        _key: string;
+      }>;
       image?: {
         asset?: {
           _ref: string;
@@ -480,8 +495,13 @@ export type MY_ORDERS_QUERYResult = Array<{
       name?: string;
       slug?: Slug;
       sizesAndStock?: Array<{
-        size?: "10.5" | "10" | "11.5" | "11" | "12.5" | "12" | "13" | "3" | "4" | "5" | "6" | "7" | "8.5" | "8" | "9.5" | "9";
+        size?: "10.5" | "10" | "11.5" | "11" | "12.5" | "12" | "5.5" | "5" | "6.5" | "6" | "7.5" | "7" | "8.5" | "8" | "9.5" | "9";
         stock?: number;
+        _key: string;
+      }>;
+      productDetails?: Array<{
+        detail?: string;
+        value?: string;
         _key: string;
       }>;
       image?: {
@@ -587,6 +607,11 @@ export type ALL_PRODUCTS_QUERYResult = Array<{
     stock?: number;
     _key: string;
   }>;
+  productDetails?: Array<{
+    detail?: string;
+    value?: string;
+    _key: string;
+  }>;
   image?: {
     asset?: {
       _ref: string;
@@ -658,8 +683,13 @@ export type ALL_PRODUCTS_QUERYResult = Array<{
   name?: string;
   slug?: Slug;
   sizesAndStock?: Array<{
-    size?: "10.5" | "10" | "11.5" | "11" | "12.5" | "12" | "13" | "3" | "4" | "5" | "6" | "7" | "8.5" | "8" | "9.5" | "9";
+    size?: "10.5" | "10" | "11.5" | "11" | "12.5" | "12" | "5.5" | "5" | "6.5" | "6" | "7.5" | "7" | "8.5" | "8" | "9.5" | "9";
     stock?: number;
+    _key: string;
+  }>;
+  productDetails?: Array<{
+    detail?: string;
+    value?: string;
     _key: string;
   }>;
   image?: {
@@ -742,6 +772,11 @@ export type PRODUCT_BY_ID_QUERYResult = {
     stock?: number;
     _key: string;
   }>;
+  productDetails?: Array<{
+    detail?: string;
+    value?: string;
+    _key: string;
+  }>;
   image?: {
     asset?: {
       _ref: string;
@@ -813,8 +848,13 @@ export type PRODUCT_BY_ID_QUERYResult = {
   name?: string;
   slug?: Slug;
   sizesAndStock?: Array<{
-    size?: "10.5" | "10" | "11.5" | "11" | "12.5" | "12" | "13" | "3" | "4" | "5" | "6" | "7" | "8.5" | "8" | "9.5" | "9";
+    size?: "10.5" | "10" | "11.5" | "11" | "12.5" | "12" | "5.5" | "5" | "6.5" | "6" | "7.5" | "7" | "8.5" | "8" | "9.5" | "9";
     stock?: number;
+    _key: string;
+  }>;
+  productDetails?: Array<{
+    detail?: string;
+    value?: string;
     _key: string;
   }>;
   image?: {
@@ -897,6 +937,11 @@ export type PRODUCTS_BY_CATEGORY_QUERYResult = Array<{
     stock?: number;
     _key: string;
   }>;
+  productDetails?: Array<{
+    detail?: string;
+    value?: string;
+    _key: string;
+  }>;
   image?: {
     asset?: {
       _ref: string;
@@ -968,8 +1013,13 @@ export type PRODUCTS_BY_CATEGORY_QUERYResult = Array<{
   name?: string;
   slug?: Slug;
   sizesAndStock?: Array<{
-    size?: "10.5" | "10" | "11.5" | "11" | "12.5" | "12" | "13" | "3" | "4" | "5" | "6" | "7" | "8.5" | "8" | "9.5" | "9";
+    size?: "10.5" | "10" | "11.5" | "11" | "12.5" | "12" | "5.5" | "5" | "6.5" | "6" | "7.5" | "7" | "8.5" | "8" | "9.5" | "9";
     stock?: number;
+    _key: string;
+  }>;
+  productDetails?: Array<{
+    detail?: string;
+    value?: string;
     _key: string;
   }>;
   image?: {
@@ -1052,6 +1102,11 @@ export type PRODUCT_SEARCH_QUERYResult = Array<{
     stock?: number;
     _key: string;
   }>;
+  productDetails?: Array<{
+    detail?: string;
+    value?: string;
+    _key: string;
+  }>;
   image?: {
     asset?: {
       _ref: string;
@@ -1123,8 +1178,13 @@ export type PRODUCT_SEARCH_QUERYResult = Array<{
   name?: string;
   slug?: Slug;
   sizesAndStock?: Array<{
-    size?: "10.5" | "10" | "11.5" | "11" | "12.5" | "12" | "13" | "3" | "4" | "5" | "6" | "7" | "8.5" | "8" | "9.5" | "9";
+    size?: "10.5" | "10" | "11.5" | "11" | "12.5" | "12" | "5.5" | "5" | "6.5" | "6" | "7.5" | "7" | "8.5" | "8" | "9.5" | "9";
     stock?: number;
+    _key: string;
+  }>;
+  productDetails?: Array<{
+    detail?: string;
+    value?: string;
     _key: string;
   }>;
   image?: {
