@@ -15,7 +15,7 @@ const ProductThumb = ({product}: {product: Clothing | Footwear}) => {
 	return (
 		<Link
 			href={`/product/${product?.slug?.current}`}
-			className={`group flex flex-col bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden ${isOutOfStock ? 'opactity-50' : ''}`}>
+			className='group flex flex-col bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden'>
 			<div className='group relative aspect-[4/3] w-full h-full overflow-hidden '>
 				{product.image && (
 					<div className=''>
@@ -39,13 +39,6 @@ const ProductThumb = ({product}: {product: Clothing | Footwear}) => {
 						)}
 					</div>
 				)}
-				{isOutOfStock && (
-					<div className='absolute inset-0 flex items-center justify-center bg-black bg-opacity-50'>
-						<span className='text-white font-bold text-large'>
-							Out of Stock
-						</span>
-					</div>
-				)}
 			</div>
 			<div className='p-4'>
 				<h2 className='text=lg font-semibold text-gray-800 truncate'>
@@ -63,6 +56,7 @@ const ProductThumb = ({product}: {product: Clothing | Footwear}) => {
 				<p className='mt-2 text=lg font-bold text-gray-900'>
 					£{product.price?.toFixed(2)}
 				</p>
+				{isOutOfStock && <p className='text-red-500'> Out of stock</p>}
 			</div>
 		</Link>
 	)
