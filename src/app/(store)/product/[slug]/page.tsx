@@ -30,11 +30,6 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 				<div
 					className={` aspect-[4/3] overflow-hidden rounded-lg  ${isOutOfStock ? 'opacity-50' : ''}`}>
 					{product.image && <ImageCarousel product={product} />}
-					{isOutOfStock && (
-						<div className='absolute inset-0 flex items-center justify-center bg-black bg-opacity-50'>
-							<span className='text-white font-bold text-lg'>Out of Stock</span>
-						</div>
-					)}
 				</div>
 				<div className='flex flex-col w-full'>
 					<div className=' flex flex-row space-x-8'>
@@ -67,7 +62,10 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 						</div>
 						<div className='w-[35%] flex flex-col space-y-3 border rounded-md p-3'>
 							<p>£ {product?.price}</p>
-							<p className='text-green-600 text-xl font-semibold'>In stock</p>
+							<p
+								className={`text-xl font-semibold ${isOutOfStock ? 'text-red-500' : 'text-green-600'}`}>
+								{isOutOfStock ? 'Out of stock' : 'In stock'}
+							</p>
 							<QuantitySelector qty={10} />
 							<BuyItNow />
 							<AddToBasket1 />
