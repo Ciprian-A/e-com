@@ -1,3 +1,4 @@
+'use client'
 import {
 	Select,
 	SelectContent,
@@ -6,11 +7,15 @@ import {
 	SelectValue
 } from '@/components/ui/select'
 import {Clothing, Footwear} from '../../sanity.types'
+import useBasketStore from '@/app/(store)/store'
 
 interface SizeSelectorProps {
-	type: 'footwear' | 'clothing'
-	sizes: Footwear['sizesAndStock'] | Clothing['sizesAndStock']
+	product: Clothing | Footwear
 }
+// interface SizeSelectorProps {
+// 	type: 'footwear' | 'clothing'
+// 	sizes: Footwear['sizesAndStock'] | Clothing['sizesAndStock']
+// }
 
 const allFotwearSizes = [
 	'5',
@@ -32,8 +37,12 @@ const allFotwearSizes = [
 ]
 const allClothingSizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL']
 
-function SizeSelector({type, sizes}: SizeSelectorProps) {
-	const availableSizeList = sizes?.map(p => p.size) as string[]
+function SizeSelector({product}: SizeSelectorProps) {
+	const {getGroupedItems} = useBasketStore()
+	const availableSizeList = product?.sizesAndStock?.map(p => p.size) as string[]
+	const type = product._type
+	const groupedItems = getGroupedItems()
+	console.log({groupedItems})
 	return (
 		<div className=''>
 			<Select>

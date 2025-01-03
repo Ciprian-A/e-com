@@ -42,10 +42,7 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 								<p className='text-base mb-2'>
 									Size<span className='text-red-500'>*</span>
 								</p>
-								<SizeSelector
-									type={product._type}
-									sizes={product?.sizesAndStock}
-								/>
+								<SizeSelector product={product} />
 							</div>
 							<div className='mt-8 w-full'>
 								<p>Product details</p>
@@ -67,7 +64,7 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 							</p>
 							<QuantitySelector qty={10} />
 							<BuyItNow />
-							<AddToBasket1 />
+							<AddToBasket1 product={product} />
 							<AddToFavouritesButton />
 						</div>
 					</div>

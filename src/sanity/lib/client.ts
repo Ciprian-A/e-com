@@ -1,5 +1,5 @@
 import {createClient} from 'next-sanity'
-
+import {backendClient} from './backendClient'
 import {apiVersion, dataset, projectId} from '../env'
 
 export const client = createClient({
@@ -14,3 +14,8 @@ export const client = createClient({
 				: `https://${process.env.NEXT_PUBLIC_BASE_URL}/studio`
 	}
 })
+export async function updateFavourites(_id: string, favourite: boolean) {
+	const data = await backendClient.patch(_id).set({favourite}).commit()
+	console.log('updateFavourites data: ', data)
+	return data
+}

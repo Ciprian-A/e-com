@@ -13,6 +13,7 @@ import {HeartIcon, HeartFilledIcon} from '@sanity/icons'
 import {imageUrl} from '@/lib/imageUrl'
 import {useEffect, useState} from 'react'
 import {Footwear, Clothing} from '../../sanity.types'
+import {updateFavourites} from '@/sanity/lib/client'
 
 const ImageCarousel = ({product}: {product: Footwear | Clothing}) => {
 	const [api, setApi] = useState<CarouselApi>()
@@ -49,9 +50,15 @@ const ImageCarousel = ({product}: {product: Footwear | Clothing}) => {
 				))}
 			</CarouselContent>
 			{product.favourite ? (
-				<HeartFilledIcon className='w-14 h-14 p-2 absolute top-2 right-2 bg-white shadow hover:shadow-lg rounded-full cursor-pointer focus:outline-none text-red-500' />
+				<HeartFilledIcon
+					className='w-14 h-14 p-2 absolute top-2 right-2 bg-white shadow hover:shadow-lg rounded-full cursor-pointer focus:outline-none text-red-500'
+					onClick={() => updateFavourites(product._id, !product.favourite)}
+				/>
 			) : (
-				<HeartIcon className='w-14 h-14 p-2 absolute top-2 right-2 bg-white shadow hover:shadow-lg rounded-full cursor-pointer focus:outline-none' />
+				<HeartIcon
+					className='w-14 h-14 p-2 absolute top-2 right-2 bg-white shadow hover:shadow-lg rounded-full cursor-pointer focus:outline-none'
+					onClick={() => updateFavourites(product._id, !product.favourite)}
+				/>
 			)}
 			<CarouselPrevious
 				className='absolute top-1/2 left-4 w-14 h-14'
