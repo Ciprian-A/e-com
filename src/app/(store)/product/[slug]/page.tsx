@@ -16,7 +16,16 @@ export const revalidate = 60 // revaliate at most every 60 seconds
 const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 	const {slug} = await params
 	const product = await getProductBySlug(slug)
-
+	const productWithSize = product?.sizesAndStock?.map(p => {
+		return {
+			...product,
+			_id: `${product._id}-${p.size}`,
+			size: p.size,
+			stock: p.stock,
+			sizeId: p._key
+		}
+	})
+	console.log({productWithSize})
 	console.log(
 		`${crypto.randomUUID().slice(0, 5)} >>> Rendered the product page chache for ${slug}`
 	)

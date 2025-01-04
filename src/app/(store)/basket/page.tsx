@@ -63,7 +63,7 @@ function BasketPage() {
 				<div className='flex-grow'>
 					{groupedItems?.map(item => (
 						<div
-							key={item.product._id}
+							key={`${item.product._id}--${item.size}`}
 							className='mb-4 p-4 border rounded flex items-center justify-between'>
 							<div
 								className='flex items-center cursor-pointer flex-1 min-w-0'
@@ -87,8 +87,11 @@ function BasketPage() {
 									</h2>
 									<p className='text-sm sm:text-base'>
 										Price: £
-										{((item.product.price ?? 0) * item.quantity).toFixed(2)}
+										{item.product.price &&
+											item.quantity &&
+											(item.product.price * item.quantity).toFixed(2)}
 									</p>
+									<p>{`${item.product._id}--${item.size}`}</p>
 								</div>
 							</div>
 							<div className='flex items-center ml-4 flex-shrink-0'>
@@ -106,7 +109,10 @@ function BasketPage() {
 						<p className='flex justify-between'>
 							<span>Items:</span>
 							<span>
-								{groupedItems.reduce((total, item) => total + item.quantity, 0)}
+								{groupedItems.reduce(
+									(total, item) => total + (item.quantity ?? 0),
+									0
+								)}
 							</span>
 						</p>
 						<p className='flex justify-between text-2xl font-bold borde-t pt-2'>

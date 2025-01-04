@@ -1,12 +1,17 @@
+'use client'
 import React from 'react'
 import {Category, Clothing, Footwear} from '@/../sanity.types'
 import ProductGrid from './ProductGrid'
+// import useBasketStore from '@/app/(store)/store'
 interface ProductsViewProps {
 	products: (Clothing | Footwear)[]
 	categories?: Category[]
 }
 
 const ProductsView = ({products}: ProductsViewProps) => {
+	// const {getAllProducts} = useBasketStore()
+	// getAllProducts(products)
+	// console.log({objects: products})
 	return (
 		<div className='flex flex-col'>
 			<div className='flex-1'>
