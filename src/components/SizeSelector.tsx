@@ -8,15 +8,10 @@ import {
 } from '@/components/ui/select'
 import {Clothing, Footwear} from '../../sanity.types'
 import useBasketStore from '@/app/(store)/store'
-// import {useEffect, useState} from 'react'
 
 interface SizeSelectorProps {
 	product: Clothing | Footwear
 }
-// interface SizeSelectorProps {
-// 	type: 'footwear' | 'clothing'
-// 	sizes: Footwear['sizesAndStock'] | Clothing['sizesAndStock']
-// }
 
 const allFotwearSizes = [
 	'5',
@@ -39,16 +34,10 @@ const allFotwearSizes = [
 const allClothingSizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL']
 
 function SizeSelector({product}: SizeSelectorProps) {
-	// const [selectedSize, setSelectedSize] = useState<string>('')
 	const {selectItemSize, getItem} = useBasketStore()
 	const availableSizeList = product?.sizesAndStock?.map(p => p.size) as string[]
-	// const val = getItemSize(product)
 	const type = product._type
-	// const groupedItems = getGroupedItems()
-	// useEffect(() => {
-	// 	setSelectedSize(availableSizeList[0])
-	// }, [availableSizeList])
-	// console.log({groupedItems})
+
 	const handleValueChange = (value: string) => {
 		selectItemSize(product, value)
 		getItem(product, value)
