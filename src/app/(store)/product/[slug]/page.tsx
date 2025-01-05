@@ -16,16 +16,7 @@ export const revalidate = 60 // revaliate at most every 60 seconds
 const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 	const {slug} = await params
 	const product = await getProductBySlug(slug)
-	// const productWithSize = product?.sizesAndStock?.map(p => {
-	// 	return {
-	// 		...product,
-	// 		_id: `${product._id}-${p.size}`,
-	// 		size: p.size,
-	// 		stock: p.stock,
-	// 		sizeId: p._key
-	// 	}
-	// })
-	// console.log({productWithSize})
+
 	console.log(
 		`${crypto.randomUUID().slice(0, 5)} >>> Rendered the product page chache for ${slug}`
 	)
@@ -79,7 +70,6 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 					</div>
 					<div>
 						<Separator className='my-4' />
-						{/* <p className='text-lg font-bold'>About this item:</p> */}
 						<div className='prose max-w-none mb-6'>
 							{Array.isArray(product.description) && (
 								<PortableText value={product.description} />
@@ -87,9 +77,6 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 						</div>
 						<Separator className='my-4' />
 					</div>
-					{/* <div className='mt-6'>
-						<AddToBasketButton product={product} disabled={isOutOfStock} />
-					</div> */}
 				</div>
 			</div>
 		</div>
