@@ -1,5 +1,4 @@
 'use client'
-import React from 'react'
 import {Button} from './ui/button'
 import useBasketStore from '@/app/(store)/store'
 import {Clothing, Footwear} from '../../sanity.types'
@@ -7,13 +6,15 @@ import {Clothing, Footwear} from '../../sanity.types'
 interface AddToBasketProps {
 	product: Footwear | Clothing
 }
+
 const AddToBasket1 = ({product}: AddToBasketProps) => {
-	const {addNewItem, getItem} = useBasketStore()
-	const itemSize = getItem(product)
-	console.log({itemSize})
+	const {addNewItem, getActiveSize, setActiveSize} = useBasketStore()
+
 	const handleAddToBasket = (product: Footwear | Clothing) => {
-		console.log('Add to basket item')
-		addNewItem(product, itemSize.size ?? '')
+		const size = getActiveSize()
+		console.log('getActiveSize--handleAddToBasket -->>>>', {size})
+		addNewItem(product, size)
+		setActiveSize('')
 	}
 
 	return (
@@ -24,5 +25,4 @@ const AddToBasket1 = ({product}: AddToBasketProps) => {
 		</Button>
 	)
 }
-
 export default AddToBasket1

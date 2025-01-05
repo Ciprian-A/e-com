@@ -34,13 +34,14 @@ const allFotwearSizes = [
 const allClothingSizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL']
 
 function SizeSelector({product}: SizeSelectorProps) {
-	const {selectItemSize, getItem} = useBasketStore()
+	const {selectItemSize, updateItems, setActiveSize} = useBasketStore()
 	const availableSizeList = product?.sizesAndStock?.map(p => p.size) as string[]
 	const type = product._type
 
 	const handleValueChange = (value: string) => {
+		updateItems(product)
 		selectItemSize(product, value)
-		getItem(product, value)
+		setActiveSize(value)
 	}
 	return (
 		<div className=''>

@@ -14,7 +14,9 @@ import {
 } from '../../../../actions/createCheckoutSession'
 
 function BasketPage() {
-	const groupedItems = useBasketStore(state => state.getGroupedItems())
+	const groupedItems = useBasketStore(state => state.getGroupedItems()).filter(
+		item => item.quantity > 0
+	)
 	const {isSignedIn} = useAuth()
 	const {user} = useUser()
 	const router = useRouter()
@@ -28,6 +30,7 @@ function BasketPage() {
 	if (!isClient) {
 		return <Loader />
 	}
+	console.log('BasketPage >>>>>>', {groupedItems})
 	if (groupedItems.length === 0) {
 		return (
 			<div className='container mx-auto p-4 flex flex-col items-center justify-center min-h-[50vh]'>
@@ -63,7 +66,7 @@ function BasketPage() {
 				<div className='flex-grow'>
 					{groupedItems?.map(item => (
 						<div
-							key={`${item.product._id}--${item.size}`}
+							key={item.product._id}
 							className='mb-4 p-4 border rounded flex items-center justify-between'>
 							<div
 								className='flex items-center cursor-pointer flex-1 min-w-0'
@@ -91,12 +94,13 @@ function BasketPage() {
 											item.quantity &&
 											(item.product.price * item.quantity).toFixed(2)}
 									</p>
-									<p>{`${item.product._id}--${item.size}`}</p>
+									<p>{item.product._id}</p>
 								</div>
 							</div>
 							<div className='flex items-center ml-4 flex-shrink-0'>
 								<AddToBasketButton
 									product={item.product}
+									itemSize={item.size}
 									disabled={item.quantity === 0}
 								/>
 							</div>
