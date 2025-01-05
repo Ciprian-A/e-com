@@ -15,8 +15,10 @@ interface BasketState {
 	activeSize: string
 	setActiveSize: (size: string) => void
 	getActiveSize: () => string
-	incrementItemCount: (product: Clothing | Footwear, size: string) => void
-	decrementItemCount: (product: Clothing | Footwear, size: string) => void
+	incrementItemCount: (product: Clothing | Footwear) => void
+	// incrementItemCount: (product: Clothing | Footwear, size: string) => void
+	decrementItemCount: (product: Clothing | Footwear) => void
+	// decrementItemCount: (product: Clothing | Footwear, size: string) => void
 	addNewItem: (product: Clothing | Footwear, size: string) => void
 	selectItemSize: (product: Clothing | Footwear, size: string) => void
 	getItem: (product: Clothing | Footwear, itemId: string) => BasketItem
@@ -77,13 +79,10 @@ const useBasketStore = create<BasketState>()(
 					if (existingItem) {
 						return {
 							items: state.items.map(item =>
-								item.product._id === product._id && item.size === size
+								item.product._id === `${product._id}-${size}`
 									? {
 											...item,
-											size,
-											sizeId: item.product.sizesAndStock?.find(
-												s => s.size === size
-											)?._key
+											size
 										}
 									: item
 							)
@@ -95,9 +94,8 @@ const useBasketStore = create<BasketState>()(
 							{
 								product,
 								size,
-								quantity: 0,
-								sizeId: product.sizesAndStock?.find(s => s.size === size)?._key
-							} as BasketItem
+								quantity: 99
+							}
 						]
 					}
 				}),
@@ -117,39 +115,45 @@ const useBasketStore = create<BasketState>()(
 							)
 						}
 					}
+					//  else {
+					// 	return {items: [...state.items, {product, quantity: 1}]}
+					// }
 					return {items: []}
 				}),
-			incrementItemCount: (product, size) =>
+			incrementItemCount: product =>
+				// incrementItemCount: (product, size) =>
 				set(state => {
 					const foundItem = state.items.find(
-						item => item.product._id === `${product._id}-${size}` // product._id && item.size === size
+						item => item.product._id === `${product._id}` // product._id && item.size === size
 					)
+					console.log('incrementItemCount >>>>>', {product})
 					if (foundItem) {
 						return {
 							items: state.items.map(item =>
-								item.product._id === foundItem.product._id //product._id && item.size === size: ;
+								item.product._id === `${product._id}` //product._id && item.size === size: ;
 									? {...item, quantity: (item.quantity ?? 0) + 1}
 									: item
 							)
 						}
 					}
-					return {items: []}
+					return {items: [...state.items]}
 				}),
-			decrementItemCount: (product, size) =>
+			decrementItemCount: product =>
+				// decrementItemCount: (product, size) =>
 				set(state => {
 					const foundItem = state.items.find(
-						item => item.product._id === `${product._id}-${size}` // product._id && item.size === size
+						item => item.product._id === `${product._id}` // product._id && item.size === size
 					)
 					if (foundItem) {
 						return {
 							items: state.items.map(item =>
-								item.product._id === foundItem.product._id // product._id && item.size === size: ;
+								item.product._id === `${product._id}` // product._id && item.size === size: ;
 									? {...item, quantity: (item.quantity ?? 0) - 1}
 									: item
 							)
 						}
 					}
-					return {items: []}
+					return {items: [...state.items]}
 				}),
 			clearBasket: () => set({items: []}),
 			getTotalPrice: () => {
