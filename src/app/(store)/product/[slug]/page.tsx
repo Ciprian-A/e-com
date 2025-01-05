@@ -5,7 +5,7 @@ import {PortableText} from 'next-sanity'
 import {notFound} from 'next/navigation'
 import React from 'react'
 import BuyItNow from '@/components/BuyItNow'
-import AddToBasket1 from '@/components/AddToBasket1'
+import AddToBasket from '@/components/AddToBasket'
 import AddToFavouritesButton from '@/components/AddToFavouritesButton'
 import ImageCarousel from '@/components/ImageCarousel'
 import QuantitySelector from '@/components/QuantitySelector'
@@ -73,7 +73,7 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 							</p>
 							<QuantitySelector qty={10} />
 							<BuyItNow />
-							<AddToBasket1 product={product} />
+							<AddToBasket product={product} />
 							<AddToFavouritesButton />
 						</div>
 					</div>

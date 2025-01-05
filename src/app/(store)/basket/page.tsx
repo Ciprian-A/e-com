@@ -4,7 +4,7 @@ import {SignInButton, useAuth, useUser} from '@clerk/nextjs'
 import useBasketStore from '../store'
 import {useRouter} from 'next/navigation'
 import {useEffect, useState} from 'react'
-import AddToBasketButton from '@/components/AddToBasketButton'
+import IncrementAndDecrementButton from '@/components/IncrementAndDecrementButton'
 import Image from 'next/image'
 import {imageUrl} from '@/lib/imageUrl'
 import Loader from '@/components/Loader'
@@ -98,7 +98,7 @@ function BasketPage() {
 								</div>
 							</div>
 							<div className='flex items-center ml-4 flex-shrink-0'>
-								<AddToBasketButton
+								<IncrementAndDecrementButton
 									product={item.product}
 									itemSize={item.size}
 									disabled={item.quantity === 0}
