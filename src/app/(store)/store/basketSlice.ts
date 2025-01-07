@@ -14,8 +14,8 @@ type BasketActions = {
 	setActiveSize: (size: string) => void
 	getActiveSize: () => string
 	addItemToBasket: (product: Clothing | Footwear, size: string) => void
-	incrementItemCount: (product: BasketItem) => void
-	decrementItemCount: (product: BasketItem) => void
+	incrementItemCount: (productId: string) => void
+	decrementItemCount: (productId: string) => void
 }
 
 export type BasketSlice = BasketState & BasketActions
@@ -40,21 +40,21 @@ export const createSlice: StateCreator<BasketSlice, [], [], BasketSlice> = (
 				)
 			}
 		}),
-	incrementItemCount: product =>
+	incrementItemCount: productId =>
 		set(state => {
 			return {
 				items: state.items.map(item =>
-					item.product._id === product.product._id
+					item.product._id === productId
 						? {...item, quantity: item.quantity + 1}
 						: {...item}
 				)
 			}
 		}),
-	decrementItemCount: product =>
+	decrementItemCount: productId =>
 		set(state => {
 			return {
 				items: state.items.map(item =>
-					item.product._id === product.product._id
+					item.product._id === productId
 						? {...item, quantity: item.quantity - 1}
 						: {...item}
 				)
