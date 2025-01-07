@@ -17,6 +17,7 @@ type BasketActions = {
 	removeItem: (productId: string) => void
 	incrementItemCount: (productId: string) => void
 	decrementItemCount: (productId: string) => void
+	clearBasket: () => void
 }
 
 export type BasketSlice = BasketState & BasketActions
@@ -66,5 +67,6 @@ export const createSlice: StateCreator<BasketSlice, [], [], BasketSlice> = (
 						: {...item}
 				)
 			}
-		})
+		}),
+	clearBasket: () => set({items: []})
 })
