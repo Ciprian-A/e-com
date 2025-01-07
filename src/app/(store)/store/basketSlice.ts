@@ -13,7 +13,7 @@ type BasketState = {
 type BasketActions = {
 	setActiveSize: (size: string) => void
 	getActiveSize: () => string
-	addItemTBasket: (product: Clothing | Footwear, size: string) => void
+	addItemToBasket: (product: Clothing | Footwear, size: string) => void
 }
 
 export type BasketSlice = BasketState & BasketActions
@@ -28,7 +28,7 @@ export const createSlice: StateCreator<BasketSlice, [], [], BasketSlice> = (
 		set(state => ({...state, activeSize: size}))
 	},
 	getActiveSize: () => get().activeSize,
-	addItemTBasket: (product, size) =>
+	addItemToBasket: (product, size) =>
 		set(state => {
 			return {
 				items: state.items.map(item =>
