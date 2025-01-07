@@ -19,6 +19,7 @@ type BasketActions = {
 	decrementItemCount: (productId: string) => void
 	getItemCount: (productId: string) => number
 	getTotalPrice: () => number
+	getGroupedItems: () => BasketItem[]
 	clearBasket: () => void
 }
 
@@ -80,5 +81,6 @@ export const createSlice: StateCreator<BasketSlice, [], [], BasketSlice> = (
 			0
 		)
 	},
+	getGroupedItems: () => get().items,
 	clearBasket: () => set({items: []})
 })
