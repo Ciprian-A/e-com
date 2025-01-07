@@ -14,6 +14,7 @@ type BasketActions = {
 	setActiveSize: (size: string) => void
 	getActiveSize: () => string
 	addItemToBasket: (product: Clothing | Footwear, size: string) => void
+	removeItem: (productId: string) => void
 	incrementItemCount: (productId: string) => void
 	decrementItemCount: (productId: string) => void
 }
@@ -38,6 +39,12 @@ export const createSlice: StateCreator<BasketSlice, [], [], BasketSlice> = (
 						? {...item, quantity: item.quantity + 1}
 						: {...item, quantity: 1}
 				)
+			}
+		}),
+	removeItem: productId =>
+		set(state => {
+			return {
+				items: state.items.filter(item => item.product._id != productId)
 			}
 		}),
 	incrementItemCount: productId =>
