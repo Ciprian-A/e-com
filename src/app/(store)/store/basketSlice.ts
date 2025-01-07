@@ -17,6 +17,7 @@ type BasketActions = {
 	removeItem: (productId: string) => void
 	incrementItemCount: (productId: string) => void
 	decrementItemCount: (productId: string) => void
+	getItemCount: (productId: string) => number
 	clearBasket: () => void
 }
 
@@ -68,5 +69,9 @@ export const createSlice: StateCreator<BasketSlice, [], [], BasketSlice> = (
 				)
 			}
 		}),
+	getItemCount: productId => {
+		const foundItem = get().items.find(item => item.product._id === productId)
+		return foundItem ? (foundItem.quantity ?? 0) : 0
+	},
 	clearBasket: () => set({items: []})
 })
