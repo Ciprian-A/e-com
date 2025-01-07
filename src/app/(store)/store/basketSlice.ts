@@ -18,6 +18,7 @@ type BasketActions = {
 	incrementItemCount: (productId: string) => void
 	decrementItemCount: (productId: string) => void
 	getItemCount: (productId: string) => number
+	getTotalPrice: () => number
 	clearBasket: () => void
 }
 
@@ -72,6 +73,12 @@ export const createSlice: StateCreator<BasketSlice, [], [], BasketSlice> = (
 	getItemCount: productId => {
 		const foundItem = get().items.find(item => item.product._id === productId)
 		return foundItem ? (foundItem.quantity ?? 0) : 0
+	},
+	getTotalPrice: () => {
+		return get().items.reduce(
+			(total, item) => total + (item.product.price ?? 0) * (item.quantity ?? 0),
+			0
+		)
 	},
 	clearBasket: () => set({items: []})
 })
