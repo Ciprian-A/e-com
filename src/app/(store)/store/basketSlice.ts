@@ -25,10 +25,12 @@ type BasketActions = {
 
 export type BasketSlice = BasketState & BasketActions
 
-export const createSlice: StateCreator<BasketSlice, [], [], BasketSlice> = (
-	set,
-	get
-) => ({
+export const createBasketSlice: StateCreator<
+	BasketSlice,
+	[],
+	[],
+	BasketSlice
+> = (set, get) => ({
 	items: [],
 	activeSize: '',
 	setActiveSize: size => {
