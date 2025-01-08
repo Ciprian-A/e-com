@@ -2,6 +2,9 @@ import {Footwear, Clothing} from '@/../sanity.types'
 import {create} from 'zustand'
 import {persist} from 'zustand/middleware'
 
+import basketSlice from './store/basketSlice'
+import itemsSlice from './store/itemsSlice'
+
 export interface BasketItem {
 	product: Clothing | Footwear
 	quantity: number
