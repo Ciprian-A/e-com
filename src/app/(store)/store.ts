@@ -19,13 +19,10 @@ interface BasketState {
 	setActiveSize: (size: string) => void
 	getActiveSize: () => string
 	incrementItemCount: (product: Clothing | Footwear) => void
-	// incrementItemCount: (product: Clothing | Footwear, size: string) => void
 	decrementItemCount: (product: Clothing | Footwear) => void
-	// decrementItemCount: (product: Clothing | Footwear, size: string) => void
 	addNewItem: (product: Clothing | Footwear, size: string) => void
 	selectItemSize: (product: Clothing | Footwear, size: string) => void
 	getItem: (product: Clothing | Footwear, itemId: string) => BasketItem
-	// removeItem: (productId: string) => void
 	clearBasket: () => void
 	getTotalPrice: () => number
 	getItemCount: (product: Clothing | Footwear, size: string) => number
