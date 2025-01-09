@@ -48,7 +48,6 @@ const useBasketStore = create<BasketState>()(
 						id: `${product._id}-${p.size}`,
 						sizeId: p._key
 					}))
-					console.log('updateItems >>>>>>', {items: state.items, newItems})
 					return {
 						items: [...(newItems ?? [])]
 					}
@@ -96,7 +95,7 @@ const useBasketStore = create<BasketState>()(
 					if (foundItem) {
 						return {
 							items: state.items.map(item =>
-								item.product._id === foundItem.product._id //`${product._id}-${size}`
+								item.product._id === foundItem.product._id
 									? {...item, quantity: item.quantity + 1}
 									: item
 							)
