@@ -124,12 +124,12 @@ const useBasketStore = create<BasketState>()(
 			decrementItemCount: product =>
 				set(state => {
 					const foundItem = state.items.find(
-						item => item.product._id === `${product._id}` // product._id && item.size === size
+						item => item.product._id === `${product._id}`
 					)
 					if (foundItem) {
 						return {
 							items: state.items.map(item =>
-								item.product._id === `${product._id}` // product._id && item.size === size: ;
+								item.product._id === `${product._id}`
 									? {...item, quantity: (item.quantity ?? 0) - 1}
 									: item
 							)
@@ -149,7 +149,6 @@ const useBasketStore = create<BasketState>()(
 				const item = get().items.find(
 					item => item.product._id === product._id && item.size === size
 				)
-				console.log('getItemCount---item', {item, product, size})
 				return item ? (item.quantity ?? 0) : 0
 			},
 			getGroupedItems: () => get().items
