@@ -6,7 +6,7 @@ type BasketItem = {
 	quantity: number
 }
 type BasketState = {
-	items: BasketItem[]
+	products: BasketItem[]
 	activeSize: string
 }
 
@@ -31,7 +31,7 @@ export const createBasketSlice: StateCreator<
 	[],
 	BasketSlice
 > = (set, get) => ({
-	items: [],
+	products: [],
 	activeSize: '',
 	setActiveSize: size => {
 		set(state => ({...state, activeSize: size}))
@@ -40,7 +40,7 @@ export const createBasketSlice: StateCreator<
 	addItemToBasket: (product, size) =>
 		set(state => {
 			return {
-				items: state.items.map(item =>
+				products: state.products.map(item =>
 					item.product._id === `${product._id}-${size}`
 						? {...item, quantity: item.quantity + 1}
 						: {...item, quantity: 1}
@@ -50,13 +50,13 @@ export const createBasketSlice: StateCreator<
 	removeItem: productId =>
 		set(state => {
 			return {
-				items: state.items.filter(item => item.product._id != productId)
+				products: state.products.filter(item => item.product._id != productId)
 			}
 		}),
 	incrementItemCount: productId =>
 		set(state => {
 			return {
-				items: state.items.map(item =>
+				products: state.products.map(item =>
 					item.product._id === productId
 						? {...item, quantity: item.quantity + 1}
 						: {...item}
@@ -66,7 +66,7 @@ export const createBasketSlice: StateCreator<
 	decrementItemCount: productId =>
 		set(state => {
 			return {
-				items: state.items.map(item =>
+				products: state.products.map(item =>
 					item.product._id === productId
 						? {...item, quantity: item.quantity - 1}
 						: {...item}
@@ -74,15 +74,17 @@ export const createBasketSlice: StateCreator<
 			}
 		}),
 	getItemCount: productId => {
-		const foundItem = get().items.find(item => item.product._id === productId)
+		const foundItem = get().products.find(
+			item => item.product._id === productId
+		)
 		return foundItem ? (foundItem.quantity ?? 0) : 0
 	},
 	getTotalPrice: () => {
-		return get().items.reduce(
+		return get().products.reduce(
 			(total, item) => total + (item.product.price ?? 0) * (item.quantity ?? 0),
 			0
 		)
 	},
-	getGroupedItems: () => get().items,
-	clearBasket: () => set({items: []})
+	getGroupedItems: () => get().products,
+	clearBasket: () => set({products: []})
 })
