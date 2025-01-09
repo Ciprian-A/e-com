@@ -58,24 +58,13 @@ const useBasketStore = create<BasketState>()(
 				const item = get().items.find(
 					item => item.product._id === `${product._id}-${itemId}`
 				)
-
-				// const item = get()
-				// 	.items.filter(item => item.product._id === product._id && item.size)
-				// 	?.at(-1)
-				console.log('getItem---item', {item, product, itemId})
 				return item ? item : {product, quantity: 0, size: ''}
 			},
 			selectItemSize: (product, size) =>
 				set(state => {
-					console.log('selectItemSize >>>>', {updatedItems: state.items})
 					const existingItem = state.items.find(
 						item => item.product._id === `${product._id}-${size}`
 					)
-					console.log('selectItemSize---existingItem', {
-						existingItem,
-						product,
-						size
-					})
 					if (existingItem) {
 						return {
 							items: state.items.map(item =>
@@ -104,9 +93,7 @@ const useBasketStore = create<BasketState>()(
 					const foundItem = state.items.find(
 						item => item.product._id === `${product._id}-${size}`
 					)
-					console.log('addNewItem >>>>', {product, size, items: state.items})
 					if (foundItem) {
-						console.log('addNewItem---foundItem', {foundItem})
 						return {
 							items: state.items.map(item =>
 								item.product._id === foundItem.product._id //`${product._id}-${size}`
@@ -115,22 +102,18 @@ const useBasketStore = create<BasketState>()(
 							)
 						}
 					}
-					//  else {
-					// 	return {items: [...state.items, {product, quantity: 1}]}
-					// }
 					return {items: []}
 				}),
 			incrementItemCount: product =>
-				// incrementItemCount: (product, size) =>
 				set(state => {
 					const foundItem = state.items.find(
-						item => item.product._id === `${product._id}` // product._id && item.size === size
+						item => item.product._id === `${product._id}`
 					)
-					console.log('incrementItemCount >>>>>', {product})
+
 					if (foundItem) {
 						return {
 							items: state.items.map(item =>
-								item.product._id === `${product._id}` //product._id && item.size === size: ;
+								item.product._id === `${product._id}`
 									? {...item, quantity: (item.quantity ?? 0) + 1}
 									: item
 							)
@@ -139,7 +122,6 @@ const useBasketStore = create<BasketState>()(
 					return {items: [...state.items]}
 				}),
 			decrementItemCount: product =>
-				// decrementItemCount: (product, size) =>
 				set(state => {
 					const foundItem = state.items.find(
 						item => item.product._id === `${product._id}` // product._id && item.size === size
