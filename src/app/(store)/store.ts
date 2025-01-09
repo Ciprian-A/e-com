@@ -30,7 +30,7 @@ interface BasketState {
 	updateItems: (product: Clothing | Footwear) => void
 }
 
-const useBasketStore = create<BasketState>()(
+const useStore = create<BasketState>()(
 	persist(
 		(set, get) => ({
 			items: [],
@@ -158,4 +158,4 @@ const useBasketStore = create<BasketState>()(
 	)
 )
 
-export default useBasketStore
+export default useStore
