@@ -30,7 +30,7 @@ interface BasketState {
 	updateItems: (product: Clothing | Footwear) => void
 }
 
-const useStore = create<BasketState>()(
+const useStore = create<BasketSlice & ItemSlice>()(
 	persist(
 		(set, get) => ({
 			items: [],
