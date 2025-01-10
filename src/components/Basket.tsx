@@ -1,12 +1,12 @@
 'use client'
 import Link from 'next/link'
 import {TrolleyIcon} from '@sanity/icons'
-import useBasketStore from '@/app/(store)/store'
+import useStore from '@/app/(store)/store'
 import TooltipHeader from './TooltipHeader'
 
 export const Basket = () => {
-	const itemCount = useBasketStore(state =>
-		state.items.reduce((total, item) => total + item.quantity, 0)
+	const itemCount = useStore(state =>
+		state.products.reduce((total, item) => total + item.quantity, 0)
 	)
 	return (
 		<TooltipHeader description='Basket'>
