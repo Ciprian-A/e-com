@@ -7,7 +7,7 @@ import {
 	SelectValue
 } from '@/components/ui/select'
 import {Clothing, Footwear} from '../../sanity.types'
-import useBasketStore from '@/app/(store)/store'
+import useStore from '@/app/(store)/store'
 
 interface SizeSelectorProps {
 	product: Clothing | Footwear
@@ -34,13 +34,13 @@ const allFotwearSizes = [
 const allClothingSizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL']
 
 function SizeSelector({product}: SizeSelectorProps) {
-	const {selectItemSize, updateItems, setActiveSize} = useBasketStore()
+	const {setItems, setActiveSize} = useStore()
 	const availableSizeList = product?.sizesAndStock?.map(p => p.size) as string[]
 	const type = product._type
 
 	const handleValueChange = (value: string) => {
-		updateItems(product)
-		selectItemSize(product, value)
+		setItems(product)
+		// selectItemSize(product, value)
 		setActiveSize(value)
 	}
 	return (
