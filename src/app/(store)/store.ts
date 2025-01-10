@@ -13,22 +13,22 @@ export interface BasketItem {
 	sizeId?: string
 }
 
-interface BasketState {
-	items: BasketItem[]
-	activeSize: string
-	setActiveSize: (size: string) => void
-	getActiveSize: () => string
-	incrementItemCount: (product: Clothing | Footwear) => void
-	decrementItemCount: (product: Clothing | Footwear) => void
-	addNewItem: (product: Clothing | Footwear, size: string) => void
-	selectItemSize: (product: Clothing | Footwear, size: string) => void
-	getItem: (product: Clothing | Footwear, itemId: string) => BasketItem
-	clearBasket: () => void
-	getTotalPrice: () => number
-	getItemCount: (product: Clothing | Footwear, size: string) => number
-	getGroupedItems: () => BasketItem[]
-	updateItems: (product: Clothing | Footwear) => void
-}
+// interface BasketState {
+// 	items: BasketItem[]
+// 	activeSize: string
+// 	setActiveSize: (size: string) => void
+// 	getActiveSize: () => string
+// 	incrementItemCount: (product: Clothing | Footwear) => void
+// 	decrementItemCount: (product: Clothing | Footwear) => void
+// 	addNewItem: (product: Clothing | Footwear, size: string) => void
+// 	selectItemSize: (product: Clothing | Footwear, size: string) => void
+// 	getItem: (product: Clothing | Footwear, itemId: string) => BasketItem
+// 	clearBasket: () => void
+// 	getTotalPrice: () => number
+// 	getItemCount: (product: Clothing | Footwear, size: string) => number
+// 	getGroupedItems: () => BasketItem[]
+// 	updateItems: (product: Clothing | Footwear) => void
+// }
 
 const useStore = create<BasketSlice & ItemSlice>()(
 	persist(
