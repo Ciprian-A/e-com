@@ -1,23 +1,22 @@
 'use client'
 import React, {useEffect, useState} from 'react'
-import {Footwear, Clothing} from '../../sanity.types'
-import useBasketStore from '@/app/(store)/store'
+// import {Footwear, Clothing} from '../../sanity.types'
+import useStore from '@/app/(store)/store'
 
 type IncrementAndDecrementButtonProps = {
-	product: (Clothing | Footwear) & {sizeId?: string}
+	productId: string
+	// product: (Clothing | Footwear) & {sizeId?: string}
 	disabled: boolean
-	itemSize?: string
 }
 
 const IncrementAndDecrementButton = ({
-	product,
-	disabled,
-	itemSize
+	productId,
+	disabled
+	// itemSize
 }: IncrementAndDecrementButtonProps) => {
-	const {incrementItemCount, decrementItemCount, getItemCount, getItem} =
-		useBasketStore()
-	const item = getItem(product, itemSize ?? '')
-	const itemCount = getItemCount(product, itemSize ?? '')
+	const {incrementItemCount, decrementItemCount, getItemCount} = useStore()
+	// const item = getItem(product, itemSize ?? '')
+	const itemCount = getItemCount(productId)
 	const [isClient, setIsClient] = useState(false)
 	useEffect(() => {
 		setIsClient(true)
@@ -26,16 +25,16 @@ const IncrementAndDecrementButton = ({
 	if (!isClient) {
 		return null
 	}
-	console.log({itemCount})
-	console.log('AddToBasketButton>>>>>>>> item, product', {
-		item,
-		product,
-		itemSize
-	})
+	// console.log({itemCount})
+	// console.log('AddToBasketButton>>>>>>>> item, product', {
+	// 	item,
+	// 	product,
+	// 	itemSize
+	// })
 	return (
 		<div className='flex items-center justify-center space-x-2'>
 			<button
-				onClick={() => decrementItemCount(product)}
+				onClick={() => decrementItemCount(productId)}
 				// onClick={() => decrementItemCount(product, itemSize ?? '')}
 				className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200 ${itemCount === 0 ? 'bg-gray-100 cursor-not-allowed' : 'bg-gray-200 hover:bg-gray-300'}`}
 				disabled={itemCount === 0 || disabled}>
@@ -46,7 +45,7 @@ const IncrementAndDecrementButton = ({
 			</button>
 			<span className='w-8 text-center font-semibold'>{itemCount}</span>
 			<button
-				onClick={() => incrementItemCount(product)}
+				onClick={() => incrementItemCount(productId)}
 				// onClick={() => incrementItemCount(product, itemSize ?? '')}
 				className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200 ${disabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'}`}
 				disabled={disabled}>
