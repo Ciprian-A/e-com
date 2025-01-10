@@ -100,7 +100,7 @@ function BasketPage() {
 							<div className='flex items-center ml-4 flex-shrink-0'>
 								<IncrementAndDecrementButton
 									product={item.product}
-									itemSize={item.size}
+									// itemSize={item.size}
 									disabled={item.quantity === 0}
 								/>
 							</div>
@@ -121,9 +121,7 @@ function BasketPage() {
 						</p>
 						<p className='flex justify-between text-2xl font-bold borde-t pt-2'>
 							<span>Total:</span>
-							<span>
-								£{useBasketStore.getState().getTotalPrice().toFixed(2)}
-							</span>
+							<span>£{useStore.getState().getTotalPrice().toFixed(2)}</span>
 						</p>
 					</div>
 					{isSignedIn ? (
