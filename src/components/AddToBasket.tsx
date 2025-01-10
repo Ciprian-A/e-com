@@ -1,6 +1,6 @@
 'use client'
 import {Button} from './ui/button'
-import useBasketStore from '@/app/(store)/store'
+import useStore from '@/app/(store)/store'
 import {Clothing, Footwear} from '../../sanity.types'
 
 interface AddToBasketProps {
@@ -8,12 +8,12 @@ interface AddToBasketProps {
 }
 
 const AddToBasket = ({product}: AddToBasketProps) => {
-	const {addNewItem, getActiveSize, setActiveSize} = useBasketStore()
+	const {addItemToBasket, getActiveSize, setActiveSize} = useStore()
 
 	const handleAddToBasket = (product: Footwear | Clothing) => {
 		const size = getActiveSize()
 		console.log('getActiveSize--handleAddToBasket -->>>>', {size})
-		addNewItem(product, size)
+		addItemToBasket(product, size)
 		setActiveSize('')
 	}
 
