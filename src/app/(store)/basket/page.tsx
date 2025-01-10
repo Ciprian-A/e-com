@@ -1,7 +1,7 @@
 'use client'
 
 import {SignInButton, useAuth, useUser} from '@clerk/nextjs'
-import useBasketStore from '../store'
+import useStore from '../store'
 import {useRouter} from 'next/navigation'
 import {useEffect, useState} from 'react'
 import IncrementAndDecrementButton from '@/components/IncrementAndDecrementButton'
@@ -14,7 +14,7 @@ import {
 } from '../../../../actions/createCheckoutSession'
 
 function BasketPage() {
-	const groupedItems = useBasketStore(state => state.getGroupedItems()).filter(
+	const groupedItems = useStore(state => state.getGroupedItems()).filter(
 		item => item.quantity > 0
 	)
 	const {isSignedIn} = useAuth()
