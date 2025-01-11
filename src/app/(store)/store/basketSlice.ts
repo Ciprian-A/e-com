@@ -13,7 +13,7 @@ type BasketState = {
 type BasketActions = {
 	setActiveSize: (size: string) => void
 	getActiveSize: () => string
-	addItemToBasket: (product: Clothing | Footwear, size: string) => void
+	addItemToBasket: (product: Clothing | Footwear) => void
 	removeItem: (productId: string) => void
 	incrementItemCount: (productId: string) => void
 	decrementItemCount: (productId: string) => void
@@ -37,14 +37,16 @@ export const createBasketSlice: StateCreator<
 		set(state => ({...state, activeSize: size}))
 	},
 	getActiveSize: () => get().activeSize,
-	addItemToBasket: (product, size) =>
+	addItemToBasket: product =>
 		set(state => {
+			// console.log('addItemToBasket', {product, size, state})
 			return {
-				products: state.products.map(item =>
-					item.product._id === `${product._id}-${size}`
-						? {...item, quantity: item.quantity + 1}
-						: {...item, quantity: 1}
-				)
+				// products: state.products.map(item =>
+				// 	item.product._id === `${product._id}-${size}`
+				// 		? {...item, quantity: item.quantity + 1}
+				// 		: {...item, quantity: 1}
+				// )
+				products: [...state.products, {product, quantity: 1}]
 			}
 		}),
 	removeItem: productId =>

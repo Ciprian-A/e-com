@@ -10,10 +10,18 @@ interface AddToBasketProps {
 const AddToBasket = ({product}: AddToBasketProps) => {
 	const {addItemToBasket, getActiveSize, setActiveSize} = useStore()
 
+	const items = useStore().items
+	console.log({items, product})
 	const handleAddToBasket = (product: Footwear | Clothing) => {
 		const size = getActiveSize()
-		console.log('getActiveSize--handleAddToBasket -->>>>', {size})
-		addItemToBasket(product, size)
+		// console.log('getActiveSize--handleAddToBasket -->>>>', {size})
+		const itemToBeAddedToBasket = items.find(
+			i => i._id === `${product._id}-${size}`
+		)
+		console.log({itemToBeAddedToBasket})
+		if (itemToBeAddedToBasket) {
+			addItemToBasket(itemToBeAddedToBasket)
+		}
 		setActiveSize('')
 	}
 
