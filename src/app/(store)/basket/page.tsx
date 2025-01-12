@@ -86,7 +86,7 @@ function BasketPage() {
 								</div>
 								<div className='min-w-0'>
 									<h2 className='text-lg sm:text-xl font-semibold truncate'>
-										{item.product.name}
+										{item.product.name} -- {item.product.size}
 									</h2>
 									<p className='text-sm sm:text-base'>
 										Price: £

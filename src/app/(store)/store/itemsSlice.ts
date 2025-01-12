@@ -1,15 +1,16 @@
 import {StateCreator} from 'zustand'
 import {Clothing, Footwear} from '../../../../sanity.types'
+type ItemType = (Footwear | Clothing) & {size: string}
 
-type ItemType = {
-	items: (Footwear | Clothing)[]
+type ItemsType = {
+	items: ItemType[]
 }
 
 type ItemActions = {
 	setItems: (item: Footwear | Clothing) => void
 }
 
-export type ItemSlice = ItemType & ItemActions
+export type ItemSlice = ItemsType & ItemActions
 
 export const createItemSlice: StateCreator<
 	ItemSlice,
@@ -23,7 +24,8 @@ export const createItemSlice: StateCreator<
 			const items =
 				product.sizesAndStock?.map(item => ({
 					...product,
-					_id: `${product._id}-${item.size}`
+					_id: `${product._id}-${item.size}`,
+					size: item.size ?? ''
 				})) ?? []
 			return {items: [...(items ?? [])]}
 		})

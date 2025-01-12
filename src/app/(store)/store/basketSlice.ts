@@ -2,7 +2,8 @@ import {StateCreator} from 'zustand'
 import {Clothing, Footwear} from '../../../../sanity.types'
 
 type BasketItem = {
-	product: Footwear | Clothing
+	product: (Footwear | Clothing) & {size: string}
+
 	quantity: number
 }
 type BasketState = {
@@ -13,7 +14,7 @@ type BasketState = {
 type BasketActions = {
 	setActiveSize: (size: string) => void
 	getActiveSize: () => string
-	addItemToBasket: (product: Clothing | Footwear) => void
+	addItemToBasket: (product: (Footwear | Clothing) & {size: string}) => void
 	removeItem: (productId: string) => void
 	incrementItemCount: (productId: string) => void
 	decrementItemCount: (productId: string) => void
