@@ -95,7 +95,6 @@ function BasketPage() {
 											item.quantity &&
 											(item.product.price * item.quantity).toFixed(2)}
 									</p>
-									<p>{item.product._id}</p>
 								</div>
 							</div>
 							<div className='flex items-center ml-4 flex-shrink-0'>
