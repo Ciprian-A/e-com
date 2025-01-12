@@ -39,13 +39,7 @@ export const createBasketSlice: StateCreator<
 	getActiveSize: () => get().activeSize,
 	addItemToBasket: product =>
 		set(state => {
-			// console.log('addItemToBasket', {product, size, state})
 			return {
-				// products: state.products.map(item =>
-				// 	item.product._id === `${product._id}-${size}`
-				// 		? {...item, quantity: item.quantity + 1}
-				// 		: {...item, quantity: 1}
-				// )
 				products: [...state.products, {product, quantity: 1}]
 			}
 		}),
