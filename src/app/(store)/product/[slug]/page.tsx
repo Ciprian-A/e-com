@@ -9,6 +9,7 @@ import AddToBasket from '@/components/AddToBasket'
 import AddToFavouritesButton from '@/components/AddToFavouritesButton'
 import ImageCarousel from '@/components/ImageCarousel'
 import QuantitySelector from '@/components/QuantitySelector'
+import TemporaryBuyBox from '@/components/TemporaryBuyBox'
 
 export const dynamic = 'force-static'
 export const revalidate = 60 // revaliate at most every 60 seconds
@@ -56,7 +57,8 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 								))}
 							</div>
 						</div>
-						<div className='w-[35%] flex flex-col space-y-3 border rounded-md p-3'>
+						<TemporaryBuyBox />
+						{/* <div className='w-[35%] flex flex-col space-y-3 border rounded-md p-3'>
 							<p>£ {product?.price}</p>
 							<p
 								className={`text-xl font-semibold ${isOutOfStock ? 'text-red-500' : 'text-green-600'}`}>
@@ -66,7 +68,7 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 							<BuyItNow />
 							<AddToBasket product={product} />
 							<AddToFavouritesButton />
-						</div>
+						</div> */}
 					</div>
 					<div>
 						<Separator className='my-4' />
