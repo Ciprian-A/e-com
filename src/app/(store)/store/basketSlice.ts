@@ -3,7 +3,6 @@ import {Clothing, Footwear} from '../../../../sanity.types'
 
 type BasketItem = {
 	product: (Footwear | Clothing) & {size: string}
-
 	quantity: number
 }
 type BasketState = {
