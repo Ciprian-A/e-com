@@ -100,7 +100,6 @@ function BasketPage() {
 							<div className='flex items-center ml-4 flex-shrink-0'>
 								<IncrementAndDecrementButton
 									productId={item.product._id}
-									// itemSize={item.size}
 									disabled={item.quantity === 0}
 								/>
 							</div>
