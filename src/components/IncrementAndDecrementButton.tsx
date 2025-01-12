@@ -37,7 +37,7 @@ const IncrementAndDecrementButton = ({
 			<span className='w-8 text-center font-semibold'>{itemCount}</span>
 			<button
 				onClick={() => incrementItemCount(productId)}
-				className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200 ${disabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'}`}
+				className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200 ${disabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-gray-900 hover:bg-gray-700'}`}
 				disabled={disabled}>
 				<span className='text-xl font-bold text-white'>+</span>
 			</button>
