@@ -14,7 +14,6 @@ const AddToBasket = ({product}: AddToBasketProps) => {
 	console.log({items, product})
 	const handleAddToBasket = (product: Footwear | Clothing) => {
 		const size = getActiveSize()
-		// console.log('getActiveSize--handleAddToBasket -->>>>', {size})
 		const itemToBeAddedToBasket = items.find(
 			i => i._id === `${product._id}-${size}`
 		)
