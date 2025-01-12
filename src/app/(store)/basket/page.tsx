@@ -86,9 +86,10 @@ function BasketPage() {
 								</div>
 								<div className='min-w-0'>
 									<h2 className='text-lg sm:text-xl font-semibold truncate'>
-										{item.product.name} -- {item.product.size}
+										{item.product.name}
 									</h2>
-									<p className='text-sm sm:text-base'>
+									<p className='text-sm'>Size: {item.product.size} UK</p>
+									<p className='text-sm'>
 										Price: £
 										{item.product.price &&
 											item.quantity &&
