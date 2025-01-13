@@ -34,18 +34,21 @@ const allFotwearSizes = [
 const allClothingSizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL']
 
 function SizeSelector({product}: SizeSelectorProps) {
-	const {setItems, setActiveSize} = useStore()
+	const {setItems, setActiveSize, getActiveSize} = useStore()
 	const availableSizeList = product?.sizesAndStock?.map(p => p.size) as string[]
 	const type = product._type
+	const activeSize = getActiveSize()
 
 	const handleValueChange = (value: string) => {
 		setItems(product)
-		// selectItemSize(product, value)
 		setActiveSize(value)
 	}
+
 	return (
 		<div className=''>
-			<Select onValueChange={value => handleValueChange(value)}>
+			<Select
+				value={activeSize}
+				onValueChange={value => handleValueChange(value)}>
 				<SelectTrigger className='w-full'>
 					<SelectValue placeholder='Select a size' />
 				</SelectTrigger>
