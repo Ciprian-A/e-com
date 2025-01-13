@@ -8,6 +8,7 @@ type BasketItem = {
 type BasketState = {
 	products: BasketItem[]
 	activeSize: string
+	selectedQuantity: number
 }
 
 type BasketActions = {
@@ -33,6 +34,7 @@ export const createBasketSlice: StateCreator<
 > = (set, get) => ({
 	products: [],
 	activeSize: '',
+	selectedQuantity: 0,
 	setActiveSize: size => {
 		set(state => ({...state, activeSize: size}))
 	},
