@@ -15,6 +15,9 @@ const BuyBox = ({product}: BuyBoxProps) => {
 	const {getActiveSize} = useStore()
 	const isOutOfStock = !product?.sizesAndStock?.some(p => (p?.stock ?? 0) > 0)
 	const activeSize = getActiveSize()
+	const availableStock = product?.sizesAndStock?.find(
+		p => p.size === activeSize
+	)
 	console.log({isOutOfStock, activeSize})
 	return (
 		<div className='w-[35%] flex flex-col space-y-3 border rounded-md p-3 h-max'>
@@ -32,7 +35,7 @@ const BuyBox = ({product}: BuyBoxProps) => {
 						className={`text-xl font-semibold ${isOutOfStock ? 'text-red-500' : 'text-green-600'}`}>
 						{isOutOfStock ? 'Out of stock' : 'In stock'}
 					</p>
-					<QuantitySelector qty={10} />
+					<QuantitySelector qty={availableStock?.stock ?? 0} />
 					<BuyItNow />
 					<AddToBasket product={product} />
 					<AddToFavouritesButton />
