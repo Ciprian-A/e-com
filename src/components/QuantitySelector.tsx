@@ -6,9 +6,18 @@ import {
 	SelectTrigger,
 	SelectValue
 } from '@/components/ui/select'
+import useStore from '@/app/(store)/store'
 const QuantitySelector = ({qty}: {qty: number}) => {
+	const {getSelectedQuantity, selectQuantity} = useStore()
+	const selectedQty = getSelectedQuantity()
+
+	const handleValueChange = (value: string) => {
+		selectQuantity(Number(value))
+	}
 	return (
-		<Select>
+		<Select
+			value={selectedQty.toString()}
+			onValueChange={value => handleValueChange(value)}>
 			<SelectTrigger className='w-full'>
 				<SelectValue placeholder='Quantity' />
 			</SelectTrigger>
