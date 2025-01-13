@@ -57,7 +57,7 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 								))}
 							</div>
 						</div>
-						<TemporaryBuyBox />
+						<TemporaryBuyBox product={product} />
 						{/* <div className='w-[35%] flex flex-col space-y-3 border rounded-md p-3'>
 							<p>£ {product?.price}</p>
 							<p
