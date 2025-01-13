@@ -18,7 +18,6 @@ const BuyBox = ({product}: BuyBoxProps) => {
 	const availableStock = product?.sizesAndStock?.find(
 		p => p.size === activeSize
 	)
-	console.log({isOutOfStock, activeSize})
 	return (
 		<div className='w-[35%] flex flex-col space-y-3 border rounded-md p-3 h-max'>
 			{!activeSize ? (
