@@ -36,7 +36,7 @@ export const createBasketSlice: StateCreator<
 > = (set, get) => ({
 	products: [],
 	activeSize: '',
-	selectedQuantity: 0,
+	selectedQuantity: 1,
 	setActiveSize: size => {
 		set(state => ({...state, activeSize: size}))
 	},
