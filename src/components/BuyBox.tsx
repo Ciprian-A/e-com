@@ -8,10 +8,10 @@ import QuantitySelector from './QuantitySelector'
 import BuyItNow from './BuyItNow'
 import AddToFavouritesButton from './AddToFavouritesButton'
 
-interface TemporaryBuyBoxProps {
+interface BuyBoxProps {
 	product: Footwear | Clothing
 }
-const TemporaryBuyBox = ({product}: TemporaryBuyBoxProps) => {
+const BuyBox = ({product}: BuyBoxProps) => {
 	const {getActiveSize} = useStore()
 	const isOutOfStock = !product?.sizesAndStock?.some(p => (p?.stock ?? 0) > 0)
 	const activeSize = getActiveSize()
@@ -42,4 +42,4 @@ const TemporaryBuyBox = ({product}: TemporaryBuyBoxProps) => {
 	)
 }
 
-export default TemporaryBuyBox
+export default BuyBox

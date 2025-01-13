@@ -9,7 +9,7 @@ import React from 'react'
 // import AddToFavouritesButton from '@/components/AddToFavouritesButton'
 import ImageCarousel from '@/components/ImageCarousel'
 // import QuantitySelector from '@/components/QuantitySelector'
-import TemporaryBuyBox from '@/components/TemporaryBuyBox'
+import BuyBox from '@/components/BuyBox'
 
 export const dynamic = 'force-static'
 export const revalidate = 60 // revaliate at most every 60 seconds
@@ -57,7 +57,7 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 								))}
 							</div>
 						</div>
-						<TemporaryBuyBox product={product} />
+						<BuyBox product={product} />
 						{/* <div className='w-[35%] flex flex-col space-y-3 border rounded-md p-3'>
 							<p>£ {product?.price}</p>
 							<p
