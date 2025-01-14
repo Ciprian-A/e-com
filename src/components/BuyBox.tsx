@@ -35,7 +35,7 @@ const BuyBox = ({product}: BuyBoxProps) => {
 						{isOutOfStock ? 'Out of stock' : 'In stock'}
 					</p>
 					<QuantitySelector qty={availableStock?.stock ?? 0} />
-					<BuyItNow />
+					<BuyItNow product={product} />
 					<AddToBasket product={product} />
 					<AddToFavouritesButton />
 				</>
