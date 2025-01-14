@@ -9,8 +9,13 @@ interface AddToBasketProps {
 }
 
 const AddToBasket = ({product, disabled}: AddToBasketProps) => {
-	const {addItemToBasket, getActiveSize, setActiveSize, getSelectedQuantity} =
-		useStore()
+	const {
+		addItemToBasket,
+		getActiveSize,
+		setActiveSize,
+		getSelectedQuantity,
+		setSelectedQuantity
+	} = useStore()
 	const items = useStore().items
 
 	const handleAddToBasket = (product: Footwear | Clothing) => {
@@ -27,6 +32,7 @@ const AddToBasket = ({product, disabled}: AddToBasketProps) => {
 			addItemToBasket(itemToBeAddedToBasket, selectedQty)
 		}
 		setActiveSize('')
+		setSelectedQuantity(1)
 	}
 
 	return (
