@@ -8,11 +8,11 @@ import {
 } from '@/components/ui/select'
 import useStore from '@/app/(store)/store'
 const QuantitySelector = ({qty}: {qty: number}) => {
-	const {getSelectedQuantity, selectQuantity} = useStore()
+	const {getSelectedQuantity, setSelectedQuantity} = useStore()
 	const selectedQty = getSelectedQuantity()
 
 	const handleValueChange = (value: string) => {
-		selectQuantity(Number(value))
+		setSelectedQuantity(Number(value))
 	}
 	return (
 		<Select
