@@ -9,20 +9,22 @@ interface AddToBasketProps {
 }
 
 const AddToBasket = ({product, disabled}: AddToBasketProps) => {
-	const {addItemToBasket, getActiveSize, setActiveSize} = useStore()
+	const {addItemToBasket, getActiveSize, setActiveSize, getSelectedQuantity} =
+		useStore()
 	const items = useStore().items
 
 	const handleAddToBasket = (product: Footwear | Clothing) => {
 		const size = getActiveSize()
+		const selectedQty = getSelectedQuantity()
 		if (disabled) {
 			return
 		}
 		const itemToBeAddedToBasket = items.find(
 			i => i._id === `${product._id}-${size}`
 		)
-		console.log({itemToBeAddedToBasket})
+
 		if (itemToBeAddedToBasket) {
-			addItemToBasket(itemToBeAddedToBasket)
+			addItemToBasket(itemToBeAddedToBasket, selectedQty)
 		}
 		setActiveSize('')
 	}
