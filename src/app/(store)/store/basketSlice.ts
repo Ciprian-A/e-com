@@ -14,7 +14,7 @@ type BasketState = {
 type BasketActions = {
 	setActiveSize: (size: string) => void
 	getActiveSize: () => string
-	selectQuantity: (qty: number) => void
+	setSelectedQuantity: (qty: number) => void
 	getSelectedQuantity: () => number
 	addItemToBasket: (
 		product: (Footwear | Clothing) & {size: string},
@@ -44,7 +44,7 @@ export const createBasketSlice: StateCreator<
 		set(state => ({...state, activeSize: size}))
 	},
 	getActiveSize: () => get().activeSize,
-	selectQuantity: qty => {
+	setSelectedQuantity: qty => {
 		set(state => ({...state, selectedQuantity: qty}))
 	},
 	getSelectedQuantity: () => get().selectedQuantity,
