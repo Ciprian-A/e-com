@@ -9,7 +9,8 @@ type ItemsType = {
 
 type ItemActions = {
 	setItems: (item: Footwear | Clothing) => void
-	setBackendProducts: (products: (Footwear | Clothing)[]) => void
+	setBackendProducts: (products: ProductType[]) => void
+	updateFavouriteProduct: (productId: string) => void
 }
 
 export type ItemSlice = ItemsType & ItemActions
@@ -33,5 +34,11 @@ export const createItemSlice: StateCreator<
 			return {items: [...(items ?? [])]}
 		}),
 	setBackendProducts: products =>
-		set(() => ({backendProducts: [...(products ?? [])]}))
+		set(() => ({backendProducts: [...(products ?? [])]})),
+	updateFavouriteProduct: productId =>
+		set(state => ({
+			backendProducts: state.backendProducts.map(p =>
+				p._id === productId ? {...p, favourite: !p.favourite} : p
+			)
+		}))
 })
