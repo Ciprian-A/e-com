@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react'
 import {SignInButton, useAuth, useUser} from '@clerk/nextjs'
 import {Button} from './ui/button'
 import useStore from '@/app/(store)/store'
-// import {useRouter} from 'next/navigation'
 import Loader from './Loader'
 import {
 	createCheckoutSession,
