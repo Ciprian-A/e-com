@@ -1,7 +1,7 @@
 import {StateCreator} from 'zustand'
 import {Clothing, Footwear} from '../../../../sanity.types'
 type ItemType = (Footwear | Clothing) & {size: string}
-type ProductType = Omit<ItemType, 'size'>
+export type ProductType = Omit<ItemType, 'size'>
 type ItemsType = {
 	items: ItemType[]
 	backendProducts: ProductType[]
@@ -10,17 +10,16 @@ type ItemsType = {
 type ItemActions = {
 	setItems: (item: Footwear | Clothing) => void
 	setBackendProducts: (products: ProductType[]) => void
+	getBackendProductsFromStore: () => ProductType[]
 	updateFavouriteProduct: (productId: string) => void
 }
 
 export type ItemSlice = ItemsType & ItemActions
 
-export const createItemSlice: StateCreator<
-	ItemSlice,
-	[],
-	[],
-	ItemSlice
-> = set => ({
+export const createItemSlice: StateCreator<ItemSlice, [], [], ItemSlice> = (
+	set,
+	get
+) => ({
 	items: [],
 	backendProducts: [],
 	setItems: product =>
@@ -35,6 +34,7 @@ export const createItemSlice: StateCreator<
 		}),
 	setBackendProducts: products =>
 		set(() => ({backendProducts: [...(products ?? [])]})),
+	getBackendProductsFromStore: () => get().backendProducts,
 	updateFavouriteProduct: productId =>
 		set(state => ({
 			backendProducts: state.backendProducts.map(p =>

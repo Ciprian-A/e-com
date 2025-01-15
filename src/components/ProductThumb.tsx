@@ -1,11 +1,12 @@
 import React from 'react'
-import {Clothing, Footwear} from '../../sanity.types'
+// import {Clothing, Footwear} from '../../sanity.types'
 import Link from 'next/link'
 import Image from 'next/image'
 import {imageUrl} from '@/lib/imageUrl'
 import {HeartIcon, HeartFilledIcon} from '@sanity/icons'
+import {ProductType} from '@/app/(store)/store/itemsSlice'
 
-const ProductThumb = ({product}: {product: Clothing | Footwear}) => {
+const ProductThumb = ({product}: {product: ProductType}) => {
 	const isOutOfStock = !product?.sizesAndStock?.some(p => (p?.stock ?? 0) > 0)
 	const isFavourite = product.favourite
 	const preventRedirect = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
