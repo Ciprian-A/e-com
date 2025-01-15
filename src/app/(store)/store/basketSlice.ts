@@ -1,7 +1,7 @@
 import {StateCreator} from 'zustand'
 import {Clothing, Footwear} from '../../../../sanity.types'
 
-type BasketItem = {
+export type BasketItem = {
 	product: (Footwear | Clothing) & {size: string}
 	quantity: number
 }

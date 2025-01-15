@@ -1,6 +1,6 @@
 'use server'
 
-import {BasketItem} from '@/app/(store)/store'
+import {BasketItem} from '@/app/(store)/store/basketSlice'
 import {imageUrl} from '@/lib/imageUrl'
 import stripe from '@/lib/stripe'
 
