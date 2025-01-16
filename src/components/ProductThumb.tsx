@@ -5,13 +5,17 @@ import Image from 'next/image'
 import {imageUrl} from '@/lib/imageUrl'
 import {HeartIcon, HeartFilledIcon} from '@sanity/icons'
 import {ProductType} from '@/app/(store)/store/itemsSlice'
-
+import useStore from '@/app/(store)/store'
+import {updateFavourites} from '@/sanity/lib/client'
 const ProductThumb = ({product}: {product: ProductType}) => {
+	const {updateFavouriteProduct} = useStore()
 	const isOutOfStock = !product?.sizesAndStock?.some(p => (p?.stock ?? 0) > 0)
 	const isFavourite = product.favourite
 	const preventRedirect = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
 		e.preventDefault()
 		e.stopPropagation()
+		updateFavouriteProduct(product._id)
+		updateFavourites(product._id, !product.favourite)
 	}
 	return (
 		<Link
