@@ -1,5 +1,5 @@
 import React from 'react'
-// import {Clothing, Footwear} from '../../sanity.types'
+
 import Link from 'next/link'
 import Image from 'next/image'
 import {imageUrl} from '@/lib/imageUrl'
