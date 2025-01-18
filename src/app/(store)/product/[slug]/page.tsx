@@ -24,7 +24,7 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 	if (!product) {
 		return notFound()
 	}
-	// const isOutOfStock = !product?.sizesAndStock?.some(p => (p?.stock ?? 0) > 0)
+
 	return (
 		<div className='container mx-auto px-4 py-8'>
 			<div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
