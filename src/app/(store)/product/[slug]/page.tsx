@@ -58,19 +58,6 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 							</div>
 						</div>
 						<BuyBox product={product} />
-						{/* <div className='w-[35%] flex flex-col space-y-3 border rounded-md p-3'>
-							<p>£ {product?.price}</p>
-							<p
-								className={`text-xl font-semibold ${isOutOfStock ? 'text-red-500' : 'text-green-600'}`}>
-								{isOutOfStock ? 'Out of stock' : 'In stock'}
-							</p>
-							<QuantitySelector qty={10} />
-							<BuyItNow />
-							<AddToBasket product={product} />
-							<AddToFavouritesButton />
-						</div> */}
-					</div>
-					<div>
 						<Separator className='my-4' />
 						<div className='prose max-w-none mb-6'>
 							{Array.isArray(product.description) && (
