@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
 			console.log('Order created in Sanity:', order)
 		} catch (error) {
 			console.log('Error creating order in Sanity:', error)
-			return NextResponse.json({error: 'Error crating order'}, {status: 500})
+			return NextResponse.json({error: 'Error creating order'}, {status: 500})
 		}
 	}
 	return NextResponse.json({received: true}, {status: 201})
