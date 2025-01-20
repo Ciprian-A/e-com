@@ -9,9 +9,6 @@ interface ProductsViewProps {
 }
 
 const ProductsView = ({products}: ProductsViewProps) => {
-	// const {getAllProducts} = useBasketStore()
-	// getAllProducts(products)
-	// console.log({objects: products})
 	return (
 		<div className='flex flex-col'>
 			<div className='flex-1'>
