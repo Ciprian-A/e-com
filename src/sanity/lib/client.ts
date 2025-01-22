@@ -16,6 +16,5 @@ export const client = createClient({
 })
 export async function updateFavourites(_id: string, favourite: boolean) {
 	const data = await backendClient.patch(_id).set({favourite}).commit()
-	console.log('updateFavourites data: ', data)
 	return data
 }
