@@ -1,7 +1,7 @@
 import {getActiveSaleByCuponCode} from '@/sanity/lib/sales/getActiveSaleByCuponCode'
 
 const PromoBanner = async () => {
-	const sale = await getActiveSaleByCuponCode('BFRIDAY40')
+	const sale = await getActiveSaleByCuponCode('PROMO25')
 	if (!sale?.isActive) {
 		return null
 	}
