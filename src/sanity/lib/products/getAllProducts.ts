@@ -3,7 +3,9 @@ import {sanityFetch} from '../live'
 
 export const getAllProducts = async () => {
 	const ALL_PRODUCTS_QUERY = defineQuery(`
-    *[] | order(name asc)
+    *[
+    _type in [ 'clothing', 'footwear']
+    ] | order(name asc)
     `)
 
 	try {
