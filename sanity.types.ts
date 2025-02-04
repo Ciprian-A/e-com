@@ -758,8 +758,17 @@ export type ALL_FAVOURITE_PRODUCTS_QUERYResult = Array<{
 
 // Source: ./src/sanity/lib/products/getAllProducts.ts
 // Variable: ALL_PRODUCTS_QUERY
-// Query: *[    _type in [ 'clothing', 'footwear']    ] | order(name asc)
+// Query: *[] | order(name asc)
 export type ALL_PRODUCTS_QUERYResult = Array<{
+  _id: string;
+  _type: "category";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  description?: string;
+} | {
   _id: string;
   _type: "clothing";
   _createdAt: string;
@@ -919,6 +928,93 @@ export type ALL_PRODUCTS_QUERYResult = Array<{
     _key: string;
     [internalGroqTypeReferenceTo]?: "category";
   }>;
+} | {
+  _id: string;
+  _type: "order";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  orderNumber?: string;
+  stripeCheckoutSessionId?: string;
+  stripeCustomerId?: string;
+  clerkUserId?: string;
+  customerName?: string;
+  email?: string;
+  stripePaymentIntentId?: string;
+  products?: Array<{
+    product?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "clothing";
+    } | {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "footwear";
+    };
+    quantity?: number;
+    _key: string;
+  }>;
+  totalPrice?: number;
+  currrency?: string;
+  amountDiscount?: number;
+  status?: "cancelled" | "delivered" | "paid" | "pending" | "shipped";
+  orderDate?: string;
+} | {
+  _id: string;
+  _type: "sale";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  tilte?: string;
+  description?: string;
+  discountAmount?: number;
+  couponCode?: string;
+  validFrom?: string;
+  validUntil?: string;
+  isActive?: boolean;
+} | {
+  _id: string;
+  _type: "sanity.fileAsset";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  originalFilename?: string;
+  label?: string;
+  title?: string;
+  description?: string;
+  altText?: string;
+  sha1hash?: string;
+  extension?: string;
+  mimeType?: string;
+  size?: number;
+  assetId?: string;
+  uploadId?: string;
+  path?: string;
+  url?: string;
+  source?: SanityAssetSourceData;
+} | {
+  _id: string;
+  _type: "sanity.imageAsset";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  originalFilename?: string;
+  label?: string;
+  title?: string;
+  description?: string;
+  altText?: string;
+  sha1hash?: string;
+  extension?: string;
+  mimeType?: string;
+  size?: number;
+  assetId?: string;
+  uploadId?: string;
+  path?: string;
+  url?: string;
+  metadata?: SanityImageMetadata;
+  source?: SanityAssetSourceData;
 }>;
 
 // Source: ./src/sanity/lib/products/getProductBySlug.ts
@@ -1441,7 +1537,7 @@ declare module "@sanity/client" {
     "\n\t\t\t*[_type == \"order\" && clerkUserId == $userId] | order(orderDate desc) {\n\t\t\t...,\n\t\t\tproducts[]{\n\t\t\t\t...,\n\t\t\t\tproduct->\n\t\t\t\t}\n\t\t\t}\n    ": MY_ORDERS_QUERYResult;
     "\n    *[\n    _type == \"category\"\n    ] | order(name asc)\n     ": ALL_CATEGORIES_QUERYResult;
     "\n    *[\n    _type in [ 'clothing', 'footwear'] && favourite == true\n    ] | order(name asc)\n    ": ALL_FAVOURITE_PRODUCTS_QUERYResult;
-    "\n    *[\n    _type in [ 'clothing', 'footwear']\n    ] | order(name asc)\n    ": ALL_PRODUCTS_QUERYResult;
+    "\n    *[] | order(name asc)\n    ": ALL_PRODUCTS_QUERYResult;
     "\n      *[\n        _type in [ 'clothing', 'footwear']\n        && slug.current == $slug   \n      ] | order(name asc) [0]\n    ": PRODUCT_BY_ID_QUERYResult;
     "\n    *[\n      _type in ['clothing', 'footwear']\n      && references(*[_type == 'category' && slug.current == $categorySlug]._id)\n    ] | order(name asc)\n    ": PRODUCTS_BY_CATEGORY_QUERYResult;
     "\n    *[\n      _type in [ 'clothing', 'footwear']\n      && name match $searchParam\n    ] | order(name asc)\n    ": PRODUCT_SEARCH_QUERYResult;
