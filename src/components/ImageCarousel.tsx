@@ -37,15 +37,13 @@ const ImageCarousel = ({product}: {product: Footwear | Clothing}) => {
 					<CarouselItem
 						key={image._key}
 						className='flex w-full justify-center items-center'>
-						<div className=''>
-							<Image
-								src={imageUrl(image).url()}
-								alt={product.name ?? ''}
-								width={550}
-								height={550}
-								className='object-contain '
-							/>
-						</div>
+						<Image
+							src={imageUrl(image).url()}
+							alt={product.name ?? ''}
+							width={550}
+							height={550}
+							className='object-contain'
+						/>
 					</CarouselItem>
 				))}
 			</CarouselContent>

@@ -28,7 +28,7 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 	return (
 		<div className='container mx-auto px-4 py-8'>
 			<div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-				<div className='aspect-[4/3] overflow-hidden rounded-lg'>
+				<div className='aspect-[4/3] overflow-hidden'>
 					{product.image && <ImageCarousel product={product} />}
 				</div>
 				<div className='flex flex-col w-full'>
