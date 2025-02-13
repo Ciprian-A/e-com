@@ -58,14 +58,14 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 							</div>
 						</div>
 						<BuyBox product={product} />
-						<Separator className='my-4' />
-						<div className='prose max-w-none mb-6'>
-							{Array.isArray(product.description) && (
-								<PortableText value={product.description} />
-							)}
-						</div>
-						<Separator className='my-4' />
 					</div>
+					<Separator className='my-4' />
+					<div className='prose mb-6'>
+						{Array.isArray(product.description) && (
+							<PortableText value={product.description} />
+						)}
+					</div>
+					<Separator className='my-4' />
 				</div>
 			</div>
 		</div>
