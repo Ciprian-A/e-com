@@ -37,8 +37,8 @@ const BuyBox = ({product}: BuyBoxProps) => {
 							{isOutOfStock ? 'Out of stock' : 'In stock'}
 						</p>
 						{!isOutOfStock && (
-							<p className='text-sm text-gray-500'>
-								Estimated delivery in 3-5 working days.
+							<p className='text-sm text-gray-500 mt-2'>
+								The delivery is estimated to take 3-5 working days.
 							</p>
 						)}
 					</div>

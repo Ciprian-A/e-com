@@ -48,10 +48,8 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 							<div className='mt-8 w-full'>
 								<p>Product details</p>
 								{product?.productDetails?.map(p => (
-									<div
-										key={p._key}
-										className='flex w-full justify-between space-x-8 '>
-										<p className='font-bold w-[50%]'>{p.detail}</p>
+									<div key={p._key} className='flex w-full space-x-8'>
+										<p className='font-bold w-[30%]'>{p.detail}</p>
 										<p className='text-left w-[50%]'>{p.value}</p>
 									</div>
 								))}
