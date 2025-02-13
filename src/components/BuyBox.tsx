@@ -20,7 +20,7 @@ const BuyBox = ({product}: BuyBoxProps) => {
 		p => p.size === activeSize
 	)
 	return (
-		<div className='w-[35%] flex flex-col  border rounded-md p-3 h-full'>
+		<div className='w-[35%] flex flex-col  border rounded-md p-3 max-h-max'>
 			{!activeSize ? (
 				<>
 					<p className='text-base'>
