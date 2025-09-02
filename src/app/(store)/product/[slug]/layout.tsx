@@ -1,5 +1,6 @@
-import {getProductBySlug} from '@/sanity/lib/products/getProductBySlug'
-import type {Metadata} from 'next'
+import { getProductBySlug } from '@/sanity/lib/products/getProductBySlug'
+import type { Metadata } from 'next'
+import { Suspense } from 'react'
 
 export async function generateMetadata({
 	params
@@ -20,5 +21,5 @@ export default async function ProductLayout({
 }: Readonly<{
 	children: React.ReactNode
 }>) {
-	return <>{children}</>
+	return <Suspense>{children}</Suspense>
 }
