@@ -1,10 +1,11 @@
-import {UserInfo} from './UserInfo'
-import {Basket} from './Basket'
-import {Search} from './Search'
-import Logo from './Logo'
-import {getAllCategories} from '@/sanity/lib/products/getAllCategories'
-import CategorySelector from './ui/category-selector'
+import { getAllCategories } from '@/sanity/lib/products/getAllCategories'
+import { Basket } from './Basket'
+import { ClientOnly } from './ClientOnly'
 import Favourites from './Favourites'
+import Logo from './Logo'
+import { Search } from './Search'
+import CategorySelector from './ui/category-selector'
+import { UserInfo } from './UserInfo'
 
 const Header = async () => {
 	const categories = await getAllCategories()
@@ -22,7 +23,9 @@ const Header = async () => {
 				<Favourites />
 				<div className='flex items-center space-x-4 mt-4 sm:mt-0 flex-1 sm:flex-none'>
 					<Basket />
-					<UserInfo />
+					<ClientOnly>
+						<UserInfo />
+					</ClientOnly>
 				</div>{' '}
 			</div>
 			{/** visible for screen size md lower */}
@@ -32,7 +35,9 @@ const Header = async () => {
 					<div className='flex space-x-4'>
 						<Favourites />
 						<Basket />
-						<UserInfo />
+						<ClientOnly>
+							<UserInfo />
+						</ClientOnly>
 					</div>
 				</div>
 				<div className='flex items-center w-full h-[40px] space-x-4'>

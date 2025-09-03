@@ -1,6 +1,6 @@
 'use client'
 
-import {ClerkLoaded, SignedIn, SignUpButton, useUser} from '@clerk/nextjs'
+import { ClerkLoaded, SignedIn, SignUpButton, useUser } from '@clerk/nextjs'
 
 import User from './User'
 
