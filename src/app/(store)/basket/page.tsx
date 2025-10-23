@@ -5,7 +5,7 @@ import Loader from '@/components/Loader'
 import { imageUrl } from '@/lib/imageUrl'
 import { SignInButton, useAuth, useUser } from '@clerk/nextjs'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import {
 	createCheckoutSession,
@@ -21,7 +21,6 @@ function BasketPage() {
 
 	const {isSignedIn} = useAuth()
 	const {user} = useUser()
-	const router = useRouter()
 
 	const [isClient, setIsClient] = useState(false)
 	const [isLoading, setIsloading] = useState(false)
@@ -70,9 +69,7 @@ console.log({groupedItems});
 						<div
 							key={`${item._id}-${item.size}`}
 							className='mb-4 p-4 border rounded flex items-center justify-between'>
-							<div
-								className='flex items-center cursor-pointer flex-1 min-w-0'
-								onClick={() => router.push(`/product/${item.slug?.current}`)}>
+							<div className='flex items-center flex-1 min-w-0'>
 								<div className='w-20 h-20 sm:w-h-24 flex-shrink-0 mr-4'>
 									{item.image && (
 										<Image
@@ -85,10 +82,13 @@ console.log({groupedItems});
 									)}
 								</div>
 								<div className='flex flex-col md:flex-row justify-between w-full  space-y-2'>
-									<div className=' space-y-2'>
-										<h2 className='text-lg sm:text-xl font-semibold truncate text-wrap'>
+									<div className=' space-y-3'>
+										<Link href={`/product/${item.slug?.current}`} className=''>
+										<h2
+											className='text-lg sm:text-xl font-semibold truncate text-wrap hover:underline'>
 											{item.name}
 										</h2>
+										</Link>
 										<p className='text-sm font-semibold'>
 											<span className='font-bold'>Size:</span> {item.size} UK
 										</p>
