@@ -21,18 +21,18 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 	}
 	return (
 		<div className='container mx-auto px-4 py-8'>
-			<div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+			<div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
 				<div className='aspect-[4/3] overflow-hidden'>
 					{product.image && <ImageCarousel product={product} />}
 				</div>
 				<div className='flex flex-col w-full'>
-					<div className=' flex flex-row space-x-8'>
-						<div className='w-[65%]'>
+					<div className=' flex flex-col lg:flex-row space-x-8'>
+						<div className='w-full lg:w-[65%]'>
 							<h1 className='text-3xl font-bold mb-4'>{product.name}</h1>
 							<div className='text-3xl font-bold mb-4'>
 								£{product.price?.toFixed(2)}
 							</div>
-							<Separator className='my-4' />
+							<Separator className='my-4 w-full' />
 							<div>
 								<p className='text-base mb-2'>
 									Size<span className='text-red-500'>*</span>
