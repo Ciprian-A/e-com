@@ -17,6 +17,8 @@ function BasketPage() {
 	const groupedItems = useStore(state => state.getGroupedItems()).filter(
 		item => item.quantity > 0
 	)
+		const {removeItem, clearBasket} = useStore()
+
 	const {isSignedIn} = useAuth()
 	const {user} = useUser()
 	const router = useRouter()
@@ -70,9 +72,7 @@ console.log({groupedItems});
 							className='mb-4 p-4 border rounded flex items-center justify-between'>
 							<div
 								className='flex items-center cursor-pointer flex-1 min-w-0'
-								onClick={() =>
-									router.push(`/product/${item.slug?.current}`)
-								}>
+								onClick={() => router.push(`/product/${item.slug?.current}`)}>
 								<div className='w-20 h-20 sm:w-h-24 flex-shrink-0 mr-4'>
 									{item.image && (
 										<Image
@@ -84,24 +84,28 @@ console.log({groupedItems});
 										/>
 									)}
 								</div>
-								<div className='min-w-0'>
-									<h2 className='text-lg sm:text-xl font-semibold truncate'>
-										{item.name}
-									</h2>
-									<p className='text-sm'>Size: {item.size} UK</p>
-									<p className='text-sm'>
-										Price: £
+								<div className='flex flex-col md:flex-row justify-between w-full  space-y-2'>
+									<div className=' space-y-2'>
+										<h2 className='text-lg sm:text-xl font-semibold truncate text-wrap'>
+											{item.name}
+										</h2>
+										<p className='text-sm font-semibold'>
+											<span className='font-bold'>Size:</span> {item.size} UK
+										</p>
+										<div className='flex items-center flex-shrink-0'>
+											<IncrementAndDecrementButton
+												productId={item._id}
+												disabled={item.quantity === 0}
+											/>
+										</div>
+									</div>
+									<p className='text-xl font-bold '>
+										£
 										{item.price &&
 											item.quantity &&
 											(item.price * item.quantity).toFixed(2)}
 									</p>
 								</div>
-							</div>
-							<div className='flex items-center ml-4 flex-shrink-0'>
-								<IncrementAndDecrementButton
-									productId={item._id}
-									disabled={item.quantity === 0}
-								/>
 							</div>
 						</div>
 					))}
