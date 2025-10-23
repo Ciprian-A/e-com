@@ -11,40 +11,26 @@ const Header = async () => {
 	const categories = await getAllCategories()
 	return (
 		<header className='border-b-2 '>
-			{/** visible for screen size md and higher */}
-			<div className='hidden md:flex w-full flex-wrap justify-between items-center space-x-4 px-4 py-2'>
-				<Logo />
-				<div className='flex flex-1 flex-wrap space-x-4 justify-between items-center'>
-					<div className='w-full  sm:w-[200px]'>
+			<div className='grid grid-cols-3 grid-rows-3 items-center space-y-0.5 p-2 md:flex  md:w-full md:flex-wrap  md:items-center lg:space-x-4 lg:px-4 lg:py-2'>
+				<div className='grid row-start-1 row-end-1 col-start-1 col-end-2 md:flex md:flex-row'>
+					<Logo />
+				</div>
+				<div className='grid row-start-2 col-start-1 col-span-3  h-[40px] md:flex md:flex-row md:flex-1'>
+					<div className='w-full sm:w-[200px] justify-start'>
 						<CategorySelector categories={categories} />
 					</div>
-					<Search />
+					<div className='w-full'>
+						<Search />
+					</div>
 				</div>
-				<Favourites />
-				<div className='flex items-center space-x-4 mt-4 sm:mt-0 flex-1 sm:flex-none'>
-					<Basket />
-					<ClientOnly>
-						<UserInfo />
-					</ClientOnly>
-				</div>{' '}
-			</div>
-			{/** visible for screen size md lower */}
-			<div className=' flex-column px-4 py-3 space-y-4 md:hidden '>
-				<div className='flex flex-row justify-between items-center'>
-					<Logo />
-					<div className='flex space-x-4'>
+				<div className='grid row-start-1 row-end-1 col-start-2 col-span-full lg:flex items-center justify-end'>
+					<div className='flex '>
 						<Favourites />
 						<Basket />
 						<ClientOnly>
 							<UserInfo />
 						</ClientOnly>
 					</div>
-				</div>
-				<div className='flex items-center w-full h-[40px] space-x-4'>
-					<div className='sm:w-[200px]'>
-						<CategorySelector categories={categories} />
-					</div>
-					<Search />
 				</div>
 			</div>
 		</header>

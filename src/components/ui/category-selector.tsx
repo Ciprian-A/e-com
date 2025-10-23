@@ -1,19 +1,19 @@
 'use client'
-import {useRouter} from 'next/navigation'
-import {Category} from '../../../sanity.types'
-import {useState} from 'react'
-import {ChevronsUpDown, Check} from 'lucide-react'
-import {cn} from '@/lib/utils'
-import {Button} from '@/components/ui/button'
+import { Button } from '@/components/ui/button'
 import {
 	Command,
 	CommandEmpty,
 	CommandGroup,
+	CommandInput,
 	CommandItem,
-	CommandList,
-	CommandInput
+	CommandList
 } from '@/components/ui/command'
-import {Popover, PopoverContent, PopoverTrigger} from '@/components/ui/popover'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { cn } from '@/lib/utils'
+import { Check, ChevronsUpDown } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { Category } from '../../../sanity.types'
 
 interface CategorySelectorProps {
 	categories: Category[]
@@ -30,7 +30,7 @@ const CategorySelector = ({categories}: CategorySelectorProps) => {
 					variant='outline'
 					role='combobox'
 					aria-expanded={open}
-					className='w-full max-w-full relative flex justify-center sm:justify-start sm:flex-none items-center space-x-2 text-black  font-base py-2 px-4 rounded hover:bg-gray-200 border-none shadow-none'>
+					className='w-full max-w-full relative flex justify-start sm:flex-none items-center space-x-2 text-black  font-base py-2 px-4 rounded hover:bg-gray-200 border-none shadow-none'>
 					{value
 						? categories &&
 							categories.find(category => category._id === value)?.title
