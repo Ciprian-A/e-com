@@ -1,15 +1,10 @@
-import SizeSelector from '@/components/SizeSelector'
-import {Separator} from '@/components/ui/separator'
-import {getProductBySlug} from '@/sanity/lib/products/getProductBySlug'
-import {PortableText} from 'next-sanity'
-import {notFound} from 'next/navigation'
-import React from 'react'
-// import BuyItNow from '@/components/BuyItNow'
-// import AddToBasket from '@/components/AddToBasket'
-// import AddToFavouritesButton from '@/components/AddToFavouritesButton'
-import ImageCarousel from '@/components/ImageCarousel'
-// import QuantitySelector from '@/components/QuantitySelector'
 import BuyBox from '@/components/BuyBox'
+import ImageCarousel from '@/components/ImageCarousel'
+import SizeSelector from '@/components/SizeSelector'
+import { Separator } from '@/components/ui/separator'
+import { getProductBySlug } from '@/sanity/lib/products/getProductBySlug'
+import { PortableText } from 'next-sanity'
+import { notFound } from 'next/navigation'
 
 export const dynamic = 'force-static'
 export const revalidate = 60 // revaliate at most every 60 seconds
@@ -24,7 +19,6 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 	if (!product) {
 		return notFound()
 	}
-
 	return (
 		<div className='container mx-auto px-4 py-8'>
 			<div className='grid grid-cols-1 md:grid-cols-2 gap-6'>

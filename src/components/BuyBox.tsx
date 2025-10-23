@@ -1,21 +1,20 @@
 'use client'
 
-import React from 'react'
-import AddToBasket from './AddToBasket'
-import {Clothing, Footwear} from '../../sanity.types'
 import useStore from '@/app/(store)/store'
-import QuantitySelector from './QuantitySelector'
-import BuyItNow from './BuyItNow'
+import { Clothing, Footwear } from '../../sanity.types'
+import AddToBasket from './AddToBasket'
 import AddToFavouritesButton from './AddToFavouritesButton'
-import {Separator} from './ui/separator'
+import BuyItNow from './BuyItNow'
+import QuantitySelector from './QuantitySelector'
+import { Separator } from './ui/separator'
 
 interface BuyBoxProps {
 	product: Footwear | Clothing
 }
 const BuyBox = ({product}: BuyBoxProps) => {
-	const {getActiveSize} = useStore()
+	const {getSelectedSize} = useStore()
 	const isOutOfStock = !product?.sizesAndStock?.some(p => (p?.stock ?? 0) > 0)
-	const activeSize = getActiveSize()
+	const activeSize = getSelectedSize(product._id)
 	const availableStock = product?.sizesAndStock?.find(
 		p => p.size === activeSize
 	)
@@ -43,9 +42,16 @@ const BuyBox = ({product}: BuyBoxProps) => {
 						)}
 					</div>
 					<Separator className='my-4' />
-
 					<div className=' space-y-3 '>
-						<QuantitySelector qty={availableStock?.stock ?? 0} />
+						<div>
+							<p className='text-base mb-2'>
+								Quantity<span className='text-red-500'>*</span>
+							</p>
+							<QuantitySelector
+								qty={availableStock?.stock ?? 0}
+								productId={product._id}
+							/>
+						</div>
 						<BuyItNow product={product} />
 						<AddToBasket product={product} />
 						<AddToFavouritesButton />

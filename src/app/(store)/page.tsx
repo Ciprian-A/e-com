@@ -1,7 +1,7 @@
-import PromoBanner from '@/components/PromoBanner'
 import ProductsView from '@/components/ProductsView'
-import {getAllCategories} from '@/sanity/lib/products/getAllCategories'
-import {getAllProducts} from '@/sanity/lib/products/getAllProducts'
+import PromoBanner from '@/components/PromoBanner'
+import { getAllCategories } from '@/sanity/lib/products/getAllCategories'
+import { getAllProducts } from '@/sanity/lib/products/getAllProducts'
 
 export const dynamic = 'force-static'
 export const revalidate = 60 // revaliate at most every 60 seconds

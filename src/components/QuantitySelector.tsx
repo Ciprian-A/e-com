@@ -1,4 +1,4 @@
-import React from 'react'
+import useStore from '@/app/(store)/store'
 import {
 	Select,
 	SelectContent,
@@ -6,29 +6,37 @@ import {
 	SelectTrigger,
 	SelectValue
 } from '@/components/ui/select'
-import useStore from '@/app/(store)/store'
-const QuantitySelector = ({qty}: {qty: number}) => {
+const QuantitySelector = ({
+	qty,
+	productId
+}: {
+	qty: number
+	productId: string
+}) => {
+	
 	const {getSelectedQuantity, setSelectedQuantity} = useStore()
-	const selectedQty = getSelectedQuantity()
 
 	const handleValueChange = (value: string) => {
-		setSelectedQuantity(Number(value))
+		setSelectedQuantity(productId, Number(value))
 	}
+	const selectedQty = getSelectedQuantity(productId)
 	return (
-		<Select
-			value={selectedQty.toString()}
-			onValueChange={value => handleValueChange(value)}>
-			<SelectTrigger className='w-full'>
-				<SelectValue placeholder='Quantity' />
-			</SelectTrigger>
-			<SelectContent>
-				{Array.from({length: qty}, (_, idx) => idx + 1).map(n => (
-					<SelectItem key={n} value={`${n}`}>
-						{n}
-					</SelectItem>
-				))}
-			</SelectContent>
-		</Select>
+		<div>
+			<Select
+				value={`${selectedQty}`}
+				onValueChange={value => handleValueChange(value)}>
+				<SelectTrigger className='w-full'>
+					<SelectValue placeholder='Select quantity' />
+				</SelectTrigger>
+				<SelectContent>
+					{Array.from({length: qty}, (_, idx) => idx + 1).map(n => (
+						<SelectItem key={n} value={`${n}`}>
+							{n}
+						</SelectItem>
+					))}
+				</SelectContent>
+			</Select>
+		</div>
 	)
 }
 

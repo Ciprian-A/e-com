@@ -1,7 +1,7 @@
 'use client'
-import {Button} from './ui/button'
 import useStore from '@/app/(store)/store'
-import {Clothing, Footwear} from '../../sanity.types'
+import { Clothing, Footwear } from '../../sanity.types'
+import { Button } from './ui/button'
 
 interface AddToBasketProps {
 	product: Footwear | Clothing
@@ -11,28 +11,24 @@ interface AddToBasketProps {
 const AddToBasket = ({product, disabled}: AddToBasketProps) => {
 	const {
 		addItemToBasket,
-		getActiveSize,
-		setActiveSize,
+		getSelectedSize,
 		getSelectedQuantity,
-		setSelectedQuantity
 	} = useStore()
-	const items = useStore().items
+	const items = useStore().storeItems
 
 	const handleAddToBasket = (product: Footwear | Clothing) => {
-		const size = getActiveSize()
-		const selectedQty = getSelectedQuantity()
+		const size = getSelectedSize(product._id)
+		const selectedQty = getSelectedQuantity(product._id)
 		if (disabled) {
 			return
 		}
 		const itemToBeAddedToBasket = items.find(
-			i => i._id === `${product._id}-${size}`
+			i => i._id === product._id
 		)
 
 		if (itemToBeAddedToBasket) {
-			addItemToBasket(itemToBeAddedToBasket, selectedQty)
+			addItemToBasket(itemToBeAddedToBasket, size, selectedQty)
 		}
-		setActiveSize('')
-		setSelectedQuantity(1)
 	}
 
 	return (

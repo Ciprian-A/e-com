@@ -1,7 +1,7 @@
 'use server'
 
-import {BasketItem} from '@/app/(store)/store/basketSlice'
-import {imageUrl} from '@/lib/imageUrl'
+import { StoreItem } from '@/app/(store)/store/storeSlice'
+import { imageUrl } from '@/lib/imageUrl'
 import stripe from '@/lib/stripe'
 
 export type Metadata = {
@@ -11,17 +11,12 @@ export type Metadata = {
 	clerkUserId: string
 }
 
-export type GroupedBasketItem = {
-	product: BasketItem['product']
-	quantity: number
-}
-
 export const createCheckoutSession = async (
-	items: GroupedBasketItem[],
+	items: StoreItem[],
 	metadata: Metadata
 ) => {
 	try {
-		const itemsWithoutPrice = items.filter(item => !item.product.price)
+		const itemsWithoutPrice = items.filter(item => !item.price)
 		if (itemsWithoutPrice.length > 0) {
 			throw new Error('Some items do not have a price')
 		}
@@ -54,16 +49,14 @@ export const createCheckoutSession = async (
 			line_items: items.map(item => ({
 				price_data: {
 					currency: 'gbp',
-					unit_amount: Math.round(item.product.price! * 100),
+					unit_amount: Math.round(item.price! * 100),
 					product_data: {
-						name: item.product.name || 'Unnamed Product',
-						description: `Product ID: ${item.product._id}`,
+						name: item.name || 'Unnamed Product',
+						description: `Product ID: ${item._id}`,
 						metadata: {
-							id: item.product._id
+							id: item._id
 						},
-						images: item.product.image
-							? [imageUrl(item.product.image).url()]
-							: undefined
+						images: item.image ? [imageUrl(item.image).url()] : undefined
 					}
 				},
 				quantity: item.quantity

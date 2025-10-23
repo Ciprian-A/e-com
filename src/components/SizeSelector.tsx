@@ -1,4 +1,5 @@
 'use client'
+import useStore from '@/app/(store)/store'
 import {
 	Select,
 	SelectContent,
@@ -6,8 +7,7 @@ import {
 	SelectTrigger,
 	SelectValue
 } from '@/components/ui/select'
-import {Clothing, Footwear} from '../../sanity.types'
-import useStore from '@/app/(store)/store'
+import { Clothing, Footwear } from '../../sanity.types'
 
 interface SizeSelectorProps {
 	product: Clothing | Footwear
@@ -34,20 +34,18 @@ const allFotwearSizes = [
 const allClothingSizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL']
 
 function SizeSelector({product}: SizeSelectorProps) {
-	const {setItems, setActiveSize, getActiveSize} = useStore()
+	const { setSelectedSize, getSelectedSize} = useStore()
 	const availableSizeList = product?.sizesAndStock?.map(p => p.size) as string[]
 	const type = product._type
-	const activeSize = getActiveSize()
+	const selectedSize = getSelectedSize(product._id)
 
 	const handleValueChange = (value: string) => {
-		setItems(product)
-		setActiveSize(value)
+		setSelectedSize(product._id,value)
 	}
-
 	return (
 		<div className=''>
 			<Select
-				value={activeSize}
+				value={selectedSize}
 				onValueChange={value => handleValueChange(value)}>
 				<SelectTrigger className='w-full'>
 					<SelectValue placeholder='Select a size' />

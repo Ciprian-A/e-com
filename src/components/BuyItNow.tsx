@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from 'react'
-import {SignInButton, useAuth, useUser} from '@clerk/nextjs'
-import {Button} from './ui/button'
 import useStore from '@/app/(store)/store'
-import Loader from './Loader'
+import { SignInButton, useAuth, useUser } from '@clerk/nextjs'
+import { useEffect, useState } from 'react'
 import {
 	createCheckoutSession,
 	Metadata
 } from '../../actions/createCheckoutSession'
-import {Clothing, Footwear} from '../../sanity.types'
+import { Clothing, Footwear } from '../../sanity.types'
+import Loader from './Loader'
+import { Button } from './ui/button'
 
 interface BuyItNowProps {
 	product: Footwear | Clothing
@@ -18,19 +18,19 @@ const BuyItNow = ({product}: BuyItNowProps) => {
 	const [isLoading, setIsloading] = useState(false)
 	const {
 		addItemToBasket,
-		getActiveSize,
-		setActiveSize,
+		getSelectedSize,
+		setSelectedSize,
 		getSelectedQuantity,
 		setSelectedQuantity,
 		getGroupedItems
 	} = useStore()
 
-	const items = useStore().items
+	const items = useStore().storeItems
 	const {isSignedIn} = useAuth()
 	const {user} = useUser()
 
-	const size = getActiveSize()
-	const selectedQty = getSelectedQuantity()
+	const size = getSelectedSize(product._id)
+	const selectedQty = getSelectedQuantity(product._id)
 	useEffect(() => {
 		setIsClient(true)
 	}, [])
@@ -43,19 +43,14 @@ const BuyItNow = ({product}: BuyItNowProps) => {
 		if (!isSignedIn) return
 		setIsloading(true)
 		const itemToBeAddedToBasket = items.find(
-			i => i._id === `${product._id}-${size}`
+			i => i._id === `${product._id}`
 		)
-		if (itemToBeAddedToBasket) {
-			addItemToBasket(itemToBeAddedToBasket, selectedQty)
-		}
 
-		setActiveSize('')
-		setSelectedQuantity(1)
 		try {
 			const groupedItems = getGroupedItems().filter(item => item.quantity > 0)
 
-			if (itemToBeAddedToBasket) {
-				addItemToBasket(itemToBeAddedToBasket, selectedQty)
+			if (itemToBeAddedToBasket && size !==undefined ) {
+				addItemToBasket(itemToBeAddedToBasket, size, selectedQty)
 			}
 			const metadata: Metadata = {
 				orderNumber: crypto.randomUUID(),
@@ -66,6 +61,8 @@ const BuyItNow = ({product}: BuyItNowProps) => {
 			const checkoutUrl = await createCheckoutSession(groupedItems, metadata)
 			if (checkoutUrl) {
 				window.location.href = checkoutUrl
+				setSelectedSize(product._id, '')
+				setSelectedQuantity(product._id, 1)
 			}
 		} catch (error) {
 			console.error('Error creating checkout session:', error)
