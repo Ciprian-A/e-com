@@ -22,7 +22,7 @@ const BuyBox = ({product}: BuyBoxProps) => {
 		<div className='w-full lg:w-[35%] flex flex-col border rounded-md p-3 mt-4 lg:mt-0 max-h-max'>
 			{!activeSize ? (
 				<>
-					<p className='text-base'>
+					<p className='text-base mb-1'>
 						To buy, select <span className='font-bold'>Size</span>
 					</p>
 					<AddToBasket product={product} disabled />
