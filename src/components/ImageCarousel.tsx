@@ -8,12 +8,12 @@ import {
 	CarouselPrevious,
 	type CarouselApi
 } from '@/components/ui/carousel'
+import { imageUrl } from '@/lib/imageUrl'
+import { updateFavourites } from '@/sanity/lib/client'
+import { HeartFilledIcon, HeartIcon } from '@sanity/icons'
 import Image from 'next/image'
-import {HeartIcon, HeartFilledIcon} from '@sanity/icons'
-import {imageUrl} from '@/lib/imageUrl'
-import {useEffect, useState} from 'react'
-import {Footwear, Clothing} from '../../sanity.types'
-import {updateFavourites} from '@/sanity/lib/client'
+import { useEffect, useState } from 'react'
+import { Clothing, Footwear } from '../../sanity.types'
 
 const ImageCarousel = ({product}: {product: Footwear | Clothing}) => {
 	const [api, setApi] = useState<CarouselApi>()
@@ -59,11 +59,11 @@ const ImageCarousel = ({product}: {product: Footwear | Clothing}) => {
 				/>
 			)}
 			<CarouselPrevious
-				className='absolute top-1/2 left-4 w-14 h-14'
+				className='absolute top-1/2 left-4 w-8 h-8 md:w-14 md:h-14'
 				onClick={() => api?.scrollTo(current - 1)}
 			/>
 			<CarouselNext
-				className='absolute top-1/2 right-4 w-14 h-14'
+				className='absolute top-1/2 right-4 w-8 h-8 md:w-14 md:h-14'
 				onClick={() => api?.scrollTo(current + 1)}
 			/>
 		</Carousel>
