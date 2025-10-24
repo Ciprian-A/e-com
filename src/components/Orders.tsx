@@ -1,5 +1,5 @@
+import { ListIcon } from 'lucide-react'
 import Link from 'next/link'
-import {UlistIcon} from '@sanity/icons'
 
 const Orders = () => {
 	return (
@@ -7,7 +7,7 @@ const Orders = () => {
 			<Link
 				href='/orders'
 				className='flex flex-1 items-center space-x-2 text-black font-base rounded'>
-				<UlistIcon className='w-6 h-6' />
+				<ListIcon className='w-4 h-4' />
 				<div>Orders</div>
 			</Link>
 		</div>

@@ -1,11 +1,10 @@
 import { getAllCategories } from '@/sanity/lib/products/getAllCategories'
 import { Basket } from './Basket'
-import { ClientOnly } from './ClientOnly'
 import Favourites from './Favourites'
 import Logo from './Logo'
 import { Search } from './Search'
 import CategorySelector from './ui/category-selector'
-import { UserInfo } from './UserInfo'
+import User from './User'
 
 const Header = async () => {
 	const categories = await getAllCategories()
@@ -27,9 +26,9 @@ const Header = async () => {
 					<div className='flex'>
 						<Favourites />
 						<Basket />
-						<ClientOnly>
-							<UserInfo />
-						</ClientOnly>
+						{/* <ClientOnly> */}
+							<User />
+						{/* </ClientOnly> */}
 					</div>
 				</div>
 			</div>
