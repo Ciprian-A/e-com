@@ -1,20 +1,21 @@
 import React from 'react'
 
-import Link from 'next/link'
-import Image from 'next/image'
-import {imageUrl} from '@/lib/imageUrl'
-import {HeartIcon, HeartFilledIcon} from '@sanity/icons'
-import {ProductType} from '@/app/(store)/store/itemsSlice'
 import useStore from '@/app/(store)/store'
-import {updateFavourites} from '@/sanity/lib/client'
-const ProductThumb = ({product}: {product: ProductType}) => {
-	const {updateFavouriteProduct} = useStore()
+import { StoreItem } from '@/app/(store)/store/storeSlice'
+import { imageUrl } from '@/lib/imageUrl'
+import { updateFavourites } from '@/sanity/lib/client'
+import { HeartFilledIcon, HeartIcon } from '@sanity/icons'
+import Image from 'next/image'
+import Link from 'next/link'
+const ProductThumb = ({product}: {product: Omit<StoreItem, 'size' | 'quantity'>}) => {
+	console.log({product})
+	const {updateFavouriteItem} = useStore()
 	const isOutOfStock = !product?.sizesAndStock?.some(p => (p?.stock ?? 0) > 0)
 	const isFavourite = product.favourite
 	const preventRedirect = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
 		e.preventDefault()
 		e.stopPropagation()
-		updateFavouriteProduct(product._id)
+		updateFavouriteItem(product._id)
 		updateFavourites(product._id, !product.favourite)
 	}
 	return (
