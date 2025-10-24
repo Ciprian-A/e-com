@@ -3,7 +3,6 @@
 import useStore from '@/app/(store)/store'
 import { Clothing, Footwear } from '../../sanity.types'
 import AddToBasket from './AddToBasket'
-import AddToFavouritesButton from './AddToFavouritesButton'
 import BuyItNow from './BuyItNow'
 import QuantitySelector from './QuantitySelector'
 import { Separator } from './ui/separator'
@@ -30,7 +29,7 @@ const BuyBox = ({product}: BuyBoxProps) => {
 			) : (
 				<div className='h-full flex flex-col justify-between'>
 					<div>
-						<p>£ {product?.price}</p>
+						<p>£{product?.price}</p>
 						<p
 							className={`text-xl font-semibold ${isOutOfStock ? 'text-red-500' : 'text-green-600'}`}>
 							{isOutOfStock ? 'Out of stock' : 'In stock'}
@@ -54,7 +53,6 @@ const BuyBox = ({product}: BuyBoxProps) => {
 						</div>
 						<BuyItNow product={product} />
 						<AddToBasket product={product} />
-						<AddToFavouritesButton />
 					</div>
 				</div>
 			)}
