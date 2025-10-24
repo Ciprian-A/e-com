@@ -7,14 +7,15 @@ import { ClientOnly } from './ClientOnly'
 import ProductThumb from './ProductThumb'
 
 const ProductGrid = ({products}: {products: (Clothing | Footwear)[]}) => {
-	const { setStoreItems} = useStore()
+	const {setStoreItems, getStoreItems} = useStore()
 	useEffect(() => {
 		setStoreItems(products)
 	}, [products, setStoreItems])
+	const items = getStoreItems()
 	return (
 		<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4'>
 			<ClientOnly>
-				{products.map((item) => (
+				{items.map((item) => (
 					<AnimatePresence key={item._id}>
 						<motion.div
 							layout

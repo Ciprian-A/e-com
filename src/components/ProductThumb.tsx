@@ -7,12 +7,13 @@ import { updateFavourites } from '@/sanity/lib/client'
 import { HeartFilledIcon, HeartIcon } from '@sanity/icons'
 import Image from 'next/image'
 import Link from 'next/link'
+
 const ProductThumb = ({product}: {product: Omit<StoreItem, 'size' | 'quantity'>}) => {
-	console.log({product})
 	const {updateFavouriteItem} = useStore()
 	const isOutOfStock = !product?.sizesAndStock?.some(p => (p?.stock ?? 0) > 0)
 	const isFavourite = product.favourite
-	const preventRedirect = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+	
+	const handleFavouriteToggle = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
 		e.preventDefault()
 		e.stopPropagation()
 		updateFavouriteItem(product._id)
@@ -35,12 +36,12 @@ const ProductThumb = ({product}: {product: Omit<StoreItem, 'size' | 'quantity'>}
 						{isFavourite ? (
 							<HeartFilledIcon
 								className='child w-10 h-10 p-1 absolute top-6 right-2 opacity-0 group-hover:top-2 group-hover:right-2 transition-all group-hover:opacity-100 bg-white shadow hover:shadow-md rounded-full text-red-500'
-								onClick={preventRedirect}
+								onClick={handleFavouriteToggle}
 							/>
 						) : (
 							<HeartIcon
 								className='child w-10 h-10 p-1 absolute top-6 right-2 opacity-0 group-hover:top-2 group-hover:right-2 transition-all group-hover:opacity-100 bg-white shadow hover:shadow-md rounded-full'
-								onClick={preventRedirect}
+								onClick={handleFavouriteToggle}
 							/>
 						)}
 					</div>
