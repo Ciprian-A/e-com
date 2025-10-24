@@ -14,7 +14,7 @@ const Header = async () => {
 				<div className='grid row-start-1 row-end-1 col-start-1 col-end-2 md:flex md:flex-row'>
 					<Logo />
 				</div>
-				<div className='grid row-start-2 col-start-1 col-span-3 h-[40px] md:flex md:flex-row md:flex-1'>
+				<div className='grid row-start-2 col-start-1 col-span-3 h-[40px] md:flex md:flex-row md:flex-1 md:space-x-1'>
 					<div className='w-full sm:w-[200px] justify-start'>
 						<CategorySelector categories={categories} />
 					</div>
@@ -26,9 +26,7 @@ const Header = async () => {
 					<div className='flex'>
 						<Favourites />
 						<Basket />
-						{/* <ClientOnly> */}
 							<User />
-						{/* </ClientOnly> */}
 					</div>
 				</div>
 			</div>
