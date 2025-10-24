@@ -33,7 +33,7 @@ const AddToBasket = ({product, disabled}: AddToBasketProps) => {
 
 	return (
 		<Button
-			className={`${disabled ? 'cursor-not-allowed' : ' disabled:bg-gray-900 w-full rounded-md bg-gray-900 text-white text-base border-black border-2 hover:bg-gray-700 hover:scale-[1.01] hover:shadow-[0px_10px_15px_-5px_rgba(0,0,0,0.3)] py-5'}`}
+			className={`${disabled ? 'cursor-not-allowed' : ' disabled:bg-gray-900 w-full rounded-md bg-gray-900 text-white text-base border-black border-2 hover:bg-gray-700 py-5'}`}
 			onClick={() => handleAddToBasket(product)}>
 			Add to basket
 		</Button>

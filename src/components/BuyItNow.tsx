@@ -73,12 +73,12 @@ const BuyItNow = ({product}: BuyItNowProps) => {
 	return isSignedIn ? (
 		<Button
 			onClick={handleBuyItNow}
-			className='w-full rounded-md bg-white text-black text-base border-black border-2 hover:bg-gray-100 hover:scale-[1.01] hover:shadow-[0px_10px_15px_-5px_rgba(0,0,0,0.3)] py-5'>
+			className='w-full rounded-md bg-white text-black text-base border-black border-2 hover:bg-gray-100 py-5'>
 			{isLoading ? 'Processing...' : 'Buy it now'}
 		</Button>
 	) : (
 		<SignInButton mode='modal'>
-			<button className='w-full rounded-md bg-white text-black text-base border-black border-2 hover:bg-gray-100 hover:scale-[1.01] hover:shadow-[0px_10px_15px_-5px_rgba(0,0,0,0.3)] py-2'>
+			<button className='w-full rounded-md bg-white text-black text-base border-black border-2 hover:bg-gray-100 py-2'>
 				Buy it now
 			</button>
 		</SignInButton>
