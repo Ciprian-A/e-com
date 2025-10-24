@@ -28,14 +28,14 @@ const IncrementAndDecrementButton = ({
 		<div className='flex items-center justify-center space-x-2 border-2 rounded-full'>
 			<button
 				onClick={() => decrementItemCount(productId)}
-				className={`w-8 h-8 flex font-bold items-center justify-center transition-colors duration-200 rounded-full ${itemCount === 0 ? ' cursor-not-allowed' : ' hover:bg-gray-300'}`}
+				className={`w-8 h-8 flex font-bold items-center justify-center transition-colors duration-200 rounded-full hover:cursor-pointer hover:bg-gray-200 ${itemCount === 0 ? ' cursor-not-allowed' : ''}`}
 				disabled={itemCount === 0 || disabled}>
 				<RemoveIcon className='w-6 h-6' />
 			</button>
 			<span className='w-8 text-center font-semibold'>{itemCount}</span>
 			<button
 				onClick={() => incrementItemCount(productId)}
-				className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200 ${disabled ? 'cursor-not-allowed' : 'hover:bg-gray-300'}`}
+				className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200 hover:cursor-pointer hover:bg-gray-200 ${disabled ? 'cursor-not-allowed' : ''}`}
 				disabled={disabled}>
 				<AddIcon className='w-6 h-6' />
 			</button>

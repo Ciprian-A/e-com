@@ -6,6 +6,7 @@ import { imageUrl } from '@/lib/imageUrl'
 import { SignInButton, useAuth, useUser } from '@clerk/nextjs'
 import Image from 'next/image'
 import Link from 'next/link'
+
 import { useEffect, useState } from 'react'
 import {
 	createCheckoutSession,
@@ -63,6 +64,11 @@ console.log({groupedItems});
 	return (
 		<div className='container mx-auto p-4 max-w-6xl'>
 			<h1 className='text-2xl font-bold mb-4'>Your Basket</h1>
+			<button
+				onClick={clearBasket}
+				className='mb-4 text-sm text-gray-600 hover:underline hover:cursor-pointer'>
+				Clear Basket
+			</button>
 			<div className='flex flex-col lg:flex-row gap-8'>
 				<div className='flex-grow'>
 					{groupedItems?.map(item => (
@@ -84,19 +90,25 @@ console.log({groupedItems});
 								<div className='flex flex-col md:flex-row justify-between w-full  space-y-2'>
 									<div className=' space-y-3'>
 										<Link href={`/product/${item.slug?.current}`} className=''>
-										<h2
-											className='text-lg sm:text-xl font-semibold truncate text-wrap hover:underline'>
-											{item.name}
-										</h2>
+											<h2 className='text-lg sm:text-xl font-semibold truncate text-wrap hover:underline'>
+												{item.name}
+											</h2>
 										</Link>
 										<p className='text-sm font-semibold'>
 											<span className='font-bold'>Size:</span> {item.size} UK
 										</p>
-										<div className='flex items-center flex-shrink-0'>
+										<div className='flex items-center flex-shrink-0 space-x-4'>
 											<IncrementAndDecrementButton
 												productId={item._id}
 												disabled={item.quantity === 0}
 											/>
+											<button
+												onClick={() => removeItem(item._id)}
+												className='flex space-x-2 hover:cursor-pointer hover:underline decoration-red-500'>
+												<span className='hidden md:block text-red-500'>
+													Remove
+												</span>
+											</button>
 										</div>
 									</div>
 									<p className='text-xl font-bold '>
