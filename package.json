@@ -19,7 +19,6 @@
 		"@radix-ui/react-separator": "^1.1.7",
 		"@radix-ui/react-slot": "^1.2.3",
 		"@radix-ui/react-tooltip": "^1.2.8",
-		"@sanity/icons": "^3.7.4",
 		"@sanity/image-url": "^1.2.0",
 		"@sanity/vision": "^4.6.1",
 		"@tailwindcss/postcss": "^4.1.12",

@@ -4,7 +4,8 @@ import useStore from '@/app/(store)/store'
 import { StoreItem } from '@/app/(store)/store/storeSlice'
 import { imageUrl } from '@/lib/imageUrl'
 import { updateFavourites } from '@/sanity/lib/client'
-import { HeartFilledIcon, HeartIcon } from '@sanity/icons'
+import { Heart } from 'lucide-react'
+
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -33,17 +34,7 @@ const ProductThumb = ({product}: {product: Omit<StoreItem, 'size' | 'quantity'>}
 							fill
 							sizes='(max-width: 768px 100vw, (max-width: 1200px) 50vw, 33vw'
 						/>
-						{isFavourite ? (
-							<HeartFilledIcon
-								className='child w-10 h-10 p-1 absolute top-6 right-2 opacity-0 group-hover:top-2 group-hover:right-2 transition-all group-hover:opacity-100 bg-white shadow hover:shadow-md rounded-full text-red-500'
-								onClick={handleFavouriteToggle}
-							/>
-						) : (
-							<HeartIcon
-								className='child w-10 h-10 p-1 absolute top-6 right-2 opacity-0 group-hover:top-2 group-hover:right-2 transition-all group-hover:opacity-100 bg-white shadow hover:shadow-md rounded-full'
-								onClick={handleFavouriteToggle}
-							/>
-						)}
+						<Heart className={`child w-10 h-10 p-1 absolute top-6 right-2 opacity-0 group-hover:top-2 group-hover:right-2 transition-all group-hover:opacity-100 bg-white shadow hover:shadow-md rounded-full ${isFavourite ? 'text-red-500 fill-current' : ''}`} onClick={handleFavouriteToggle} />
 					</div>
 				)}
 			</div>

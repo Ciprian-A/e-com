@@ -11,7 +11,8 @@ import {
 } from '@/components/ui/carousel'
 import { imageUrl } from '@/lib/imageUrl'
 import { updateFavourites } from '@/sanity/lib/client'
-import { HeartFilledIcon, HeartIcon } from '@sanity/icons'
+import { Heart } from 'lucide-react'
+
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { Clothing, Footwear } from '../../sanity.types'
@@ -57,17 +58,10 @@ const ImageCarousel = ({product}: {product: Footwear | Clothing}) => {
 					</CarouselItem>
 				))}
 			</CarouselContent>
-			{isFavourite ? (
-				<HeartFilledIcon
-					className='w-14 h-14 p-2 absolute top-2 right-2 bg-white shadow hover:shadow-lg rounded-full cursor-pointer focus:outline-none text-red-500'
-					onClick={handleFavouriteToggle}
-				/>
-			) : (
-				<HeartIcon
-					className='w-14 h-14 p-2 absolute top-2 right-2 bg-white shadow hover:shadow-lg rounded-full cursor-pointer focus:outline-none'
-					onClick={handleFavouriteToggle}
-				/>
-			)}
+			<Heart
+				className={` w-14 h-14 p-2 absolute top-2 right-4 bg-white shadow hover:shadow-lg rounded-full cursor-pointer focus:outline-none ${isFavourite ? 'text-red-500 fill-current' : ''}`}
+				onClick={handleFavouriteToggle}
+			/>
 			<CarouselPrevious
 				className='absolute top-1/2 left-4 w-8 h-8 md:w-14 md:h-14'
 				onClick={() => api?.scrollTo(current - 1)}
