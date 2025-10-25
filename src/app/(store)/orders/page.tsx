@@ -1,15 +1,16 @@
-import {formatCurrency} from '@/lib/formatCurrency'
-import {imageUrl} from '@/lib/imageUrl'
-import {getMyOrders} from '@/sanity/lib/orders/getMyOrders'
-import {auth} from '@clerk/nextjs/server'
+import { formatCurrency } from '@/lib/formatCurrency'
+import { imageUrl } from '@/lib/imageUrl'
+import { getMyOrders } from '@/sanity/lib/orders/getMyOrders'
+import { auth } from '@clerk/nextjs/server'
 import Image from 'next/image'
-import {redirect} from 'next/navigation'
+import { redirect } from 'next/navigation'
 async function Orders() {
 	const {userId} = await auth()
 	if (!userId) {
 		return redirect('/')
 	}
 	const orders = await getMyOrders(userId)
+	console.log({orders});
 	return (
 		<div className='flex flex-col items-center min-h-screen bg-gray-50 p-4'>
 			<div className='bg-white p-4 sm:p-8 reounded-xl shadow-lg w-full max-w-4xl'>

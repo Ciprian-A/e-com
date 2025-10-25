@@ -1,7 +1,8 @@
-import {defineQuery} from 'next-sanity'
-import {sanityFetch} from '../live'
+import { defineQuery } from 'next-sanity'
+import { PRODUCT_SEARCH_QUERYResult } from '../../../../sanity.types'
+import { sanityFetch } from '../live'
 
-export const searchProductsByName = async (searchParam: string) => {
+export const searchProductsByName = async (searchParam: string):Promise<PRODUCT_SEARCH_QUERYResult> => {
 	const PRODUCT_SEARCH_QUERY = defineQuery(`
     *[
       _type in [ 'clothing', 'footwear']

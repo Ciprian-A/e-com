@@ -1,11 +1,11 @@
+import { DisableDraftMode } from '@/components/DisableDraftMode'
 import Header from '@/components/Header'
-import {ClerkProvider} from '@clerk/nextjs'
-import type {Metadata} from 'next'
+import { SanityLive } from '@/sanity/lib/live'
+import { ClerkProvider } from '@clerk/nextjs'
+import type { Metadata } from 'next'
+import { VisualEditing } from 'next-sanity/visual-editing'
+import { draftMode } from 'next/headers'
 import '../globals.css'
-import {SanityLive} from '@/sanity/lib/live'
-import {VisualEditing} from 'next-sanity'
-import {draftMode} from 'next/headers'
-import {DisableDraftMode} from '@/components/DisableDraftMode'
 
 export const metadata: Metadata = {
 	title: 'Shoppy - Home',

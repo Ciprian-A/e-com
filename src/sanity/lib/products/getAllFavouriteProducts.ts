@@ -1,7 +1,8 @@
-import {defineQuery} from 'next-sanity'
-import {sanityFetch} from '../live'
+import { defineQuery } from 'next-sanity'
+import { ALL_FAVOURITE_PRODUCTS_QUERYResult } from '../../../../sanity.types'
+import { sanityFetch } from '../live'
 
-export const getAllFavouriteProducts = async () => {
+export const getAllFavouriteProducts = async (): Promise<ALL_FAVOURITE_PRODUCTS_QUERYResult> => {
 	const ALL_FAVOURITE_PRODUCTS_QUERY = defineQuery(`
     *[
     _type in [ 'clothing', 'footwear'] && favourite == true

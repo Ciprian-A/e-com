@@ -1,7 +1,8 @@
-import {defineQuery} from 'next-sanity'
-import {sanityFetch} from '../live'
+import { defineQuery } from 'next-sanity'
+import { ALL_CATEGORIES_QUERYResult } from '../../../../sanity.types'
+import { sanityFetch } from '../live'
 
-export const getAllCategories = async () => {
+export const getAllCategories = async (): Promise<ALL_CATEGORIES_QUERYResult> => {
 	const ALL_CATEGORIES_QUERY = defineQuery(`
     *[
     _type == "category"

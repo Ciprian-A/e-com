@@ -1,7 +1,8 @@
-import {defineQuery} from 'next-sanity'
-import {sanityFetch} from '../live'
+import { defineQuery } from 'next-sanity'
+import { MY_ORDERS_QUERYResult } from '../../../../sanity.types'
+import { sanityFetch } from '../live'
 
-export async function getMyOrders(userId: string) {
+export async function getMyOrders(userId: string): Promise<MY_ORDERS_QUERYResult> {
 	if (!userId) {
 		throw new Error('User ID is required')
 	}
