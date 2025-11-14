@@ -237,6 +237,43 @@
                 },
                 "optional": true
               },
+              "sizeAndQuantity": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "array",
+                  "of": {
+                    "type": "object",
+                    "attributes": {
+                      "size": {
+                        "type": "objectAttribute",
+                        "value": {
+                          "type": "string"
+                        },
+                        "optional": true
+                      },
+                      "quantity": {
+                        "type": "objectAttribute",
+                        "value": {
+                          "type": "number"
+                        },
+                        "optional": true
+                      }
+                    },
+                    "rest": {
+                      "type": "object",
+                      "attributes": {
+                        "_key": {
+                          "type": "objectAttribute",
+                          "value": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "optional": true
+              },
               "quantity": {
                 "type": "objectAttribute",
                 "value": {
@@ -260,6 +297,13 @@
         },
         "optional": true
       },
+      "quantity": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "number"
+        },
+        "optional": true
+      },
       "totalPrice": {
         "type": "objectAttribute",
         "value": {
@@ -267,7 +311,7 @@
         },
         "optional": true
       },
-      "currrency": {
+      "currency": {
         "type": "objectAttribute",
         "value": {
           "type": "string"

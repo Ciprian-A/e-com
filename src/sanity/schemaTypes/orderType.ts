@@ -1,5 +1,5 @@
-import {BasketIcon} from '@sanity/icons'
-import {defineArrayMember, defineField, defineType} from 'sanity'
+import { BasketIcon } from '@sanity/icons'
+import { defineArrayMember, defineField, defineType } from 'sanity'
 
 export const orderType = defineType({
 	name: 'order',
@@ -51,7 +51,7 @@ export const orderType = defineType({
 		}),
 		defineField({
 			name: 'products',
-			title: 'Products',
+			title: 'Products Purchased',
 			type: 'array',
 			of: [
 				defineArrayMember({
@@ -64,6 +64,39 @@ export const orderType = defineType({
 							to: [{type: 'footwear'}, {type: 'clothing'}]
 						}),
 						defineField({
+							name: 'sizeAndQuantity',
+							title: 'Size and Quantity Purchased',
+							type: 'array',
+							of: [
+								defineArrayMember({
+									type: 'object',
+									fields: [
+										defineField({
+											name: 'size',
+											title: 'Size',
+											type: 'string'
+										}),
+										defineField({
+											name: 'quantity',
+											title: 'Quantity',
+											type: 'number'
+										})
+									],
+									preview:{
+										select:{
+											size: 'size',
+											quantity: 'quantity'
+										},
+										prepare(selection) {
+											return {
+												title: `${selection.size} x ${selection.quantity}`
+											}
+										}
+									}
+								})
+							]
+						}),
+						defineField({
 							name: 'quantity',
 							title: 'Quantity Purchased',
 							type: 'number'
@@ -72,15 +105,23 @@ export const orderType = defineType({
 					preview: {
 						select: {
 							product: 'product.name',
-							quantity: 'quantity',
+							quantity: 'sizeAndQuantity',
 							image: 'product.image',
 							price: 'product.price',
 							currency: 'product.currency'
 						},
 						prepare(select) {
+							const quantity =
+								select.quantity || []
+									? select.quantity.reduce(
+											(acc: number, item: {quantity: number}) =>
+												acc + item.quantity,
+											0
+										)
+									: 0
 							return {
-								title: `${select.product} x ${select.quantity}`,
-								subtitle: `${select.price} * ${select.quantity}`,
+								title: `${select.product} x ${quantity}`,
+								subtitle: `£${select.price} * ${quantity}`,
 								media: select.image
 							}
 						}
@@ -89,13 +130,18 @@ export const orderType = defineType({
 			]
 		}),
 		defineField({
+			name: 'quantity',
+			title: 'Quantity',
+			type: 'number'
+		}),
+		defineField({
 			name: 'totalPrice',
 			title: 'Total Price',
 			type: 'number',
 			validation: Rule => Rule.required().min(0)
 		}),
 		defineField({
-			name: 'currrency',
+			name: 'currency',
 			title: 'Currency',
 			type: 'string',
 			validation: Rule => Rule.required()
@@ -139,7 +185,7 @@ export const orderType = defineType({
 			const orderIdSnippet = `${select.orderId.slice(0, 5)}...${select.orderId.slice(-5)}`
 			return {
 				title: `${select.name} (${orderIdSnippet})`,
-				subtitle: `${select.amount} ${select.currency}, ${select.email}`,
+				subtitle: `${select.currency}${select.amount}, ${select.email}`,
 				media: BasketIcon
 			}
 		}

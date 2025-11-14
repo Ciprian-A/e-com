@@ -31,12 +31,11 @@ export const createCheckoutSession = async (
 		}
 		const baseUrl =
 			process.env.NODE_ENV === 'production'
-				? `https://${process.env.VERCEL_URL}`
-				: `${process.env.NEXT_PUBLIC_BASE_URL}`
+				? `${process.env.NEXT_PUBLIC_PROD_URL}`
+				: `${process.env.NEXT_PUBLIC_DEV_URL}`
 
 		const successUrl = `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}&orderNumber=${metadata.orderNumber}`
-		const cancelUrl = `${baseUrl}/basket`
-
+		const cancelUrl = `${baseUrl}/basket`		
 		const session = await stripe.checkout.sessions.create({
 			customer: customerId,
 			customer_creation: customerId ? undefined : 'always',
@@ -54,7 +53,8 @@ export const createCheckoutSession = async (
 						name: item.name || 'Unnamed Product',
 						description: `Product ID: ${item._id}`,
 						metadata: {
-							id: item._id
+							id: item._id,
+							size: item.size
 						},
 						images: item.image ? [imageUrl(item.image).url()] : undefined
 					}

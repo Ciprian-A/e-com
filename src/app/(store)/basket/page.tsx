@@ -18,7 +18,7 @@ function BasketPage() {
 	const groupedItems = useStore(state => state.getGroupedItems()).filter(
 		item => item.quantity > 0
 	)
-		const {removeItem, clearBasket} = useStore()
+	const {removeItem, clearBasket} = useStore()
 
 	const {isSignedIn} = useAuth()
 	const {user} = useUser()
@@ -32,7 +32,6 @@ function BasketPage() {
 	if (!isClient) {
 		return <Loader />
 	}
-console.log({groupedItems});
 	if (groupedItems.length === 0) {
 		return (
 			<div className='container mx-auto p-4 flex flex-col items-center justify-center min-h-[50vh]'>
@@ -51,7 +50,13 @@ console.log({groupedItems});
 				customerEmail: user?.emailAddresses[0].emailAddress ?? 'Unknown',
 				clerkUserId: user!.id
 			}
-			const checkoutUrl = await createCheckoutSession(groupedItems, metadata)
+			const mappedItems = groupedItems.map(item => ({
+				...item,
+				
+				_id: item._id.split('-').slice(0,-1).join('-') // Remove size suffix for product ID
+			}))
+			console.log({mappedItems});
+			const checkoutUrl = await createCheckoutSession(mappedItems, metadata)
 			if (checkoutUrl) {
 				window.location.href = checkoutUrl
 			}

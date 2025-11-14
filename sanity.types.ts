@@ -53,11 +53,17 @@ export type Order = {
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "clothing";
     };
+    sizeAndQuantity?: Array<{
+      size?: string;
+      quantity?: number;
+      _key: string;
+    }>;
     quantity?: number;
     _key: string;
   }>;
+  quantity?: number;
   totalPrice?: number;
-  currrency?: string;
+  currency?: string;
   amountDiscount?: number;
   status?: "pending" | "paid" | "shipped" | "delivered" | "cancelled";
   orderDate?: string;
@@ -580,11 +586,17 @@ export type MY_ORDERS_QUERYResult = Array<{
         [internalGroqTypeReferenceTo]?: "category";
       }>;
     } | null;
+    sizeAndQuantity?: Array<{
+      size?: string;
+      quantity?: number;
+      _key: string;
+    }>;
     quantity?: number;
     _key: string;
   }> | null;
+  quantity?: number;
   totalPrice?: number;
-  currrency?: string;
+  currency?: string;
   amountDiscount?: number;
   status?: "cancelled" | "delivered" | "paid" | "pending" | "shipped";
   orderDate?: string;

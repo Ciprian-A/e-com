@@ -10,7 +10,6 @@ async function Orders() {
 		return redirect('/')
 	}
 	const orders = await getMyOrders(userId)
-	console.log({orders});
 	return (
 		<div className='flex flex-col items-center min-h-screen bg-gray-50 p-4'>
 			<div className='bg-white p-4 sm:p-8 reounded-xl shadow-lg w-full max-w-4xl'>
@@ -58,7 +57,7 @@ async function Orders() {
 										<div className='sm:text-right'>
 											<p className='text-sm text-gray-600 mb-1'>Total Amount</p>
 											<p className='font-bold text-lg'>
-												{formatCurrency(order.totalPrice ?? 0, order.currrency)}
+												{formatCurrency(order.totalPrice ?? 0, order.currency)}
 											</p>
 										</div>
 									</div>
@@ -68,7 +67,7 @@ async function Orders() {
 												Discount Applied:{' '}
 												{formatCurrency(
 													order.totalPrice ?? 0 + order.amountDiscount,
-													order.currrency
+													order.currency
 												)}
 											</p>
 										</div>
@@ -81,7 +80,7 @@ async function Orders() {
 									<div className='space-y-3 sm:space-y-4'>
 										{order.products?.map(product => (
 											<div
-												key={product.product?._id}
+												key={product.product?._id + crypto.randomUUID().slice(0,5)}
 												className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 py-2 border-b last:border-b-0'>
 												<div className='flex items-center gap-3 sm:gap-4'>
 													{product.product?.image && (
@@ -99,15 +98,31 @@ async function Orders() {
 															{product.product?.name}
 														</p>
 														<p className='text-sm text-gray-600'>
-															Quantity: {product.quantity ?? 'N/A'}
+															Quantity:{' '}
+															{(product?.sizeAndQuantity?.reduce(
+																(acc, item) => acc + (item.quantity ?? 0),
+																0
+															) ||
+																0) ??
+																'N/A'}
+														</p>
+														<p className='text-sm text-gray-600'>
+															Size:{' '}
+															{(product?.sizeAndQuantity?.map(item => item.size).join(', '
+															) ) ??
+																'N/A'}
 														</p>
 													</div>
 												</div>
 												<p className='font-medium text-right'>
-													{product.product?.price && product.quantity
+													{product.product?.price && product.sizeAndQuantity
 														? formatCurrency(
-																product.product?.price * product.quantity,
-																order.currrency
+																product.product?.price *
+																	(product.sizeAndQuantity.reduce(
+																		(acc, item) => acc + (item.quantity ?? 0),
+																		0
+																	) || 0),
+																order.currency
 															)
 														: 'N/A'}
 												</p>

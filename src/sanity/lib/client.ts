@@ -1,6 +1,6 @@
-import {createClient} from 'next-sanity'
-import {backendClient} from './backendClient'
-import {apiVersion, dataset, projectId} from '../env'
+import { createClient } from 'next-sanity'
+import { apiVersion, dataset, projectId } from '../env'
+import { backendClient } from './backendClient'
 
 export const client = createClient({
 	projectId,
@@ -10,8 +10,8 @@ export const client = createClient({
 	stega: {
 		studioUrl:
 			process.env.NODE_ENV === 'production'
-				? `https://${process.env.VERCEL_URL}/studio`
-				: `https://${process.env.NEXT_PUBLIC_BASE_URL}/studio`
+				? `${process.env.NEXT_PUBLIC_PROD_URL}/studio`
+				: `https://${process.env.NEXT_PUBLIC_DEV_URL}/studio`
 	}
 })
 export async function updateFavourites(_id: string, favourite: boolean) {
