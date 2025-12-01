@@ -54,14 +54,6 @@ const User = () => {
 							<DropdownMenuSeparator />
 							<DropdownMenuGroup>
 								<DropdownMenuItem className='hover:bg-gray-100'>
-									<SignUpButton mode='redirect'>
-										<div className='flex items-center space-x-2'>
-											<LogInIcon className='w-4 h-4 ' />
-											<span>Log In</span>
-										</div>
-									</SignUpButton>
-								</DropdownMenuItem>
-								<DropdownMenuItem className='hover:bg-gray-100'>
 									<Orders />
 								</DropdownMenuItem>
 							</DropdownMenuGroup>
