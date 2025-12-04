@@ -1,0 +1,131 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  
+}
+
+model User {
+  id     String  @id @default(uuid())
+  email  String  @unique
+  name   String
+  orders Order[]
+  favorites Favorite[]
+}
+
+model Item {
+  id             String      @id @default(uuid())
+  name           String
+  slug           String      @unique
+  description    String
+  price          Float
+  productDetails Json
+  favourites     Favorite[]
+  categories     Category[]  @relation("ItemCategories")
+  imageUrl       String
+  imageGallery   String[]
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  orders         Order[]
+  orderItems     OrderItem[]
+  variants       Variant[]
+}
+
+model Variant {
+  id        String   @id @default(uuid())
+  item      Item     @relation(fields: [itemId], references: [id])
+  itemId    String
+  size      String
+  stock     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Favorite {
+  id        String @id @default(uuid())
+  user      User   @relation(fields: [userId], references: [id])
+  userId    String
+  item      Item   @relation(fields: [itemId], references: [id])
+  itemId    String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, itemId])
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String
+  items     Item[]   @relation("ItemCategories")
+  itemId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model OrderItem {
+  id        String @id @default(uuid())
+  order     Order  @relation(fields: [orderId], references: [orderNumber])
+  orderId   String
+  item      Item   @relation(fields: [itemId], references: [id])
+  itemId    String
+  quantity  Int
+  unitPrice Float
+}
+
+model Order {
+  orderNumber             String      @id @default(uuid())
+  stripeCheckoutSessionId String
+  stripeCustomerID        String
+  user                    User        @relation(fields: [storeUserId], references: [id])
+  storeUserId             String
+  customerName            String
+  customerEmail           String
+  stripePaymentIntentId   String
+  orderItems              OrderItem[]
+  sale                    Sale?       @relation(fields: [saleId], references: [id])
+  saleId                  String?
+  totalPrice              Float
+  currency                Currency
+  amountDiscounted        Float       @default(0)
+  orderStatus             OrderStatus @default(PENDING)
+  createdAt               DateTime    @default(now())
+  updatedAt               DateTime    @updatedAt
+  item                    Item?       @relation(fields: [itemId], references: [id])
+  itemId                  String?
+}
+
+model Sale {
+  id             String   @id @default(uuid())
+  name           String
+  description    String
+  discountAmount Float
+  cuponCode      String   @unique
+  isActive       Boolean  @default(false)
+  startDate      DateTime
+  endDate        DateTime
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  orders         Order[]
+}
+
+enum OrderStatus {
+  PENDING
+  COMPLETED
+  CANCELED
+  PAID
+}
+
+enum Currency {
+  USD
+  EUR
+  GBP
+  JPY
+  AUD
+  CAD
+  CHF
+  CNY
+  SEK
+  NZD
+}
