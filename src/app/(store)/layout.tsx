@@ -1,5 +1,6 @@
 import { DisableDraftMode } from '@/components/DisableDraftMode'
 import Header from '@/components/Header'
+import { SidebarProvider } from '@/components/ui/sidebar'
 import { SanityLive } from '@/sanity/lib/live'
 import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata } from 'next'
@@ -29,7 +30,9 @@ export default async function RootLayout({
 					)}
 					<main>
 						<Header />
+						<SidebarProvider>
 						{children}
+						</SidebarProvider>
 					</main>
 					<SanityLive />
 				</body>
