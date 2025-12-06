@@ -1,6 +1,6 @@
 import EditPromoCodeForm from '@/components/EditPromoCodeFrom'
 
-async function PromoCode({params}: {params: Promise<{promoCodeId: string}>}) {
+async function EditPromoCode({params}: {params: Promise<{promoCodeId: string}>}) {
 	const {promoCodeId} = await params
 	console.log({promoCodeId})
 	const promoCode = {
@@ -20,4 +20,4 @@ async function PromoCode({params}: {params: Promise<{promoCodeId: string}>}) {
 	)
 }
 
-export default PromoCode
+export default EditPromoCode

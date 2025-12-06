@@ -17,13 +17,13 @@ export function DatePicker({date:initialDate, id}: {date?: Date, id: string}) {
   }, [initialDate])
 	
 	return (
-		<div className='flex ' id={id}>
+		<div className='flex w-full' id={id}>
 			<Popover open={open} onOpenChange={setOpen}>
 				<PopoverTrigger asChild>
 					<Button
 						variant='outline'
 						id='date'
-						className='justify-between font-normal'>
+						className='w-full font-normal text-left'>
 						{date ? formatDate(date) : 'Select date'}
 						<ChevronDownIcon />
 					</Button>

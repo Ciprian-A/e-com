@@ -1,17 +1,18 @@
 import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow
+	Table,
+	TableBody,
+	TableCaption,
+	TableCell,
+	TableFooter,
+	TableHead,
+	TableHeader,
+	TableRow
 } from '@/components/ui/table'
+import { Plus } from 'lucide-react'
 
 import Link from 'next/link'
 
-async function PromoCodePage() {
+async function PromoCodesPage() {
 	const promoCodes = [
 		{
 			id: 'fc98174d-a40d-4a7e-b5de-d6ce195af5a5',
@@ -29,15 +30,22 @@ async function PromoCodePage() {
 	]
 	console.log({promoCodes})
 	return (
-		<div className='bg-green-400 h-full'>
-			<h1>Promotional Codes</h1>
-			<Table className='bg-blue-400 relative'>
-				<TableCaption>A list of your recent promotional codes.</TableCaption>
+		<div className=' w-full sm:w-2xl md:w-4xl p-5 rounded-lg border h-full'>
+      <div className='flex items-center justify-between mb-4 '>
+			<h1 className='font-bold'>Promotional Codes</h1>
+        <Link href='/admin/promoCodes/new' className='bg-black text-white px-4 py-2 rounded-md' >
+        <Plus className='inline-block mr-2 h-4 w-4' />
+        <span>New </span>
+        <span className='hidden md:inline'>Promo Code</span>
+        </Link>
+      </div>
+			<Table className=' border relative h-full '>
+				<TableCaption>Your recent promotional codes.</TableCaption>
 				<TableHeader>
 					<TableRow>
 						<TableHead className='w-[100px]'>Name</TableHead>
 						<TableHead>Description</TableHead>
-						<TableHead>Discount Amount</TableHead>
+						<TableHead>Discount Amount (%)</TableHead>
 						<TableHead className='text-right'>Status</TableHead>
 					</TableRow>
 				</TableHeader>
@@ -45,7 +53,7 @@ async function PromoCodePage() {
 					{promoCodes.map(promoCode => (
 						<TableRow key={promoCode.id}>
 							<TableCell className='font-medium'>
-								<Link href={`/admin/promoCode/${promoCode.id}/edit`}>
+								<Link href={`/admin/promoCodes/${promoCode.id}/edit`}>
 									{promoCode.name}
 								</Link>
 							</TableCell>
@@ -68,4 +76,4 @@ async function PromoCodePage() {
 	)
 }
 
-export default PromoCodePage
+export default PromoCodesPage

@@ -1,19 +1,3 @@
-// 'use client'
-
-// import BackButton from './BackButton'
-
-// function PromoCodeCard({promoCode }: {promoCode: any}) {
-//   return (
-// 		<div>
-// 			<BackButton />
-// 			{promoCode.name}
-
-// 		</div>
-// 	)
-// }
-
-// export default PromoCodeCard
-
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -36,7 +20,8 @@ import {
 	FieldDescription,
 	FieldError,
 	FieldGroup,
-	FieldLabel, FieldSeparator
+	FieldLabel,
+	FieldSeparator
 } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import {
@@ -72,23 +57,24 @@ const formSchema = z.object({
 type PromoCodeFormType = {
 	formTitle?: string
 	formDescription?: string
-  initialTitle?: string
-  initialDescription?: string
-  initialCuponCode?: string
-  initialDiscountAmount?: number
-  initialIsActive?: boolean
-  initialStartDate?: Date
-  initialEndDate?: Date
+	initialTitle?: string
+	initialDescription?: string
+	initialCuponCode?: string
+	initialDiscountAmount?: number
+	initialIsActive?: boolean
+	initialStartDate?: Date
+	initialEndDate?: Date
 }
-export default function PromoCodeForm( {
-	formTitle,formDescription,
-  initialTitle,
-  initialDescription,
-  initialCuponCode,
-  initialDiscountAmount,
-  initialIsActive,
-  initialStartDate,
-  initialEndDate
+export default function PromoCodeForm({
+	formTitle,
+	formDescription,
+	initialTitle = '',
+	initialDescription = '',
+	initialCuponCode = '',
+	initialDiscountAmount = 0,
+	initialIsActive = false,
+	initialStartDate = undefined,
+	initialEndDate = undefined
 }: PromoCodeFormType) {
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -98,7 +84,7 @@ export default function PromoCodeForm( {
 			cuponCode: initialCuponCode,
 			discountAmount: initialDiscountAmount,
 			isActive: initialIsActive,
-			startDate: initialStartDate ,
+			startDate: initialStartDate,
 			endDate: initialEndDate
 		}
 	})
@@ -119,9 +105,9 @@ export default function PromoCodeForm( {
 			} as React.CSSProperties
 		})
 	}
-console.log({initialDescription})
+	console.log({initialDescription})
 	return (
-		<Card className='w-full sm:max-w-md'>
+		<Card className='w-full sm:w-xl '>
 			<CardHeader>
 				<CardTitle>{formTitle}</CardTitle>
 				<CardDescription>{formDescription}</CardDescription>
@@ -230,7 +216,7 @@ console.log({initialDescription})
 											{...field}
 											id='form-promo-code-description'
 											placeholder='Type promo code description'
-											rows={3}
+											rows={2}
 											className='min-h-24 resize-none'
 											aria-invalid={fieldState.invalid}
 										/>
@@ -250,7 +236,7 @@ console.log({initialDescription})
 								</Field>
 							)}
 						/>
-						<FieldGroup className='flex flex-col sm:flex-row sm:gap-4'>
+						<FieldGroup className='flex flex-col sm:flex-row sm:gap-4 '>
 							<Controller
 								name='startDate'
 								control={form.control}

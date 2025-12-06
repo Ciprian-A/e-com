@@ -6,9 +6,10 @@ export default function AdminLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<div className='flex '>
+		<div className='flex w-full'>
 			<AdminSideBar />
-			<section className='relative'>{children}</section>
+			<section className='mt-3 mb-3 mx-auto '>{children}</section>
 		</div>
 	)
 }
+	
