@@ -32,7 +32,7 @@ async function PromoCodesPage() {
 	const promoCodes =await getPromoCodes()
 	console.log({promoCodes})
 	return (
-		<div className=' w-full sm:w-2xl md:w-4xl p-5 rounded-lg border h-full'>
+		<div className=' w-full  md:w-xl lg:w-2xl p-5 rounded-lg border h-full'>
       <div className='flex items-center justify-between mb-4 '>
 			<h1 className='font-bold'>Promotional Codes</h1>
         <Link href='/admin/promoCodes/new' className='bg-black text-white px-4 py-2 rounded-md' >
