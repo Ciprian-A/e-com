@@ -8,7 +8,7 @@ import {
 	TableHeader,
 	TableRow
 } from '@/components/ui/table'
-import { getPromoCodes } from '@/supabase/lib/promoCodes/getPromoCodes'
+import { getPromoCodes } from '@/lib/promoCodes'
 import { Plus } from 'lucide-react'
 
 import Link from 'next/link'
@@ -45,8 +45,9 @@ async function PromoCodesPage() {
 				<TableCaption>Your recent promotional codes.</TableCaption>
 				<TableHeader>
 					<TableRow>
-						<TableHead className='w-[100px]'>Name</TableHead>
+						<TableHead className='w-[100px]'>Title</TableHead>
 						<TableHead>Description</TableHead>
+						<TableHead>Coupon Code</TableHead>
 						<TableHead>Discount Amount (%)</TableHead>
 						<TableHead className='text-right'>Status</TableHead>
 					</TableRow>
@@ -56,10 +57,11 @@ async function PromoCodesPage() {
 						<TableRow key={promoCode.id}>
 							<TableCell className='font-medium'>
 								<Link href={`/admin/promoCodes/${promoCode.id}/edit`}>
-									{promoCode.name}
+									{promoCode.title}
 								</Link>
 							</TableCell>
 							<TableCell>{promoCode.description}</TableCell>
+							<TableCell>{promoCode.cuponCode}</TableCell>
 							<TableCell>{promoCode.discountAmount}</TableCell>
 							<TableCell className='text-right'>
 								{promoCode.isActive ? 'Active' : 'Inactive'}
@@ -69,7 +71,7 @@ async function PromoCodesPage() {
 				</TableBody>
 				<TableFooter className=''>
 					<TableRow>
-						<TableCell colSpan={3}>Total</TableCell>
+						<TableCell colSpan={4}>Total</TableCell>
 						<TableCell className='text-right'>{promoCodes.length}</TableCell>
 					</TableRow>
 				</TableFooter>

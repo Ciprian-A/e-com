@@ -1,4 +1,7 @@
-import PromoCodeForm from './PromoCodeForm'
+'use client'
+
+import { toast } from 'sonner'
+import PromoCodeForm, { PromoCodeDataType } from './PromoCodeForm'
 
 function EditPromoCodeForm({
 	promoCode
@@ -13,11 +16,28 @@ function EditPromoCodeForm({
 		endDate: Date
 	}
 }) {
+	async function onSubmit(data: PromoCodeDataType) {
+		toast('You submitted the following values:', {
+			description: (
+				<pre className='bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4'>
+					<code>{JSON.stringify(data, null, 2)}</code>
+				</pre>
+			),
+			position: 'bottom-right',
+			classNames: {
+				content: 'flex flex-col gap-2'
+			},
+			style: {
+				'--border-radius': 'calc(var(--radius)  + 4px)'
+			} as React.CSSProperties
+		})
+	}
 	return (
 		<div>
 			<PromoCodeForm
-      formTitle='Edit Promo Code'
-      formDescription='Make changes to your promotional code details below.'
+				onSubmit={onSubmit}
+				formTitle='Edit Promo Code'
+				formDescription='Make changes to your promotional code details below.'
 				initialTitle={promoCode.name}
 				initialDescription={promoCode.description}
 				initialCuponCode={promoCode.cuponCode}

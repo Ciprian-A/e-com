@@ -1,5 +1,5 @@
 import EditPromoCodeForm from '@/components/EditPromoCodeFrom'
-import { getPromoCode } from '@/supabase/lib/promoCodes/getPromoCode'
+import { getPromoCode } from '@/lib/promoCodes/promoCodes'
 
 async function EditPromoCode({params}: {params: Promise<{promoCodeId: string}>}) {
 	const {promoCodeId} = await params

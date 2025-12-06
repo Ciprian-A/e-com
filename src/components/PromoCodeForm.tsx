@@ -1,9 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import * as React from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import * as z from 'zod'
 
 import { Button } from '@/components/ui/button'
@@ -31,9 +29,10 @@ import {
 	InputGroupTextarea
 } from '@/components/ui/input-group'
 import { Switch } from '@/components/ui/switch'
+import { toast } from 'sonner'
 import { DatePicker } from './DatePicker'
 
-const formSchema = z.object({
+export const formSchema = z.object({
 	title: z
 		.string()
 		.min(5, 'Promo code title must be at least 5 characters.')
@@ -46,13 +45,15 @@ const formSchema = z.object({
 		.string()
 		.min(5, 'Cupon code must be at least 5 characters.')
 		.max(32, 'Cupon code must be at most 32 characters.'),
-	discountAmount: z
+	discountAmount: z.coerce
 		.number()
 		.min(1, 'Discount amount must be at least 1.')
 		.max(100, 'Discount amount must be at most 100.'),
 	isActive: z.boolean(),
 	startDate: z.date(),
 	endDate: z.date()
+	// startDate: z.coerce.date(),
+	// endDate: z.coerce.date()
 })
 type PromoCodeFormType = {
 	formTitle?: string
@@ -64,10 +65,18 @@ type PromoCodeFormType = {
 	initialIsActive?: boolean
 	initialStartDate?: Date
 	initialEndDate?: Date
+	onSubmit: (formData: PromoCodeDataType) => Promise<void>
+	onCancel?: () => void
 }
+export type PromoCodeOutputType = z.output<typeof formSchema>
+export type PromoCodeInputType = z.input<typeof formSchema>
+export type PromoCodeDataType = z.infer<typeof formSchema>
+
 export default function PromoCodeForm({
 	formTitle,
 	formDescription,
+	onSubmit,
+	onCancel,
 	initialTitle = '',
 	initialDescription = '',
 	initialCuponCode = '',
@@ -76,7 +85,11 @@ export default function PromoCodeForm({
 	initialStartDate = undefined,
 	initialEndDate = undefined
 }: PromoCodeFormType) {
-	const form = useForm<z.infer<typeof formSchema>>({
+	const form = useForm<
+		PromoCodeInputType,
+		PromoCodeDataType,
+		PromoCodeOutputType
+	>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			title: initialTitle,
@@ -88,24 +101,24 @@ export default function PromoCodeForm({
 			endDate: initialEndDate
 		}
 	})
-
-	function onSubmit(data: z.infer<typeof formSchema>) {
-		toast('You submitted the following values:', {
-			description: (
-				<pre className='bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4'>
-					<code>{JSON.stringify(data, null, 2)}</code>
-				</pre>
-			),
-			position: 'bottom-right',
-			classNames: {
-				content: 'flex flex-col gap-2'
-			},
-			style: {
-				'--border-radius': 'calc(var(--radius)  + 4px)'
-			} as React.CSSProperties
-		})
-	}
-	console.log({initialDescription})
+	const {isSubmitting, errors, defaultValues} = form.formState
+	const titleValue = form.watch('title')
+	const descriptionValue = form.watch('description')
+	const cuponCodeValue = form.watch('cuponCode')
+	const discountAmountValue = form.watch('discountAmount')
+	const isActiveValue = form.watch('isActive')
+	const startDateValue = form.watch('startDate')
+	const endDateValue = form.watch('endDate')
+	console.log({
+		titleValue,
+		descriptionValue,
+		cuponCodeValue,
+		discountAmountValue,
+		isActiveValue,
+		startDateValue,
+		endDateValue
+	})
+	console.log({errors, defaultValues});
 	return (
 		<Card className='w-full sm:w-xl '>
 			<CardHeader>
@@ -114,7 +127,31 @@ export default function PromoCodeForm({
 			</CardHeader>
 			<FieldSeparator className='mb-3' />
 			<CardContent>
-				<form id='form-promo-code' onSubmit={form.handleSubmit(onSubmit)}>
+				<form
+					id='form-promo-code'
+					onSubmit={form.handleSubmit(async (values: PromoCodeDataType) => {
+						toast('You submitted the following values:', {
+							description: (
+								<pre className='bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4'>
+									<code>{JSON.stringify(values, null, 2)}</code>
+								</pre>
+							),
+							position: 'bottom-right',
+							classNames: {
+								content: 'flex flex-col gap-2'
+							},
+							style: {
+								'--border-radius': 'calc(var(--radius)  + 4px)'
+							} as React.CSSProperties
+						})
+						console.log('form.handleSubmit--->>>>', {values})
+						const mappedValues = {
+							...values,
+							discountAmount: Number(values.discountAmount)
+						}
+						console.log({values, mappedValues})
+						await onSubmit(values)
+					})}>
 					<FieldGroup>
 						<Controller
 							name='title'
@@ -162,24 +199,37 @@ export default function PromoCodeForm({
 							<Controller
 								name='discountAmount'
 								control={form.control}
-								render={({field, fieldState}) => (
-									<Field data-invalid={fieldState.invalid} className='w-screen'>
-										<FieldLabel htmlFor='form-promo-code-discountAmount'>
-											Discount Amount (%)
-										</FieldLabel>
-										<Input
-											{...field}
-											type='number'
-											max={100}
-											id='form-promo-code-discountAmount'
-											aria-invalid={fieldState.invalid}
-											placeholder='Type discount amount'
-										/>
-										{fieldState.invalid && (
-											<FieldError errors={[fieldState.error]} />
-										)}
-									</Field>
-								)}
+								render={({field, fieldState}) => {
+									{
+										// console.log('discountAmount', {field, fieldState})
+									}
+
+									return (
+										<Field
+											data-invalid={fieldState.invalid}
+											className='w-screen'>
+											<FieldLabel htmlFor='form-promo-code-discountAmount'>
+												Discount Amount (%)
+											</FieldLabel>
+											<Input
+												{...field}
+												type='number'
+												// max={100}
+												id='form-promo-code-discountAmount'
+												aria-invalid={fieldState.invalid}
+												placeholder='Type discount amount'
+												value={field.value as number}
+												// onChange={e => field.onChange(e.target.value)}
+												// onBlur={field.onBlur}
+												// name={field.name}
+												// ref={field.ref}
+											/>
+											{fieldState.invalid && (
+												<FieldError errors={[fieldState.error]} />
+											)}
+										</Field>
+									)
+								}}
 							/>
 							<Controller
 								name='isActive'
@@ -240,22 +290,28 @@ export default function PromoCodeForm({
 							<Controller
 								name='startDate'
 								control={form.control}
-								render={({field, fieldState}) => (
-									<Field data-invalid={fieldState.invalid}>
-										<FieldLabel htmlFor='form-promo-code-startDate'>
-											Start Date
-										</FieldLabel>
-										<DatePicker
-											{...field}
-											date={field.value}
-											id='form-promo-code-startDate'
-											aria-invalid={fieldState.invalid}
-										/>
-										{fieldState.invalid && (
-											<FieldError errors={[fieldState.error]} />
-										)}
-									</Field>
-								)}
+								render={({field, fieldState}) => {
+									{
+										// console.log('startDate', {field, fieldState})
+									}
+									return (
+										<Field data-invalid={fieldState.invalid}>
+											<FieldLabel htmlFor='form-promo-code-startDate'>
+												Start Date
+											</FieldLabel>
+											<DatePicker
+												{...field}
+												date={field.value as Date | undefined}
+												onDateChange={date => field.onChange(date)}
+												id='form-promo-code-startDate'
+												aria-invalid={fieldState.invalid}
+											/>
+											{fieldState.invalid && (
+												<FieldError errors={[fieldState.error]} />
+											)}
+										</Field>
+									)
+								}}
 							/>
 							<Controller
 								name='endDate'
@@ -267,7 +323,8 @@ export default function PromoCodeForm({
 										</FieldLabel>
 										<DatePicker
 											{...field}
-											date={field.value}
+											date={field.value as Date | undefined}
+											onDateChange={date => field.onChange(date)}
 											id='form-promo-code-endDate'
 											aria-invalid={fieldState.invalid}
 										/>
@@ -287,7 +344,7 @@ export default function PromoCodeForm({
 					<Button type='button' variant='outline' onClick={() => form.reset()}>
 						Cancel
 					</Button>
-					<Button type='submit' form='form-rhf-demo'>
+					<Button type='submit' form='form-promo-code' disabled={isSubmitting}>
 						Submit
 					</Button>
 				</Field>

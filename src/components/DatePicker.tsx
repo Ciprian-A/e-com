@@ -8,14 +8,29 @@ import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { formatDate } from '@/lib/formatDate'
 
-export function DatePicker({date:initialDate, id}: {date?: Date, id: string}) {
+export function DatePicker({
+	date: initialDate,
+	onDateChange,
+	id
+}: {
+	date?: Date
+	id: string
+	onDateChange: (date: Date | undefined) => void
+}) {
 	const [open, setOpen] = useState(false)
 	const [date, setDate] = useState<Date | undefined>(initialDate)
-	
- useEffect(()=> {
-    setDate(initialDate)
-  }, [initialDate])
-	
+
+	useEffect(() => {
+		setDate(initialDate)
+	}, [initialDate])
+	console.log({initialDate, date})
+	const handleSelect = (newDate: Date | undefined) => {
+		setDate(newDate)
+		onDateChange(newDate) // 👈 propagate to RHF
+		setOpen(false)
+		console.log('ónSelect--->date', {date})
+	}
+
 	return (
 		<div className='flex w-full' id={id}>
 			<Popover open={open} onOpenChange={setOpen}>
@@ -32,16 +47,17 @@ export function DatePicker({date:initialDate, id}: {date?: Date, id: string}) {
 					<Calendar
 						mode='single'
 						className='rounded-md border shadow-sm w-full'
-						selected={date}
+						selected={initialDate}
 						defaultMonth={date}
 						captionLayout='label'
-						onSelect={date => {
-							setDate(date)
-							setOpen(false)
-						}}
+						onSelect={handleSelect}
 					/>
 				</PopoverContent>
 			</Popover>
 		</div>
 	)
 }
+
+;('2025-12-31T00:00:00.000Z')
+;('2025-12-31T23:04:05.000Z')
+;('2025-12-25T01:03:41.000Z')

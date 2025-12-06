@@ -82,7 +82,7 @@ CREATE TABLE "Order" (
     "customerName" TEXT NOT NULL,
     "customerEmail" TEXT NOT NULL,
     "stripePaymentIntentId" TEXT NOT NULL,
-    "saleId" TEXT,
+    "promoCodeId" TEXT,
     "totalPrice" DOUBLE PRECISION NOT NULL,
     "currency" "Currency" NOT NULL,
     "amountDiscounted" DOUBLE PRECISION NOT NULL DEFAULT 0,
@@ -95,9 +95,9 @@ CREATE TABLE "Order" (
 );
 
 -- CreateTable
-CREATE TABLE "Sale" (
+CREATE TABLE "PromoCode" (
     "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "discountAmount" DOUBLE PRECISION NOT NULL,
     "cuponCode" TEXT NOT NULL,
@@ -107,7 +107,7 @@ CREATE TABLE "Sale" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "Sale_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "PromoCode_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -128,7 +128,7 @@ CREATE UNIQUE INDEX "Item_slug_key" ON "Item"("slug");
 CREATE UNIQUE INDEX "Favorite_userId_itemId_key" ON "Favorite"("userId", "itemId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Sale_cuponCode_key" ON "Sale"("cuponCode");
+CREATE UNIQUE INDEX "PromoCode_cuponCode_key" ON "PromoCode"("cuponCode");
 
 -- CreateIndex
 CREATE INDEX "_ItemCategories_B_index" ON "_ItemCategories"("B");
@@ -152,7 +152,7 @@ ALTER TABLE "OrderItem" ADD CONSTRAINT "OrderItem_itemId_fkey" FOREIGN KEY ("ite
 ALTER TABLE "Order" ADD CONSTRAINT "Order_storeUserId_fkey" FOREIGN KEY ("storeUserId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Order" ADD CONSTRAINT "Order_saleId_fkey" FOREIGN KEY ("saleId") REFERENCES "Sale"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Order" ADD CONSTRAINT "Order_promoCodeId_fkey" FOREIGN KEY ("promoCodeId") REFERENCES "PromoCode"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Order" ADD CONSTRAINT "Order_itemId_fkey" FOREIGN KEY ("itemId") REFERENCES "Item"("id") ON DELETE SET NULL ON UPDATE CASCADE;

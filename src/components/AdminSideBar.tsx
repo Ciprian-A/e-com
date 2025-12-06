@@ -44,7 +44,6 @@ const items = [
 function AdminSideBar() {
 	const sidebar = useSidebar()
 	const pathname = usePathname()
-	console.log({pathname})
 	return (
 		<>
 			{sidebar.isMobile && <SidebarTrigger />}
