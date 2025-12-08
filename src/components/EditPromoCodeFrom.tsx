@@ -7,7 +7,7 @@ function EditPromoCodeForm({
 	promoCode
 }: {
 	promoCode: {
-		name: string
+		title: string
 		description: string
 		discountAmount: number
 		cuponCode: string
@@ -38,7 +38,7 @@ function EditPromoCodeForm({
 				onSubmit={onSubmit}
 				formTitle='Edit Promo Code'
 				formDescription='Make changes to your promotional code details below.'
-				initialTitle={promoCode.name}
+				initialTitle={promoCode.title}
 				initialDescription={promoCode.description}
 				initialCuponCode={promoCode.cuponCode}
 				initialDiscountAmount={promoCode.discountAmount}
