@@ -1,11 +1,11 @@
 import useStore from '@/app/(store)/store'
 import { SignInButton, useAuth, useUser } from '@clerk/nextjs'
 import { useEffect, useState } from 'react'
+import { Clothing, Footwear } from '../../sanity.types'
 import {
 	createCheckoutSession,
 	Metadata
-} from '../../actions/createCheckoutSession'
-import { Clothing, Footwear } from '../../sanity.types'
+} from '../lib/checkoutSession/actions/createCheckoutSession'
 import Loader from './Loader'
 import { Button } from './ui/button'
 

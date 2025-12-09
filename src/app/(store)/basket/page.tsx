@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
 import {
 	createCheckoutSession,
 	Metadata
-} from '../../../../actions/createCheckoutSession'
+} from '../../../lib/checkoutSession/actions/createCheckoutSession'
 import useStore from '../store'
 
 function BasketPage() {

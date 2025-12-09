@@ -1,12 +1,10 @@
-'use client'
-
-import { createPromoCode } from '@/lib/promoCodes/actions/promoCodes'
+import { createPromoCode } from '@/lib/promoCodes'
 import PromoCodeForm, { PromoCodeDataType } from './PromoCodeForm'
 
 function NewPromoCodeForm() {
 	async function onSubmit(data: PromoCodeDataType) {
-		console.log('NewPromoCodeForm onSubmit-->>>>', {data})
-     await createPromoCode(data)
+    'use server'
+    await createPromoCode(data)  
 	}
 	return (
 		<div>

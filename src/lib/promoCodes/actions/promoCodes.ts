@@ -11,6 +11,10 @@ type PromoCodeData = {
   startDate: Date
   endDate: Date
 }
+
+type UpdatePromoCodeData = PromoCodeData &{
+  id: string
+}
 export const createPromoCode = async (promoCodeData: PromoCodeData) => {
   try {
     
@@ -31,4 +35,16 @@ export const createPromoCode = async (promoCodeData: PromoCodeData) => {
     throw new Error('Failed to create promo code.')
     
   }
+}
+export const updatePromoCode = async (promoCodeData: UpdatePromoCodeData) => {
+	try {
+		const promoCode = await prisma.promoCode.update({
+			where: {id: promoCodeData.id},
+			data: {...promoCodeData}
+		})
+		return promoCode
+	} catch (error) {
+		console.log('Error updating promo code:', error)
+		throw new Error('Failed to update promo code.')
+	}
 }
