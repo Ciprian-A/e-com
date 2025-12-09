@@ -1,10 +1,12 @@
 import { createPromoCode } from '@/lib/promoCodes'
+import { redirect } from 'next/navigation'
 import PromoCodeForm, { PromoCodeDataType } from './PromoCodeForm'
 
 function NewPromoCodeForm() {
 	async function onSubmit(data: PromoCodeDataType) {
     'use server'
-    await createPromoCode(data)  
+    await createPromoCode(data) 
+    redirect('/admin/promoCodes') 
 	}
 	return (
 		<div>

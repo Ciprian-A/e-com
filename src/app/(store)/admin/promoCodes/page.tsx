@@ -29,18 +29,20 @@ async function PromoCodesPage() {
 	// 		updatedAt: '2025-12-05T01:04:22.000Z'
 	// 	}
 	// ]
-	const promoCodes =await getPromoCodes()
-	console.log({promoCodes})
+	const promoCodes = await getPromoCodes()
+
 	return (
 		<div className=' w-full  md:w-xl lg:w-2xl p-5 rounded-lg border h-full'>
-      <div className='flex items-center justify-between mb-4 '>
-			<h1 className='font-bold'>Promotional Codes</h1>
-        <Link href='/admin/promoCodes/new' className='bg-black text-white px-4 py-2 rounded-md' >
-        <Plus className='inline-block mr-2 h-4 w-4' />
-        <span>New </span>
-        <span className='hidden md:inline'>Promo Code</span>
-        </Link>
-      </div>
+			<div className='flex items-center justify-between mb-4 '>
+				<h1 className='font-bold'>Promotional Codes</h1>
+				<Link
+					href='/admin/promoCodes/new'
+					className='bg-black text-white px-4 py-2 rounded-md'>
+					<Plus className='inline-block mr-2 h-4 w-4' />
+					<span>New </span>
+					<span className='hidden md:inline'>Promo Code</span>
+				</Link>
+			</div>
 			<Table className=' border relative h-full '>
 				<TableCaption>Your recent promotional codes.</TableCaption>
 				<TableHeader>

@@ -1,4 +1,5 @@
 import { updatePromoCode } from '@/lib/promoCodes'
+import { redirect } from 'next/navigation'
 import PromoCodeForm, { PromoCodeDataType } from './PromoCodeForm'
 
 function EditPromoCodeForm({
@@ -19,6 +20,7 @@ function EditPromoCodeForm({
 	async function onSubmit( data: PromoCodeDataType) {
 		'use server'
 		await updatePromoCode({ ...data, id: promoCode.id })
+		redirect('/admin/promoCodes')
 	}
 	return (
 		<div>
