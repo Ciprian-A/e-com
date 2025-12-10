@@ -1,10 +1,10 @@
 import { CategoriesTable } from '@/components/categories/CategoriesTable';
-import { getCategries } from '@/lib/categories/categories';
+import { getCategories } from '@/lib/categories/categories';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
 
 async function CategoriesPage() {
-  const categoriesData = await getCategries()
+  const categoriesData = await getCategories()
   const categories = categoriesData.map(cat => ({
 	...cat,
 	description: cat.description ?? undefined
