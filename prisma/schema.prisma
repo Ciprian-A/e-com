@@ -19,7 +19,7 @@ model Item {
   id             String      @id @default(uuid())
   name           String
   slug           String      @unique
-  description    String
+  description    String?
   price          Float
   productDetails Json
   favourites     Favorite[]
@@ -55,12 +55,13 @@ model Favorite {
 }
 
 model Category {
-  id        String   @id @default(uuid())
-  name      String
-  items     Item[]   @relation("ItemCategories")
-  itemId    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  items       Item[]   @relation("ItemCategories")
+  itemId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model OrderItem {
@@ -83,7 +84,7 @@ model Order {
   customerEmail           String
   stripePaymentIntentId   String
   orderItems              OrderItem[]
-  promoCode               PromoCode?       @relation(fields: [promoCodeId], references: [id])
+  promoCode               PromoCode?  @relation(fields: [promoCodeId], references: [id])
   promoCodeId             String?
   totalPrice              Float
   currency                Currency
@@ -98,7 +99,7 @@ model Order {
 model PromoCode {
   id             String   @id @default(uuid())
   title          String
-  description    String
+  description    String?
   discountAmount Float
   cuponCode      String   @unique
   isActive       Boolean  @default(false)

@@ -36,14 +36,26 @@ import { DatePicker } from '../DatePicker'
 export const formSchema = z.object({
 	title: z
 		.string()
+		.regex(
+			/^[a-zA-Z0-9 ]+$/,
+			'Title must contain only letters and numbers. Special characters (e.g., ! @ # $ %) are not permitted.'
+		)
 		.min(5, 'Promo code title must be at least 5 characters.')
 		.max(32, 'Promo code title must be at most 32 characters.'),
 	description: z
 		.string()
-		.min(20, 'Description must be at least 20 characters.')
-		.max(100, 'Description must be at most 100 characters.'),
+		.regex(
+			/^[a-zA-Z0-9 ]+$/,
+			'Description must contain only letters and numbers. Special characters (e.g., ! @ # $ %) are not permitted.'
+		)
+		.max(100, 'Description must be at most 100 characters.')
+		.optional(),
 	cuponCode: z
 		.string()
+		.regex(
+			/^[a-zA-Z0-9 ]+$/,
+			'Cupon Code must contain only letters and numbers. Special characters (e.g., ! @ # $ %) are not permitted.'
+		)
 		.min(5, 'Cupon code must be at least 5 characters.')
 		.max(32, 'Cupon code must be at most 32 characters.'),
 	discountAmount: z.coerce
@@ -226,7 +238,7 @@ export default function PromoCodeForm({
 										/>
 										<InputGroupAddon align='block-end'>
 											<InputGroupText className='tabular-nums'>
-												{field.value.length}/100 characters
+												{field.value?.length}/100 characters
 											</InputGroupText>
 										</InputGroupAddon>
 									</InputGroup>

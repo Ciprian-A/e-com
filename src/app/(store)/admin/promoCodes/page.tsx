@@ -6,6 +6,10 @@ import Link from 'next/link'
 
 async function PromoCodesPage() {	
 	const promoCodes = await getPromoCodes()
+	const transformedPromoCodes = promoCodes.map(code => ({
+		...code,
+		description: code.description ?? undefined
+	}))
 
 	return (
 		<div className=' w-full  md:w-xl lg:w-2xl p-5 rounded-lg border h-full'>
@@ -19,7 +23,7 @@ async function PromoCodesPage() {
 					<span className='hidden md:inline'>Promo Code</span>
 				</Link>
 			</div>
-			<PromoCodesTable promoCodes={promoCodes} />
+			<PromoCodesTable promoCodes={transformedPromoCodes} />
 		</div>
 	)
 }

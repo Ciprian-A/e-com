@@ -14,7 +14,11 @@ async function EditPromoCode({params}: {params: Promise<{promoCodeId: string}>})
 	// 	startDate: new Date('2025-12-25T01:03:41.000Z'),
 	// 	endDate: new Date('2025-12-31T23:04:05.000Z'),
 	// }
-	const promoCode = await getPromoCode(promoCodeId)
+	const promoCodeRaw = await getPromoCode(promoCodeId)
+	const promoCode = {
+		...promoCodeRaw,
+		description: promoCodeRaw.description ?? undefined,
+	}
 	return (
 		<div>
 			<EditPromoCodeForm promoCode={promoCode} />

@@ -8,7 +8,7 @@ function EditPromoCodeForm({
 	promoCode: {
 		id:string
 		title: string
-		description: string
+		description?: string 
 		discountAmount: number
 		cuponCode: string
 		isActive: boolean

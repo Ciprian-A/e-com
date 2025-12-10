@@ -7,7 +7,7 @@ import { prisma } from '../../../../config/db'
 type PromoCodeData = {
 	title: string
 	cuponCode: string
-	description: string
+	description?: string
 	discountAmount: number
 	isActive: boolean
 	startDate: Date
