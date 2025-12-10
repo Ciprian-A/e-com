@@ -2,7 +2,7 @@
 
 import { deletePromoCode } from '@/lib/promoCodes/actions/promoCodes'
 import { useRouter } from 'next/navigation'
-import { GenericTable } from './GenericTable'
+import { GenericTable } from '../GenericTable'
 import { PromoCodesActions } from './PromoCodesActions'
 
 interface PromoCode {

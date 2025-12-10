@@ -31,7 +31,7 @@ import {
 import { Switch } from '@/components/ui/switch'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import { DatePicker } from './DatePicker'
+import { DatePicker } from '../DatePicker'
 
 export const formSchema = z.object({
 	title: z

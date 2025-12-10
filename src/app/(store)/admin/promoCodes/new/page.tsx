@@ -1,4 +1,4 @@
-import NewPromoCodeForm from '@/components/NewPromoCodeForm'
+import NewPromoCodeForm from '@/components/promoCodes/NewPromoCodeForm'
 
 function NewPromoCode() {
   return (

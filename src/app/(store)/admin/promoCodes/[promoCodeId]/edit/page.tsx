@@ -1,4 +1,4 @@
-import EditPromoCodeForm from '@/components/EditPromoCodeFrom'
+import EditPromoCodeForm from '@/components/promoCodes/EditPromoCodeForm'
 import { getPromoCode } from '@/lib/promoCodes/promoCodes'
 
 async function EditPromoCode({params}: {params: Promise<{promoCodeId: string}>}) {

@@ -1,4 +1,4 @@
-import { PromoCodesTable } from '@/components/PromoCodesTable'
+import { PromoCodesTable } from '@/components/promoCodes/PromoCodesTable'
 import { getPromoCodes } from '@/lib/promoCodes'
 import { Plus } from 'lucide-react'
 
