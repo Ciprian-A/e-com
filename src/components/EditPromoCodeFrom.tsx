@@ -1,4 +1,4 @@
-import { updatePromoCode } from '@/lib/promoCodes'
+import { updatePromoCode } from '@/lib/promoCodes/actions/promoCodes'
 import { redirect } from 'next/navigation'
 import PromoCodeForm, { PromoCodeDataType } from './PromoCodeForm'
 
