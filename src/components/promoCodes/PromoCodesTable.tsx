@@ -3,7 +3,7 @@
 import { deletePromoCode } from '@/lib/promoCodes/actions/promoCodes'
 import { useRouter } from 'next/navigation'
 import { GenericTable } from '../GenericTable'
-import { PromoCodesActions } from './PromoCodesActions'
+import { TableActions } from '../TableActions'
 
 interface PromoCode {
 	id: string
@@ -26,11 +26,21 @@ export function PromoCodesTable({promoCodes}: {promoCodes: PromoCode[]}) {
 	const columns = [
 		{
 			header: 'Title',
-			accessor: (row: PromoCode) => row.title,
+			accessor: (row: PromoCode) => row.title
 		},
-		{header: 'Description', accessor: (row: PromoCode) => row.description},
-		{header: 'Coupon Code', accessor: (row: PromoCode) => row.cuponCode},
-		{header: 'Discount (%)', accessor: (row: PromoCode) => row.discountAmount},
+		{
+			header: 'Description',
+			accessor: (row: PromoCode) =>
+				row.description?.trim() ? row.description : 'No description provided.'
+		},
+		{
+			header: 'Coupon Code',
+			accessor: (row: PromoCode) => row.cuponCode
+		},
+		{
+			header: 'Discount (%)',
+			accessor: (row: PromoCode) => row.discountAmount
+		},
 		{
 			header: 'Status',
 			accessor: (row: PromoCode) => (row.isActive ? 'Active' : 'Inactive')
@@ -38,7 +48,9 @@ export function PromoCodesTable({promoCodes}: {promoCodes: PromoCode[]}) {
 	]
 
 	const actions = (row: {id: string}) => (
-		<PromoCodesActions
+		<TableActions
+			dialogTitle='Delete Promo Code'
+			dialogDescription='This action cannot be undone. Are you sure you want to delete this promo code?'
 			onEdit={() => router.push(`/admin/promoCodes/${row.id}/edit`)}
 			onDelete={() => handleDelete(row.id)}
 		/>

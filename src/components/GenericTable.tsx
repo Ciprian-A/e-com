@@ -26,7 +26,7 @@ interface GenericTableProps<T> {
 	columns: TableColumn<T>[]
 	data: T[]
 	tableCaption?: string
-	actions?: (row: T) => React.ReactNode 
+	actions?: (row: T) => React.ReactNode
 	footer?: (data: T[]) => React.ReactNode
 }
 
@@ -36,11 +36,11 @@ export function GenericTable<T extends {id: string}>({
 	tableCaption,
 	actions
 }: GenericTableProps<T>) {
-	console.log({columns,data});
+	console.log({columns, data})
 	return (
 		<Table className='border relative h-full '>
 			<TableCaption>{tableCaption}</TableCaption>
-			<TableHeader>
+			<TableHeader >
 				<TableRow>
 					{columns.map((col, i) => (
 						<TableHead key={i} className='text-bold text-black'>
@@ -48,7 +48,7 @@ export function GenericTable<T extends {id: string}>({
 						</TableHead>
 					))}
 					{actions && (
-						<TableHead className='text-bold text-black'>Actions</TableHead>
+						<TableHead className='text-bold text-black text-right'>Actions</TableHead>
 					)}
 				</TableRow>
 			</TableHeader>
@@ -62,7 +62,9 @@ export function GenericTable<T extends {id: string}>({
 									: String(row[col.accessor])}
 							</TableCell>
 						))}
-						{actions && <TableCell className='text-right'>{actions(row)}</TableCell>}
+						{actions && (
+							<TableCell className='text-right'>{actions(row)}</TableCell>
+						)}
 					</TableRow>
 				))}
 			</TableBody>

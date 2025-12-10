@@ -1,31 +1,35 @@
 'use client'
 
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { EllipsisVertical } from 'lucide-react'
 import { useState } from 'react'
 
-export function PromoCodesActions({
+export function TableActions({
 	onEdit,
-	onDelete
+	onDelete,
+	dialogTitle,
+	dialogDescription
 }: {
 	onEdit: () => void
 	onDelete: () => void
+	dialogTitle?: string
+	dialogDescription?: string
 }) {
 	const [showConfirm, setShowConfirm] = useState(false)
 
@@ -53,9 +57,9 @@ export function PromoCodesActions({
 			<AlertDialog open={showConfirm} onOpenChange={setShowConfirm}>
 				<AlertDialogContent>
 					<AlertDialogHeader>
-						<AlertDialogTitle>Delete Promo Code</AlertDialogTitle>
+						<AlertDialogTitle>{dialogTitle}</AlertDialogTitle>
 						<AlertDialogDescription>
-							This action cannot be undone. Are you sure you want to delete this promo code?
+						{dialogDescription}
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>
