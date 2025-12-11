@@ -13,8 +13,7 @@ export const getCategories = async()=> {
 }
 export const getCategory = async(id:string)=> {
   try {
-    const category = await prisma.category.findUnique({where: {id
-    }})
+    const category = await prisma.category.findUniqueOrThrow({where: {id}})
     return category
   } catch (error) {
     console.log('Error getting category: ', error)
