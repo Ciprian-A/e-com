@@ -42,11 +42,11 @@ export const formSchema = z.object({
 		.max(32, 'Category name must be at most 32 characters.'),
 	description: z
 		.string()
-		.regex(
-			/^[a-zA-Z0-9 ]+$/,
+		.max(100, 'Description must be at most 100 characters.')
+		.refine(
+			val => val === '' || /^[a-zA-Z0-9 ]+$/.test(val),
 			'Description must contain only letters and numbers. Special characters (e.g., ! @ # $ %) are not permitted.'
 		)
-		.max(100, 'Description must be at most 100 characters.')
 		.optional()
 })
 type CategoryFormType = {
