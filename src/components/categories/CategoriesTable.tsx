@@ -1,5 +1,6 @@
 'use client'
 
+import { deleteCategory } from '@/lib/categories/actions/categories'
 import { useRouter } from 'next/navigation'
 import { GenericTable } from '../GenericTable'
 import { TableActions } from '../TableActions'
@@ -15,7 +16,7 @@ interface Category {
 export function CategoriesTable({categories}: {categories: Category[]}) {
 	const router = useRouter()
 	const handleDelete = async (id: string) => {
-		console.log('delete category with id:',id)
+		await deleteCategory(id)
 	}
 	const columns = [
 		{
@@ -24,18 +25,19 @@ export function CategoriesTable({categories}: {categories: Category[]}) {
 		},
 		{
 			header: 'Description',
-			accessor: (row: Category) => row.description?.trim()?row.description: 'No description provided.'
+			accessor: (row: Category) =>
+				row.description?.trim() ? row.description : 'No description provided.'
 		}
 	]
 
 	const actions = (row: {id: string}) => (
-      <TableActions
-        dialogTitle='Delete Category'
-        dialogDescription='This action cannot be undone. Are you sure you want to delete this category?'
-        onEdit={() => router.push(`/admin/categories/${row.id}/edit`)}
-        onDelete={() => handleDelete(row.id)}
-      />
-    )
+		<TableActions
+			dialogTitle='Delete Category'
+			dialogDescription='This action cannot be undone. Are you sure you want to delete this category?'
+			onEdit={() => router.push(`/admin/categories/${row.id}/edit`)}
+			onDelete={() => handleDelete(row.id)}
+		/>
+	)
 
 	return (
 		<GenericTable
