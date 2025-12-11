@@ -1,12 +1,14 @@
+import EditCategoryForm from '@/components/categories/EditCategoryForm';
 import { getCategory } from '@/lib/categories/categories';
 
 async function Category({params}: {params: Promise<{categoryId: string}>}) {
   const {categoryId} = await params;
-	const category = await getCategory(categoryId)
-  console.log({categoryId, category})
+	const categoryRaw = await getCategory(categoryId)
+	const category = {...categoryRaw, description: categoryRaw??undefined}
+  console.log({categoryId, categoryRaw})
   return (
 		<div>
-			 {categoryId}
+			<EditCategoryForm category={category}/>
 		</div>
 	)
 }

@@ -28,7 +28,6 @@ model Item {
   imageGallery   String[]
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
-  orders         Order[]
   orderItems     OrderItem[]
   variants       Variant[]
 }
@@ -59,7 +58,6 @@ model Category {
   name        String
   description String?
   items       Item[]   @relation("ItemCategories")
-  itemId      String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -76,13 +74,13 @@ model OrderItem {
 
 model Order {
   orderNumber             String      @id @default(uuid())
-  stripeCheckoutSessionId String
+  stripeCheckoutSessionId String      @unique
   stripeCustomerID        String
   user                    User        @relation(fields: [storeUserId], references: [id])
   storeUserId             String
   customerName            String
   customerEmail           String
-  stripePaymentIntentId   String
+  stripePaymentIntentId   String      @unique
   orderItems              OrderItem[]
   promoCode               PromoCode?  @relation(fields: [promoCodeId], references: [id])
   promoCodeId             String?
@@ -92,8 +90,6 @@ model Order {
   orderStatus             OrderStatus @default(PENDING)
   createdAt               DateTime    @default(now())
   updatedAt               DateTime    @updatedAt
-  item                    Item?       @relation(fields: [itemId], references: [id])
-  itemId                  String?
 }
 
 model PromoCode {
