@@ -42,7 +42,7 @@ export function TableActions({
 						size='icon'
 						className='h-6 w-6 p-0 hover:cursor-pointer hover:bg-gray-300'>
 						<EllipsisVertical className='h-4 w-4 ' />
-						<span className='sr-only'>Open promo codes options</span>
+						<span className='sr-only'>Open table options</span>
 					</Button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align='end' className='w-28'>
