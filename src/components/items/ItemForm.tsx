@@ -154,6 +154,7 @@ export default function ItemForm({
 	const {
 		fields: variantFields,
 		append: appendVariant,
+		update: updateVariant,
 		remove: removeVariant
 	} = useFieldArray({
 		control: form.control,
@@ -373,69 +374,97 @@ export default function ItemForm({
 							))}
 						</FieldGroup>
 						{/* Variants */}
-						<FieldLabel htmlFor='form-product-variants'>
-							Product Variants
-						</FieldLabel>
-						<FieldGroup>
-							{variantFields.map((field, index) => (
-								<FieldGroup key={field.size}>
-									<Controller
-										name={`variants.${index}.size`}
-										control={form.control}
-										render={({field, fieldState}) => (
-											<Field data-invalid={fieldState.invalid}>
-												<FieldLabel htmlFor='form-variant-size'>
-													Size
-												</FieldLabel>
-												<Input
-													{...field}
-													id='form-variant-size'
-													aria-invalid={fieldState.invalid}
-													placeholder='Type size'
-													autoComplete='off'
-												/>
-												{fieldState.invalid && (
-													<FieldError errors={[fieldState.error]} />
-												)}
-											</Field>
-										)}
-									/>
-									<Controller
-										name={`variants.${index}.stock`}
-										control={form.control}
-										render={({field, fieldState}) => (
-											<Field data-invalid={fieldState.invalid}>
-												<FieldLabel htmlFor='form-variant-stock'>
-													Stock
-												</FieldLabel>
-												<Input
-													{...field}
-													type='number'
-													id='form-variant-stock'
-													aria-invalid={fieldState.invalid}
-													placeholder='Input stock'
-													autoComplete='off'
-													value={field.value as number}
-												/>
-												{fieldState.invalid && (
-													<FieldError errors={[fieldState.error]} />
-												)}
-											</Field>
-										)}
-									/>
-									<Button
-										type='button'
-										variant='destructive'
-										onClick={() => removeVariant(index)}>
-										Remove
-									</Button>
-								</FieldGroup>
-							))}
+						<div className='flex justify-between items-center'>
+							<FieldLabel htmlFor='form-product-variants'>
+								Product Variants
+							</FieldLabel>
 							<Button
 								type='button'
 								onClick={() => appendVariant({size: '', stock: 0})}>
-								+ Add Variant
+								+ Add Variants
 							</Button>
+						</div>
+						<FieldGroup>
+							{variantFields.map((field, index) => (
+								<FieldGroup key={field.id}>
+									<FieldGroup className='flex flex-row gap-2 mt-2'>
+										<Controller
+											name={`variants.${index}.size`}
+											control={form.control}
+											render={({field, fieldState}) => (
+												<Field data-invalid={fieldState.invalid}>
+													<FieldLabel htmlFor='form-variant-size'>
+														Size
+													</FieldLabel>
+													<Input
+														{...field}
+														id='form-variant-size'
+														aria-invalid={fieldState.invalid}
+														placeholder='Type size'
+														autoComplete='off'
+													/>
+													{fieldState.invalid && (
+														<FieldError errors={[fieldState.error]} />
+													)}
+												</Field>
+											)}
+										/>
+										<Controller
+											name={`variants.${index}.stock`}
+											control={form.control}
+											render={({field, fieldState}) => (
+												<Field data-invalid={fieldState.invalid}>
+													<FieldLabel htmlFor='form-variant-stock'>
+														Stock
+													</FieldLabel>
+													<Input
+														{...field}
+														type='number'
+														id='form-variant-stock'
+														aria-invalid={fieldState.invalid}
+														placeholder='Input stock'
+														autoComplete='off'
+														value={field.value as number}
+													/>
+													{fieldState.invalid && (
+														<FieldError errors={[fieldState.error]} />
+													)}
+												</Field>
+											)}
+										/>
+										<Button
+											className='self-end cursor-pointer'
+											type='button'
+											variant='outline'
+											onClick={() => {
+												const currentSize = form.getValues(
+													`variants.${index}.size`
+												)
+												const currentStock = form.getValues(
+													`variants.${index}.stock`
+												)
+												const totalRows = variantFields.length
+												if (!currentSize && !currentStock) {
+													if (totalRows > 1) {
+														removeVariant(index)
+													} else {
+														updateVariant(index, {size: '', stock: 0})
+													}
+												} else {
+													removeVariant(index)
+												}
+											}}>
+											<CircleMinus />
+										</Button>
+									</FieldGroup>
+									<Button
+										className='max-w-max'
+										type='button'
+										onClick={() => appendVariant({size: '', stock: 0})}>
+										<CirclePlus /> Add Another
+									</Button>
+								</FieldGroup>
+							))}
 						</FieldGroup>
 
 						{/* Cover Photo */}
