@@ -34,7 +34,7 @@ model Item {
 
 model Variant {
   id        String   @id @default(uuid())
-  item      Item     @relation(fields: [itemId], references: [id])
+  item      Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
   itemId    String
   size      String
   stock     Int
@@ -44,9 +44,9 @@ model Variant {
 
 model Favorite {
   id        String   @id @default(uuid())
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
-  item      Item     @relation(fields: [itemId], references: [id])
+  item      Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
   itemId    String
   createdAt DateTime @default(now())
 
@@ -66,7 +66,7 @@ model OrderItem {
   id        String @id @default(uuid())
   order     Order  @relation(fields: [orderId], references: [orderNumber])
   orderId   String
-  item      Item   @relation(fields: [itemId], references: [id])
+  item      Item   @relation(fields: [itemId], references: [id], onDelete: Cascade)
   itemId    String
   quantity  Int
   unitPrice Float
@@ -76,7 +76,7 @@ model Order {
   orderNumber             String      @id @default(uuid())
   stripeCheckoutSessionId String      @unique
   stripeCustomerID        String
-  user                    User        @relation(fields: [storeUserId], references: [id])
+  user                    User        @relation(fields: [storeUserId], references: [id], onDelete: Cascade)
   storeUserId             String
   customerName            String
   customerEmail           String

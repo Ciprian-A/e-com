@@ -2,6 +2,7 @@
 
 import { generateSlug } from '@/lib/generateSlug'
 import { uploadCoverImage, uploadGalleryImages } from '@/lib/storage/storage'
+import { revalidatePath } from 'next/cache'
 import { prisma } from '../../../../config/db'
 
 export async function createItem(formData: FormData) {
@@ -64,4 +65,13 @@ export async function createItem(formData: FormData) {
 	})
 
 	return {success: true, item}
+}
+export const deleteItem = async(id:string)=> {
+  try {
+    await prisma.item.delete({where:{id}})
+    revalidatePath('/admin/items')
+  } catch (error) {
+    console.log('Error deleting item:', error)
+		throw new Error('Failed to delete item.')
+  }
 }
