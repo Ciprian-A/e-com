@@ -31,13 +31,7 @@ import {
 import { CircleMinus, CirclePlus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '../ui/select'
+import { MultiSelect } from '../MultiSelect'
 import { UploadFile } from './UploadFile'
 
 export const formSchema = z.object({
@@ -338,6 +332,7 @@ export default function ItemForm({
 											)}
 										/>
 										<Button
+											title='Remove Row'
 											className='self-end cursor-pointer'
 											type='button'
 											variant='outline'
@@ -433,6 +428,7 @@ export default function ItemForm({
 											)}
 										/>
 										<Button
+											title='Remove Row'
 											className='self-end cursor-pointer'
 											type='button'
 											variant='outline'
@@ -596,34 +592,15 @@ export default function ItemForm({
 							render={({field, fieldState}) => (
 								<Field data-invalid={fieldState.invalid}>
 									<FieldLabel htmlFor='form-categories'>Categories</FieldLabel>
-									<Select
-										// {...field}
-										onValueChange={value => {
-											// toggle selection
-											const current = field.value ?? []
-											if (current.includes(value)) {
-												field.onChange(current.filter(id => id !== value))
-											} else {
-												field.onChange([...current, value])
-											}
-										}}
-										// id='form-categories'
-										aria-invalid={fieldState.invalid}
-										// placeholder='Type item name'
-										// autoComplete='off'
-									>
-										<SelectTrigger>
-											<SelectValue placeholder='Select categories' />
-										</SelectTrigger>
-										<SelectContent>
-											{categories.map(cat => (
-												<SelectItem key={cat.id} value={cat.id}>
-													{cat.name}
-												</SelectItem>
-											))}
-										</SelectContent>
-									</Select>
-
+									<MultiSelect
+										options={categories.map(cat => ({
+											label: cat.name,
+											value: cat.id
+										}))}
+										defaultValue={field.value ?? []}
+										onValueChange={field.onChange}
+										placeholder='Select categories'
+									/>
 									{fieldState.invalid && (
 										<FieldError errors={[fieldState.error]} />
 									)}
