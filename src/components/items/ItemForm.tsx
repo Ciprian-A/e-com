@@ -28,6 +28,7 @@ import {
   InputGroupText,
   InputGroupTextarea
 } from '@/components/ui/input-group'
+import { CircleMinus, CirclePlus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import {
@@ -143,6 +144,7 @@ export default function ItemForm({
 	const {
 		fields: productDetailFields,
 		append: appendProductDetail,
+		update: updateProductDetails,
 		remove: removeProductDetail
 	} = useFieldArray({
 		control: form.control,
@@ -278,68 +280,97 @@ export default function ItemForm({
 							)}
 						/>
 						{/* Product Details */}
-
-						<FieldLabel htmlFor='form-product-details'>
-							Product Details
-						</FieldLabel>
-						<FieldGroup>
-							{productDetailFields.map((field, index) => (
-								<FieldGroup key={field.key}>
-									<Controller
-										name={`productDetails.${index}.key`}
-										control={form.control}
-										render={({field, fieldState}) => (
-											<Field data-invalid={fieldState.invalid}>
-												<FieldLabel htmlFor='form-product-details-key'>
-													Key
-												</FieldLabel>
-												<Input
-													{...field}
-													id='form-product-details-key'
-													aria-invalid={fieldState.invalid}
-													placeholder='Type key'
-													autoComplete='off'
-												/>
-												{fieldState.invalid && (
-													<FieldError errors={[fieldState.error]} />
-												)}
-											</Field>
-										)}
-									/>
-									<Controller
-										name={`productDetails.${index}.value`}
-										control={form.control}
-										render={({field, fieldState}) => (
-											<Field data-invalid={fieldState.invalid}>
-												<FieldLabel htmlFor='form-product-details-value'>
-													Value
-												</FieldLabel>
-												<Input
-													{...field}
-													id='form-product-details-value'
-													aria-invalid={fieldState.invalid}
-													placeholder='Type value'
-													autoComplete='off'
-												/>
-												{fieldState.invalid && (
-													<FieldError errors={[fieldState.error]} />
-												)}
-											</Field>
-										)}
-									/>
-									<Button
-										type='button'
-										variant='destructive'
-										onClick={() => removeProductDetail(index)}>
-										Remove
-									</Button>
-								</FieldGroup>
-							))}
+						<div className='flex justify-between items-center'>
+							<FieldLabel htmlFor='form-product-details' className='flex'>
+								Product Details
+							</FieldLabel>
 							<Button
 								type='button'
 								onClick={() => appendProductDetail({key: '', value: ''})}>
-								+ Add Detail
+								+ Add Details
 							</Button>
+						</div>
+						<FieldGroup>
+							{productDetailFields.map((field, index) => (
+								<FieldGroup key={field.id}>
+									<FieldGroup className='flex flex-row gap-2 mt-2'>
+										<Controller
+											name={`productDetails.${index}.key`}
+											control={form.control}
+											render={({field, fieldState}) => (
+												<Field data-invalid={fieldState.invalid} className=''>
+													<FieldLabel htmlFor='form-product-details-key'>
+														Key
+													</FieldLabel>
+													<Input
+														{...field}
+														id='form-product-details-key'
+														aria-invalid={fieldState.invalid}
+														placeholder='Type key'
+														autoComplete='off'
+													/>
+													{fieldState.invalid && (
+														<FieldError errors={[fieldState.error]} />
+													)}
+												</Field>
+											)}
+										/>
+										<Controller
+											name={`productDetails.${index}.value`}
+											control={form.control}
+											render={({field, fieldState}) => (
+												<Field data-invalid={fieldState.invalid} className=''>
+													<FieldLabel htmlFor='form-product-details-value'>
+														Value
+													</FieldLabel>
+													<Input
+														{...field}
+														id='form-product-details-value'
+														aria-invalid={fieldState.invalid}
+														placeholder='Type value'
+														autoComplete='off'
+													/>
+													{fieldState.invalid && (
+														<FieldError errors={[fieldState.error]} />
+													)}
+												</Field>
+											)}
+										/>
+										<Button
+											className='self-end cursor-pointer'
+											type='button'
+											variant='outline'
+											onClick={() => {
+												const currentKey = form.getValues(
+													`productDetails.${index}.key`
+												)
+												const currentValue = form.getValues(
+													`productDetails.${index}.value`
+												)
+												const totalRows = productDetailFields.length
+												if (!currentKey && !currentValue) {
+													if (totalRows > 1) {
+														removeProductDetail(index) // remove empty row if multiple exist
+													} else {
+														// clear fields but keep row
+														updateProductDetails(index, {key: '', value: ''})
+													}
+												} else {
+													removeProductDetail(index) // remove filled row
+												}
+											}}>
+											<CircleMinus />
+										</Button>
+									</FieldGroup>
+
+									<Button
+										className='max-w-max'
+										type='button'
+										onClick={() => appendProductDetail({key: '', value: ''})}>
+										<CirclePlus /> Add Another
+									</Button>
+								</FieldGroup>
+							))}
 						</FieldGroup>
 						{/* Variants */}
 						<FieldLabel htmlFor='form-product-variants'>
