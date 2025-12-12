@@ -36,7 +36,6 @@ export function GenericTable<T extends {id: string}>({
 	tableCaption,
 	actions
 }: GenericTableProps<T>) {
-	console.log({columns, data})
 	return (
 		<Table className='border relative h-full '>
 			<TableCaption>{tableCaption}</TableCaption>
