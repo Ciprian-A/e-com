@@ -1,8 +1,21 @@
+import { Plus } from 'lucide-react'
+import Link from 'next/link'
 
 function page() {
   return (
-    <div>page</div>
-  )
+		<div className=' w-full  md:w-xl lg:w-2xl p-5 rounded-lg border h-full'>
+			<div className='flex items-center justify-between mb-4 '>
+				<h1 className='font-bold'>Items</h1>
+				<Link
+					href='/admin/items/new'
+					className='bg-black text-white px-4 py-2 rounded-md'>
+					<Plus className='inline-block mr-2 h-4 w-4' />
+					<span>New </span>
+					<span className='hidden md:inline'>Item</span>
+				</Link>
+			</div>
+		</div>
+	)
 }
 
 export default page
