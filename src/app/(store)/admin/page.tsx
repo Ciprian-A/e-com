@@ -1,7 +1,5 @@
+import { redirect } from 'next/navigation'
 
 export default function AdminPage() {
-  return (
-		<div className='flex gap-4'>
-		</div>
-	)
+	return	redirect('/admin/items')
 }
