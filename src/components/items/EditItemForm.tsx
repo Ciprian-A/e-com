@@ -18,10 +18,10 @@ function EditItemForm({
 			id: string
 			name: string
 		}[]
-		price?: 0
+		price: number
 		productDetails?: {key: string; value: string}[]
-		coverPhoto?: string
-		imageGallery?: string[]
+		imageUrl: string | null
+		imageGallery: string[]
 		variants?: {size: string; stock: number}[]
 	}
 }) {
@@ -40,7 +40,7 @@ function EditItemForm({
 				initialDescription={item.description}
 				initialPrice={item.price}
 				initialProductDetails={item.productDetails}
-				initialCoverPhoto={item.coverPhoto}
+				initialImageUrl={item.imageUrl}
 				initialImageGallery={item.imageGallery}
 				initialCategories={item.categories}
 				initialVariants={item.variants}

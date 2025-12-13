@@ -99,35 +99,55 @@ export async function updateItem(id: string, formData: FormData) {
 	const coverFile = formData.get('cover') as File | null
 	const galleryFiles = formData.getAll('gallery') as File[]
 
-	// Upload new images if provided
-	let imageUrl: string | undefined
-	if (coverFile) {
-		imageUrl = await uploadCoverImage(coverFile)
+	let imageUrl: string | undefined | null = undefined
+	if (typeof coverFile === 'string') {
+		imageUrl = coverFile
+	} else if (coverFile instanceof File) {
+		if (coverFile.size > 0) {
+			imageUrl = await uploadCoverImage(coverFile)
+		} else {
+			imageUrl = null
+		}
+	} else if (coverFile === null) {
+		imageUrl = null
 	}
 
-	let galleryUrls: string[] | undefined
-	if (galleryFiles && galleryFiles.length > 0) {
-		galleryUrls = await uploadGalleryImages(galleryFiles)
+	let galleryUrls: string[] | undefined = undefined
+	let newGalleryFiles: File[] = []
+	let existingGalleryUrls: string[] = []
+
+	for (const entry of galleryFiles) {
+		if (typeof entry === 'string') {
+			existingGalleryUrls.push(entry)
+		} else if (entry instanceof File && entry.size > 0) {
+			newGalleryFiles.push(entry)
+		}
 	}
+
+	let uploadedUrls: string[] = []
+	if (newGalleryFiles.length > 0) {
+		uploadedUrls = await uploadGalleryImages(newGalleryFiles)
+	}
+
+	galleryUrls = [...existingGalleryUrls, ...uploadedUrls]
 
 	const slug = generateSlug(name)
 
-	// Update in database
 	const item = await prisma.item.update({
 		where: {id},
 		data: {
 			name,
 			slug,
 			description,
-			...(imageUrl ? {imageUrl} : {}), 
-			...(galleryUrls ? {imageGallery: galleryUrls} : {}),
+			...(imageUrl ? {imageUrl} : null),
+			imageGallery: galleryUrls,
 			price: Number(price),
 			productDetails,
 			categories: {
-				set: categories.map(id => ({id})) 
+				set: categories.map(id => ({id}))
 			},
 			variants: {
-				deleteMany: {}, 
+				deleteMany: {},
 				create: variants.map(v => ({
 					size: v.size,
 					stock: v.stock
@@ -139,12 +159,12 @@ export async function updateItem(id: string, formData: FormData) {
 	return {success: true, item}
 }
 
-export const deleteItem = async(id:string)=> {
-  try {
-    await prisma.item.delete({where:{id}})
-    revalidatePath('/admin/items')
-  } catch (error) {
-    console.log('Error deleting item:', error)
+export const deleteItem = async (id: string) => {
+	try {
+		await prisma.item.delete({where: {id}})
+		revalidatePath('/admin/items')
+	} catch (error) {
+		console.log('Error deleting item:', error)
 		throw new Error('Failed to delete item.')
-  }
+	}
 }

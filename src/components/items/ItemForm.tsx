@@ -62,12 +62,16 @@ export const formSchema = z.object({
 		.optional(),
 	coverPhoto: z
 		.any()
-		.refine(file => file instanceof File, 'Cover photo is required'),
+		.refine(
+			file => file instanceof File || typeof file === 'string',
+			'Cover photo is required'
+		)
+		.refine(file => file !== null, 'Cover photo is required'),
 	imageGallery: z
 		.array(z.any())
 		.refine(
-			files => files.every(f => f instanceof File),
-			'All gallery items must be files'
+			files => files.every(f => f instanceof File || typeof f === 'string'),
+			'All gallery items must be files or valid URLs'
 		)
 		.max(5, 'You can upload up to 5 images')
 		.optional(),
@@ -91,10 +95,10 @@ type ItemFormType = {
 	}[]
 	initialName?: string
 	initialDescription?: string
-	initialPrice?: 0
+	initialPrice?: number
 	initialProductDetails?: {key: string; value: string}[]
-	initialCoverPhoto?: string
-	initialImageGallery?: string[]
+	initialImageUrl?: File | string | null
+	initialImageGallery?: (File | string)[]
 	initialCategories?: {id: string; name: string}[]
 	initialVariants?: {size: string; stock: number}[]
 
@@ -113,7 +117,7 @@ export default function ItemForm({
 	initialDescription = '',
 	initialPrice = 0,
 	initialProductDetails = [],
-	initialCoverPhoto = '',
+	initialImageUrl = null,
 	initialImageGallery = [],
 	initialCategories = [{id: '', name: ''}],
 	initialVariants = []
@@ -128,7 +132,7 @@ export default function ItemForm({
 			description: initialDescription,
 			price: initialPrice,
 			productDetails: initialProductDetails,
-			coverPhoto: initialCoverPhoto,
+			coverPhoto: initialImageUrl,
 			imageGallery: initialImageGallery,
 			categories: initialCategories.map(cat => cat.id),
 			variants: initialVariants
@@ -467,48 +471,55 @@ export default function ItemForm({
 						<Controller
 							name='coverPhoto'
 							control={form.control}
-							render={({field, fieldState}) => (
-								<Field data-invalid={fieldState.invalid}>
-									<FieldLabel htmlFor='form-cover-photo'>
-										Cover Photo
-									</FieldLabel>
-									<Input
-										ref={coverPhotoRef}
-										hidden
-										type='file'
-										accept='image/*'
-										id='form-cover-photo'
-										aria-invalid={fieldState.invalid}
-										onChange={e => field.onChange(e.target.files?.[0])}
-									/>
-									{!field.value && (
-										<UploadFile
-											type='image'
-											onClick={() => coverPhotoRef.current?.click()}
-											title='Upload Image'
-											description='Upload an image to be used as a cover photo.'
+							render={({field, fieldState}) => {
+								console.log({field, fieldState})
+								return (
+									<Field data-invalid={fieldState.invalid}>
+										<FieldLabel htmlFor='form-cover-photo'>
+											Cover Photo
+										</FieldLabel>
+										<Input
+											ref={coverPhotoRef}
+											hidden
+											type='file'
+											accept='image/*'
+											id='form-cover-photo'
+											aria-invalid={fieldState.invalid}
+											onChange={e => field.onChange(e.target.files?.[0])}
 										/>
-									)}
-									{field.value && (
-										<div className='mt-2 relative'>
-											<img
-												src={URL.createObjectURL(field.value)}
-												alt='Cover preview'
-												className='h-auto w-full object-contain rounded-md border'
+										{!field.value && (
+											<UploadFile
+												type='image'
+												onClick={() => coverPhotoRef.current?.click()}
+												title='Upload Image'
+												description='Upload an image to be used as a cover photo.'
 											/>
-											<button
-												type='button'
-												className='absolute top-1 right-1 bg-red-500 text-white rounded-full px-2'
-												onClick={() => field.onChange(null)}>
-												✕
-											</button>
-										</div>
-									)}
-									{fieldState.invalid && (
-										<FieldError errors={[fieldState.error]} />
-									)}
-								</Field>
-							)}
+										)}
+										{field.value && (
+											<div className='mt-2 relative'>
+												<img
+													src={
+														typeof field.value === 'string'
+															? field.value // already uploaded URL
+															: URL.createObjectURL(field.value) // new File from input
+													}
+													alt='Cover preview'
+													className='h-auto w-full object-contain rounded-md border'
+												/>
+												<button
+													type='button'
+													className='absolute top-1 right-1 bg-red-500 text-white rounded-full px-2'
+													onClick={() => field.onChange(null)}>
+													✕
+												</button>
+											</div>
+										)}
+										{fieldState.invalid && (
+											<FieldError errors={[fieldState.error]} />
+										)}
+									</Field>
+								)
+							}}
 						/>
 						{/* Image Gallery */}
 						<Controller
@@ -553,26 +564,32 @@ export default function ItemForm({
 									)}
 									{field.value && field.value.length > 0 && (
 										<div className='mt-2 flex gap-2'>
-											{field.value.map((file: File, idx: number) => (
-												<div key={idx} className='relative'>
-													<img
-														src={URL.createObjectURL(file)}
-														alt={`Gallery preview ${idx + 1}`}
-														className='h-24 w-24 object-cover rounded-md border'
-													/>
-													<button
-														type='button'
-														className='absolute top-1 right-1 bg-red-500 text-white rounded-full px-2'
-														onClick={() => {
-															const newFiles = field.value?.filter(
-																(_, i) => i !== idx
-															)
-															field.onChange(newFiles)
-														}}>
-														✕
-													</button>
-												</div>
-											))}
+											{field.value.map((file: File | string, idx: number) => {
+												const src =
+													typeof file === 'string'
+														? file // already uploaded URL
+														: URL.createObjectURL(file) //
+												return (
+													<div key={idx} className='relative'>
+														<img
+															src={src}
+															alt={`Gallery preview ${idx + 1}`}
+															className='h-24 w-24 object-cover rounded-md border'
+														/>
+														<button
+															type='button'
+															className='absolute top-1 right-1 bg-red-500 text-white rounded-full px-2'
+															onClick={() => {
+																const newFiles = field.value?.filter(
+																	(_, i) => i !== idx
+																)
+																field.onChange(newFiles)
+															}}>
+															✕
+														</button>
+													</div>
+												)
+											})}
 										</div>
 									)}
 									{localError && (
