@@ -95,7 +95,7 @@ type ItemFormType = {
 	initialProductDetails?: {key: string; value: string}[]
 	initialCoverPhoto?: string
 	initialImageGallery?: string[]
-	initialCategories?: string[]
+	initialCategories?: {id: string; name: string}[]
 	initialVariants?: {size: string; stock: number}[]
 
 	onSubmit: (formData: FormData) => Promise<void>
@@ -115,7 +115,7 @@ export default function ItemForm({
 	initialProductDetails = [],
 	initialCoverPhoto = '',
 	initialImageGallery = [],
-	initialCategories = [],
+	initialCategories = [{id: '', name: ''}],
 	initialVariants = []
 }: ItemFormType) {
 	const [localError, setLocalError] = useState<string | null>(null)
@@ -130,7 +130,7 @@ export default function ItemForm({
 			productDetails: initialProductDetails,
 			coverPhoto: initialCoverPhoto,
 			imageGallery: initialImageGallery,
-			categories: initialCategories,
+			categories: initialCategories.map(cat => cat.id),
 			variants: initialVariants
 		}
 	})
@@ -593,7 +593,7 @@ export default function ItemForm({
 								<Field data-invalid={fieldState.invalid}>
 									<FieldLabel htmlFor='form-categories'>Categories</FieldLabel>
 									<MultiSelect
-										options={categories.map(cat => ({
+										options={(categories ?? []).map(cat => ({
 											label: cat.name,
 											value: cat.id
 										}))}
