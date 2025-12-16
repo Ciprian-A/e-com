@@ -124,6 +124,7 @@ export default function ItemForm({
 	initialVariants = []
 }: ItemFormType) {
 	const [showDetails, setShowDetails] = useState(false)
+	const [showVariants, setShowVariants] = useState(false)
 	const [localError, setLocalError] = useState<string | null>(null)
 	const coverPhotoRef = useRef<HTMLInputElement>(null)
 	const galleryPhotoRef = useRef<HTMLInputElement>(null)
@@ -170,6 +171,10 @@ export default function ItemForm({
 const addDetails = ()=> {
 	setShowDetails(true)
 	 appendProductDetail({key: '', value: ''})
+}
+const addVariants = ()=> {
+	setShowVariants(true)
+	 appendVariant({size: '', stock: 0})
 }
 	return (
 		<Card className='w-full sm:w-xl '>
@@ -381,9 +386,7 @@ const addDetails = ()=> {
 							<FieldLabel htmlFor='form-product-variants'>
 								Product Variants
 							</FieldLabel>
-							<Button
-								type='button'
-								onClick={() => appendVariant({size: '', stock: 0})}>
+							<Button type='button' onClick={addVariants}>
 								+ Add Variants
 							</Button>
 						</div>
@@ -461,14 +464,16 @@ const addDetails = ()=> {
 											<CircleMinus />
 										</Button>
 									</FieldGroup>
-									<Button
-										className='max-w-max'
-										type='button'
-										onClick={() => appendVariant({size: '', stock: 0})}>
-										<CirclePlus /> Add Another
-									</Button>
 								</FieldGroup>
 							))}
+							{showVariants && (
+								<Button
+									className='max-w-max'
+									type='button'
+									onClick={() => appendVariant({size: '', stock: 0})}>
+									<CirclePlus /> Add Another
+								</Button>
+							)}
 						</FieldGroup>
 
 						{/* Cover Photo */}
