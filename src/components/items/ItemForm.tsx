@@ -6,27 +6,27 @@ import * as z from 'zod'
 
 import { Button } from '@/components/ui/button'
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
+	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle
 } from '@/components/ui/card'
 import {
-  Field,
-  FieldDescription,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-  FieldSeparator
+	Field,
+	FieldDescription,
+	FieldError,
+	FieldGroup,
+	FieldLabel,
+	FieldSeparator
 } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroupTextarea
+	InputGroup,
+	InputGroupAddon,
+	InputGroupText,
+	InputGroupTextarea
 } from '@/components/ui/input-group'
 import { CircleMinus, CirclePlus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -108,6 +108,7 @@ type ItemFormType = {
 export type ItemDataType = z.infer<typeof formSchema>
 export type ItemDataOutputType = z.output<typeof formSchema>
 export type ItemDataInputType = z.input<typeof formSchema>
+
 export default function ItemForm({
 	formTitle,
 	formDescription,
@@ -122,6 +123,7 @@ export default function ItemForm({
 	initialCategories = [{id: '', name: ''}],
 	initialVariants = []
 }: ItemFormType) {
+	const [showDetails, setShowDetails] = useState(false)
 	const [localError, setLocalError] = useState<string | null>(null)
 	const coverPhotoRef = useRef<HTMLInputElement>(null)
 	const galleryPhotoRef = useRef<HTMLInputElement>(null)
@@ -165,7 +167,10 @@ export default function ItemForm({
 		router.back()
 	}
 	const {isSubmitting} = form.formState
-
+const addDetails = ()=> {
+	setShowDetails(true)
+	 appendProductDetail({key: '', value: ''})
+}
 	return (
 		<Card className='w-full sm:w-xl '>
 			<CardHeader>
@@ -283,9 +288,7 @@ export default function ItemForm({
 							<FieldLabel htmlFor='form-product-details' className='flex'>
 								Product Details
 							</FieldLabel>
-							<Button
-								type='button'
-								onClick={() => appendProductDetail({key: '', value: ''})}>
+							<Button type='button' onClick={addDetails}>
 								+ Add Details
 							</Button>
 						</div>
@@ -362,15 +365,16 @@ export default function ItemForm({
 											<CircleMinus />
 										</Button>
 									</FieldGroup>
-
-									<Button
-										className='max-w-max'
-										type='button'
-										onClick={() => appendProductDetail({key: '', value: ''})}>
-										<CirclePlus /> Add Another
-									</Button>
 								</FieldGroup>
 							))}
+							{showDetails && (
+								<Button
+									className='max-w-max'
+									type='button'
+									onClick={() => appendProductDetail({key: '', value: ''})}>
+									<CirclePlus /> Add Another
+								</Button>
+							)}
 						</FieldGroup>
 						{/* Variants */}
 						<div className='flex justify-between items-center'>
