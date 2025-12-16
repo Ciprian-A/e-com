@@ -168,14 +168,14 @@ export default function ItemForm({
 		router.back()
 	}
 	const {isSubmitting} = form.formState
-const addDetails = ()=> {
-	setShowDetails(true)
-	 appendProductDetail({key: '', value: ''})
-}
-const addVariants = ()=> {
-	setShowVariants(true)
-	 appendVariant({size: '', stock: 0})
-}
+	const addDetails = () => {
+		setShowDetails(true)
+		appendProductDetail({key: '', value: ''})
+	}
+	const addVariants = () => {
+		setShowVariants(true)
+		appendVariant({size: '', stock: 0})
+	}
 	return (
 		<Card className='w-full sm:w-xl '>
 			<CardHeader>
