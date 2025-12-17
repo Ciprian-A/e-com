@@ -1,7 +1,7 @@
 
 export function ImageGallery() {
   return (
-    <div className='relative'>
+		<div className='relative'>
 			<svg
 				xmlns='http://www.w3.org/2000/svg'
 				width='75'
@@ -12,12 +12,13 @@ export function ImageGallery() {
 				strokeWidth='1'
 				strokeLinecap='round'
 				strokeLinejoin='round'>
-				<path d='m22 11-1.296-1.296a2.4 2.4 0 0 0-3.408 0L11 16' />
+				<path d='M16.5 3h5' />
+				<path d='M19 0.5v5' />
+				<path d='m19 8.5V15a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5' />
+				<path d='m19 13-3.086-3.086a2 2 0 0 0-2.828 0L8 17' />
 				<path d='M4 8a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2' />
-				<circle cx='13' cy='7' r='1' fill='currentColor' />
-				<rect x='8' y='2' width='14' height='14' rx='2' />
+				<circle cx='9' cy='7' r='1' fill='currentColor' />
 			</svg>
-      </div>
-  )
+		</div>
+	)
 }
-

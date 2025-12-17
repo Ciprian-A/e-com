@@ -476,60 +476,6 @@ export default function ItemForm({
 							)}
 						</FieldGroup>
 
-						{/* Cover Photo */}
-						<Controller
-							name='coverPhoto'
-							control={form.control}
-							render={({field, fieldState}) => {
-								console.log({field, fieldState})
-								return (
-									<Field data-invalid={fieldState.invalid}>
-										<FieldLabel htmlFor='form-cover-photo'>
-											Cover Photo
-										</FieldLabel>
-										<Input
-											ref={coverPhotoRef}
-											hidden
-											type='file'
-											accept='image/*'
-											id='form-cover-photo'
-											aria-invalid={fieldState.invalid}
-											onChange={e => field.onChange(e.target.files?.[0])}
-										/>
-										{!field.value && (
-											<UploadFile
-												type='image'
-												onClick={() => coverPhotoRef.current?.click()}
-												title='Upload Image'
-												description='Upload an image to be used as a cover photo.'
-											/>
-										)}
-										{field.value && (
-											<div className='mt-2 relative'>
-												<img
-													src={
-														typeof field.value === 'string'
-															? field.value // already uploaded URL
-															: URL.createObjectURL(field.value) // new File from input
-													}
-													alt='Cover preview'
-													className='h-auto w-full object-contain rounded-md border'
-												/>
-												<button
-													type='button'
-													className='absolute top-1 right-1 bg-red-500 text-white rounded-full px-2'
-													onClick={() => field.onChange(null)}>
-													✕
-												</button>
-											</div>
-										)}
-										{fieldState.invalid && (
-											<FieldError errors={[fieldState.error]} />
-										)}
-									</Field>
-								)
-							}}
-						/>
 						{/* Image Gallery */}
 						<Controller
 							name='imageGallery'
@@ -567,6 +513,7 @@ export default function ItemForm({
 										<UploadFile
 											type='gallery'
 											onClick={() => galleryPhotoRef.current?.click()}
+											css='border-3 border-dashed'
 											title='Upload Images'
 											description={`Upload up to ${MAX_IMAGES} images for your item.`}
 										/>
@@ -580,14 +527,21 @@ export default function ItemForm({
 														: URL.createObjectURL(file) //
 												return (
 													<div key={idx} className='relative'>
+														{idx === 0 && (
+															<span className='absolute bottom-1 left-1 bg-blue-600 text-white text-xs px-1 rounded'>
+																Cover
+															</span>
+														)}
+
 														<img
 															src={src}
 															alt={`Gallery preview ${idx + 1}`}
 															className='h-24 w-24 object-cover rounded-md border'
 														/>
+
 														<button
 															type='button'
-															className='absolute top-1 right-1 bg-red-500 text-white rounded-full px-2'
+															className='absolute top-1 right-1  text-white rounded-full px-2'
 															onClick={() => {
 																const newFiles = field.value?.filter(
 																	(_, i) => i !== idx
@@ -599,6 +553,16 @@ export default function ItemForm({
 													</div>
 												)
 											})}
+											{field.value?.length! > 0 &&
+												field.value?.length! < MAX_IMAGES && (
+													<UploadFile
+														css='h-24 w-24 max-w-24  border max-h-24 text-black flex flex-col items-center justify-center'
+														type='image'
+														onClick={() => galleryPhotoRef.current?.click()}
+														title='Add'
+														// description='Add'
+													/>
+												)}
 										</div>
 									)}
 									{localError && (
