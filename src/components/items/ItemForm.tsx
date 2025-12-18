@@ -525,6 +525,7 @@ export default function ItemForm({
 																	(_, i) => i !== idx
 																)
 																field.onChange(newFiles)
+																if (galleryPhotoRef.current) galleryPhotoRef.current.value = '';
 															}}>
 															✕
 														</button>
