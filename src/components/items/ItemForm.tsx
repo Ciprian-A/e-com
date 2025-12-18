@@ -114,8 +114,6 @@ export default function ItemForm({
 	initialCategories = [{id: '', name: ''}],
 	initialVariants = []
 }: ItemFormType) {
-	const [showDetails, setShowDetails] = useState(false)
-	const [showVariants, setShowVariants] = useState(false)
 	const [localError, setLocalError] = useState<string | null>(null)
 	const galleryPhotoRef = useRef<HTMLInputElement>(null)
 	const form = useForm<ItemDataInputType, ItemDataType, ItemDataOutputType>({
@@ -157,14 +155,6 @@ export default function ItemForm({
 		router.back()
 	}
 	const {isSubmitting} = form.formState
-	const addDetails = () => {
-		setShowDetails(true)
-		appendProductDetail({key: '', value: ''})
-	}
-	const addVariants = () => {
-		setShowVariants(true)
-		appendVariant({size: '', stock: 0})
-	}
 	return (
 		<Card className='w-full sm:w-xl '>
 			<CardHeader>
@@ -277,7 +267,9 @@ export default function ItemForm({
 							<FieldLabel htmlFor='form-product-details' className='flex'>
 								Product Details
 							</FieldLabel>
-							<Button type='button' onClick={addDetails}>
+							<Button
+								type='button'
+								onClick={() => appendProductDetail({key: '', value: ''})}>
 								+ Add Details
 							</Button>
 						</div>
@@ -290,12 +282,13 @@ export default function ItemForm({
 											control={form.control}
 											render={({field, fieldState}) => (
 												<Field data-invalid={fieldState.invalid} className=''>
-													<FieldLabel htmlFor='form-product-details-key'>
+													<FieldLabel
+														htmlFor={`form-product-details-key-${index}`}>
 														Key
 													</FieldLabel>
 													<Input
 														{...field}
-														id='form-product-details-key'
+														id={`form-product-details-key-${index}`}
 														aria-invalid={fieldState.invalid}
 														placeholder='Type key'
 														autoComplete='off'
@@ -356,10 +349,10 @@ export default function ItemForm({
 									</FieldGroup>
 								</FieldGroup>
 							))}
-							{showDetails && (
+							{productDetailFields.length > 0 && (
 								<Button
-									className='max-w-max'
 									type='button'
+									className='max-w-max'
 									onClick={() => appendProductDetail({key: '', value: ''})}>
 									<CirclePlus /> Add Another
 								</Button>
@@ -370,7 +363,9 @@ export default function ItemForm({
 							<FieldLabel htmlFor='form-product-variants'>
 								Product Variants
 							</FieldLabel>
-							<Button type='button' onClick={addVariants}>
+							<Button
+								type='button'
+								onClick={() => appendVariant({size: '', stock: 0})}>
 								+ Add Variants
 							</Button>
 						</div>
@@ -450,7 +445,7 @@ export default function ItemForm({
 									</FieldGroup>
 								</FieldGroup>
 							))}
-							{showVariants && (
+							{variantFields.length && (
 								<Button
 									className='max-w-max'
 									type='button'
@@ -459,7 +454,6 @@ export default function ItemForm({
 								</Button>
 							)}
 						</FieldGroup>
-
 						{/* Image Gallery */}
 						<Controller
 							name='imageGallery'
