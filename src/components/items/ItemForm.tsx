@@ -405,7 +405,10 @@ export default function ItemForm({
 										<Controller
 											name={`variants.${index}.stock`}
 											control={form.control}
-											render={({field, fieldState}) => (
+											render={({
+												field: {onChange, value, ...field},
+												fieldState
+											}) => (
 												<Field data-invalid={fieldState.invalid}>
 													<FieldLabel htmlFor='form-variant-stock'>
 														Stock
@@ -415,9 +418,18 @@ export default function ItemForm({
 														type='number'
 														id='form-variant-stock'
 														aria-invalid={fieldState.invalid}
-														placeholder='Input stock'
+														placeholder='0'
 														autoComplete='off'
-														value={field.value as number}
+														value={
+															(value as number) === 0 ||
+															Number.isNaN(value as number)
+																? ''
+																: (value as number)
+														}
+														onChange={e => {
+															const val = e.target.value
+															onChange(val === '' ? 0 : parseInt(val, 10))
+														}}
 													/>
 													{fieldState.invalid && (
 														<FieldError errors={[fieldState.error]} />
