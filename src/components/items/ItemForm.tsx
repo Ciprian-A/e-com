@@ -30,7 +30,6 @@ import {
 } from '@/components/ui/input-group'
 import { CircleMinus, CirclePlus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { toast } from 'sonner'
 import { MultiSelect } from '../MultiSelect'
 import { UploadFile } from './UploadFile'
 
@@ -60,13 +59,6 @@ export const formSchema = z.object({
 			})
 		)
 		.optional(),
-	coverPhoto: z
-		.any()
-		.refine(
-			file => file instanceof File || typeof file === 'string',
-			'Cover photo is required'
-		)
-		.refine(file => file !== null, 'Cover photo is required'),
 	imageGallery: z
 		.array(z.any())
 		.refine(
@@ -118,7 +110,6 @@ export default function ItemForm({
 	initialDescription = '',
 	initialPrice = 0,
 	initialProductDetails = [],
-	initialImageUrl = null,
 	initialImageGallery = [],
 	initialCategories = [{id: '', name: ''}],
 	initialVariants = []
@@ -126,7 +117,6 @@ export default function ItemForm({
 	const [showDetails, setShowDetails] = useState(false)
 	const [showVariants, setShowVariants] = useState(false)
 	const [localError, setLocalError] = useState<string | null>(null)
-	const coverPhotoRef = useRef<HTMLInputElement>(null)
 	const galleryPhotoRef = useRef<HTMLInputElement>(null)
 	const form = useForm<ItemDataInputType, ItemDataType, ItemDataOutputType>({
 		resolver: zodResolver(formSchema),
@@ -135,7 +125,6 @@ export default function ItemForm({
 			description: initialDescription,
 			price: initialPrice,
 			productDetails: initialProductDetails,
-			coverPhoto: initialImageUrl,
 			imageGallery: initialImageGallery,
 			categories: initialCategories.map(cat => cat.id),
 			variants: initialVariants
@@ -203,17 +192,12 @@ export default function ItemForm({
 						formData.append('variants', JSON.stringify(data.variants ?? []))
 
 						// Files
-						if (data.coverPhoto) {
-							formData.append('cover', data.coverPhoto)
-						}
 						if (data.imageGallery && data.imageGallery.length > 0) {
 							data.imageGallery.forEach(file => {
 								formData.append('gallery', file)
 							})
 						}
-
 						await onSubmit(formData)
-						toast('You submitted the following values:')
 					})}>
 					<FieldGroup>
 						<Controller
@@ -560,7 +544,6 @@ export default function ItemForm({
 														type='image'
 														onClick={() => galleryPhotoRef.current?.click()}
 														title='Add'
-														// description='Add'
 													/>
 												)}
 										</div>

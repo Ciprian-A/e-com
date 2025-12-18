@@ -1,7 +1,7 @@
 'use server'
 
 import { generateSlug } from '@/lib/generateSlug'
-import { uploadCoverImage, uploadGalleryImages } from '@/lib/storage/storage'
+import { uploadGalleryImages } from '@/lib/storage/storage'
 import { revalidatePath } from 'next/cache'
 import { prisma } from '../../../../config/db'
 
@@ -32,14 +32,11 @@ export async function createItem(formData: FormData) {
 		variants = []
 	}
 
-	const coverFile = formData.get('cover') as File
 	const galleryFiles = formData.getAll('gallery') as File[]
 	const slug = generateSlug(name)
 
-	if (!coverFile) return {error: 'Cover image required'}
 
 	// Call the extracted storage functions
-	const imageUrl = await uploadCoverImage(coverFile)
 	const galleryUrls = await uploadGalleryImages(galleryFiles)
 
 	// Save to database
@@ -48,7 +45,7 @@ export async function createItem(formData: FormData) {
 			name,
 			slug,
 			description,
-			imageUrl,
+			imageUrl: galleryUrls[0],
 			imageGallery: galleryUrls,
 			price: Number(price),
 			productDetails,
@@ -96,21 +93,7 @@ export async function updateItem(id: string, formData: FormData) {
 		variants = []
 	}
 
-	const coverFile = formData.get('cover') as File | null
 	const galleryFiles = formData.getAll('gallery') as File[]
-
-	let imageUrl: string | undefined | null = undefined
-	if (typeof coverFile === 'string') {
-		imageUrl = coverFile
-	} else if (coverFile instanceof File) {
-		if (coverFile.size > 0) {
-			imageUrl = await uploadCoverImage(coverFile)
-		} else {
-			imageUrl = null
-		}
-	} else if (coverFile === null) {
-		imageUrl = null
-	}
 
 	let galleryUrls: string[] | undefined = undefined
 	let newGalleryFiles: File[] = []
@@ -139,7 +122,7 @@ export async function updateItem(id: string, formData: FormData) {
 			name,
 			slug,
 			description,
-			...(imageUrl ? {imageUrl} : null),
+			imageUrl: galleryUrls[0],
 			imageGallery: galleryUrls,
 			price: Number(price),
 			productDetails,
