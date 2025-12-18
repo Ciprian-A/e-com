@@ -245,7 +245,7 @@ export default function ItemForm({
 						<Controller
 							name='price'
 							control={form.control}
-							render={({field, fieldState}) => (
+							render={({field: {onChange, value, ...field}, fieldState}) => (
 								<Field data-invalid={fieldState.invalid} className=''>
 									<FieldLabel htmlFor='form-item-price'>Price(£)</FieldLabel>
 									<Input
@@ -253,8 +253,16 @@ export default function ItemForm({
 										type='number'
 										id='form-item-price'
 										aria-invalid={fieldState.invalid}
-										placeholder='Type price'
-										value={field.value as number}
+										placeholder='0.00'
+										value={
+											(value as number) === 0 || Number.isNaN(value as number)
+												? ''
+												: (value as number)
+										}
+										onChange={e => {
+											const val = e.target.value
+											onChange(val === '' ? 0 : parseFloat(val))
+										}}
 									/>
 									{fieldState.invalid && (
 										<FieldError errors={[fieldState.error]} />
@@ -349,7 +357,7 @@ export default function ItemForm({
 									</FieldGroup>
 								</FieldGroup>
 							))}
-							{productDetailFields.length > 0 && (
+							{!!productDetailFields.length && (
 								<Button
 									type='button'
 									className='max-w-max'
@@ -445,7 +453,7 @@ export default function ItemForm({
 									</FieldGroup>
 								</FieldGroup>
 							))}
-							{variantFields.length && (
+							{!!variantFields.length && (
 								<Button
 									className='max-w-max'
 									type='button'
@@ -525,7 +533,8 @@ export default function ItemForm({
 																	(_, i) => i !== idx
 																)
 																field.onChange(newFiles)
-																if (galleryPhotoRef.current) galleryPhotoRef.current.value = '';
+																if (galleryPhotoRef.current)
+																	galleryPhotoRef.current.value = ''
 															}}>
 															✕
 														</button>
