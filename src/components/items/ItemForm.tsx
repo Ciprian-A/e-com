@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Controller, useFieldArray, useForm } from 'react-hook-form'
 import * as z from 'zod'
 
@@ -164,6 +164,18 @@ export default function ItemForm({
 	const charCount = descriptionValue.length
 	const charRemaining = 100 - charCount
 
+	useEffect(() => {
+		if (productDetailFields.length === 0) {
+			setShowProductDetails(false)
+		}
+	}, [productDetailFields.length])
+
+	useEffect(() => {
+		if (variantFields.length === 0) {
+			setShowVariants(false)
+		}
+	}, [variantFields.length])
+
 	// Initialize product details section
 	const handleAddProductDetails = () => {
 		setShowProductDetails(true)
@@ -179,14 +191,8 @@ export default function ItemForm({
 			appendVariant({size: '', stock: 0})
 		}
 	}
-	console.log({
-		variantFields,
-		productDetailFields,
-		showProductDetails,
-		showVariants
-	})
 	return (
-		<Card>
+		<Card className='w-2xs sm:w-sm md:w-md lg:w-2xl xl:w-3xl'>
 			<CardHeader>
 				<CardTitle className=''>
 					<span className='text-2xl'>{formTitle}</span>
@@ -334,7 +340,7 @@ export default function ItemForm({
 								</div>
 								{!showProductDetails && (
 									<Button
-										className='w-full'
+										className='w-full sm:w-min sm:self-start'
 										type='button'
 										variant='outline'
 										size='sm'
@@ -348,14 +354,16 @@ export default function ItemForm({
 							{showProductDetails && (
 								<FieldGroup className='space-y-3'>
 									{productDetailFields.map((field, index) => (
-										<div key={field.id} className='flex gap-2'>
+										<div
+											key={field.id}
+											className='flex flex-col sm:flex-row gap-2'>
 											<Controller
 												name={`productDetails.${index}.key`}
 												control={form.control}
 												render={({field, fieldState}) => (
 													<Field
 														data-invalid={fieldState.invalid}
-														className='flex-1'>
+														className='w-full'>
 														<Input
 															{...field}
 															id={`form-product-details-key-${index}`}
@@ -376,7 +384,7 @@ export default function ItemForm({
 												render={({field, fieldState}) => (
 													<Field
 														data-invalid={fieldState.invalid}
-														className='flex-1'>
+														className='w-full'>
 														<Input
 															{...field}
 															id={`form-product-details-value-${index}`}
@@ -395,16 +403,11 @@ export default function ItemForm({
 												type='button'
 												variant='outline'
 												size='icon'
-												className='shrink-0'
+												className='shrink-0 w-full h-9 sm:w-9 px-4 py-2'
 												aria-label='Remove property'
-												onClick={() => {
-													removeProductDetail(index)
-
-													if (!!productDetailFields.length) {
-														setShowProductDetails(false)
-													}
-												}}>
+												onClick={() => removeProductDetail(index)}>
 												<X className='h-4 w-4' />
+												<span className='sm:hidden'>Remove Field</span>{' '}
 											</Button>
 										</div>
 									))}
@@ -439,7 +442,7 @@ export default function ItemForm({
 								</div>
 								{!showVariants && (
 									<Button
-										className='w-full'
+										className='w-full sm:w-min sm:self-start'
 										type='button'
 										variant='outline'
 										size='sm'
@@ -453,14 +456,16 @@ export default function ItemForm({
 							{showVariants && (
 								<FieldGroup className='space-y-3'>
 									{variantFields.map((field, index) => (
-										<div key={field.id} className='flex gap-2'>
+										<div
+											key={field.id}
+											className='flex flex-col sm:flex-row gap-2'>
 											<Controller
 												name={`variants.${index}.size`}
 												control={form.control}
 												render={({field, fieldState}) => (
 													<Field
 														data-invalid={fieldState.invalid}
-														className='flex-1'>
+														className='w-full'>
 														<Input
 															{...field}
 															id={`form-variant-size-${index}`}
@@ -484,7 +489,7 @@ export default function ItemForm({
 												}) => (
 													<Field
 														data-invalid={fieldState.invalid}
-														className='w-32'>
+														className='w-full'>
 														<Input
 															{...field}
 															type='number'
@@ -513,17 +518,11 @@ export default function ItemForm({
 											<Button
 												type='button'
 												variant='outline'
-												size='icon'
-												className='shrink-0'
+												className='shrink-0 w-full h-9 sm:w-9 px-4 py-2'
 												aria-label='Remove variant'
-												onClick={() => {
-													removeVariant(index)
-
-													if (!!variantFields.length) {
-														setShowVariants(false)
-													}
-												}}>
+												onClick={() => removeVariant(index)}>
 												<X className='h-4 w-4' />
+												<span className='sm:hidden'>Remove Field</span>
 											</Button>
 										</div>
 									))}
@@ -675,15 +674,20 @@ export default function ItemForm({
 			</CardContent>
 			<FieldSeparator className='mb-3' />
 			<CardFooter>
-				<Field orientation='horizontal'>
+				<Field orientation='horizontal' className='flex sm:justify-end'>
 					<Button
+						className='w-full sm:w-min'
 						type='button'
 						variant='outline'
 						onClick={handleCancel}
 						disabled={isSubmitting}>
 						Cancel
 					</Button>
-					<Button type='submit' form='form-item' disabled={isSubmitting}>
+					<Button
+						className='w-full sm:w-min'
+						type='submit'
+						form='form-item'
+						disabled={isSubmitting}>
 						{isSubmitting ? (
 							<>
 								<Loader2 className='mr-2 h-4 w-4 animate-spin' />
