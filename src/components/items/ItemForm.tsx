@@ -26,7 +26,12 @@ import { Loader2, Plus, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { MultiSelect } from '../MultiSelect'
 import { Input } from '../ui/input'
-import { InputGroup, InputGroupAddon, InputGroupText, InputGroupTextarea } from '../ui/input-group'
+import {
+	InputGroup,
+	InputGroupAddon,
+	InputGroupText,
+	InputGroupTextarea
+} from '../ui/input-group'
 import { UploadFile } from './UploadFile'
 
 export const formSchema = z.object({
@@ -174,7 +179,12 @@ export default function ItemForm({
 			appendVariant({size: '', stock: 0})
 		}
 	}
-
+	console.log({
+		variantFields,
+		productDetailFields,
+		showProductDetails,
+		showVariants
+	})
 	return (
 		<Card>
 			<CardHeader>
@@ -308,7 +318,7 @@ export default function ItemForm({
 
 						{/* Product Details Section */}
 						<div className='border border-gray-200 rounded-lg p-4 space-y-3'>
-							<div className='flex justify-between items-center'>
+							<div className='flex flex-col space-y-3 sm:flex-row justify-between items-center'>
 								<div>
 									<h3 className='text-md font-semibold text-gray-900'>
 										Product Details
@@ -324,6 +334,7 @@ export default function ItemForm({
 								</div>
 								{!showProductDetails && (
 									<Button
+										className='w-full'
 										type='button'
 										variant='outline'
 										size='sm'
@@ -386,7 +397,13 @@ export default function ItemForm({
 												size='icon'
 												className='shrink-0'
 												aria-label='Remove property'
-												onClick={() => removeProductDetail(index)}>
+												onClick={() => {
+													removeProductDetail(index)
+
+													if (!!productDetailFields.length) {
+														setShowProductDetails(false)
+													}
+												}}>
 												<X className='h-4 w-4' />
 											</Button>
 										</div>
@@ -406,7 +423,7 @@ export default function ItemForm({
 
 						{/* Product Variants Section */}
 						<div className='border border-gray-200 rounded-lg p-4 space-y-3'>
-							<div className='flex justify-between items-center'>
+							<div className='flex flex-col space-y-3 sm:flex-row justify-between items-center'>
 								<div>
 									<h3 className='text-md font-semibold text-gray-900'>
 										Product Variants
@@ -422,6 +439,7 @@ export default function ItemForm({
 								</div>
 								{!showVariants && (
 									<Button
+										className='w-full'
 										type='button'
 										variant='outline'
 										size='sm'
@@ -498,7 +516,13 @@ export default function ItemForm({
 												size='icon'
 												className='shrink-0'
 												aria-label='Remove variant'
-												onClick={() => removeVariant(index)}>
+												onClick={() => {
+													removeVariant(index)
+
+													if (!!variantFields.length) {
+														setShowVariants(false)
+													}
+												}}>
 												<X className='h-4 w-4' />
 											</Button>
 										</div>
@@ -631,7 +655,7 @@ export default function ItemForm({
 										Categories
 									</FieldLabel>
 									<MultiSelect
-									style={{background: 'red'}}
+										style={{background: 'red'}}
 										options={(categories ?? []).map(cat => ({
 											label: cat.name,
 											value: cat.id
