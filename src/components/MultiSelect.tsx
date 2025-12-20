@@ -1,23 +1,23 @@
 import { cva, type VariantProps } from 'class-variance-authority'
 import {
-  CheckIcon,
-  ChevronDown,
-  WandSparkles,
-  XCircle,
-  XIcon
+	CheckIcon,
+	ChevronDown,
+	WandSparkles,
+	XCircle,
+	XIcon
 } from 'lucide-react'
 import * as React from 'react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator
+	Command,
+	CommandEmpty,
+	CommandGroup,
+	CommandInput,
+	CommandItem,
+	CommandList,
+	CommandSeparator
 } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Separator } from '@/components/ui/separator'
@@ -672,12 +672,11 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
 		}, [defaultValue, selectedValues, arraysEqual, resetOnDefaultValueChange])
 
 		const getWidthConstraints = () => {
-			const defaultMinWidth = screenSize === 'mobile' ? '0px' : '200px'
-			const effectiveMinWidth = minWidth || defaultMinWidth
-			const effectiveMaxWidth = maxWidth || '100%'
+			const defaultMinWidth = screenSize === 'desktop' ? '200px' : '0px'
+
 			return {
-				minWidth: effectiveMinWidth,
-				maxWidth: effectiveMaxWidth,
+				minWidth: minWidth ?? defaultMinWidth,
+				maxWidth: maxWidth ?? '100%',
 				width: autoSize ? 'auto' : '100%'
 			}
 		}
@@ -752,7 +751,7 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
 		}, [selectedValues, isPopoverOpen, searchValue, announce, getAllOptions])
 
 		return (
-			<>
+			<div className='relative'>
 				<div className='sr-only'>
 					<div aria-live='polite' aria-atomic='true' role='status'>
 						{politeMessage}
@@ -804,9 +803,11 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
 								className
 							)}
 							style={{
-								...widthConstraints,
-								maxWidth: `min(${widthConstraints.maxWidth}, 100%)`
+								minWidth: widthConstraints.minWidth,
+								maxWidth: widthConstraints.maxWidth,
+								width: widthConstraints.width
 							}}>
+							{/* ///////////////////////////////////// */}
 							{selectedValues.length > 0 ? (
 								<div className='flex justify-between items-center w-full'>
 									<div
@@ -1003,7 +1004,6 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
 						style={{
 							animationDuration: `${animationConfig?.duration || animation}s`,
 							animationDelay: `${animationConfig?.delay || 0}s`,
-							maxWidth: `min(${widthConstraints.maxWidth}, 85vw)`,
 							maxHeight: screenSize === 'mobile' ? '70vh' : '60vh',
 							touchAction: 'manipulation'
 						}}
@@ -1033,7 +1033,7 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
 								)}>
 								<CommandEmpty>
 									{emptyIndicator || 'No results found.'}
-								</CommandEmpty>{' '}
+								</CommandEmpty>
 								{!hideSelectAll && !searchValue && (
 									<CommandGroup>
 										<CommandItem
@@ -1188,11 +1188,10 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
 						/>
 					)}
 				</Popover>
-			</>
+			</div>
 		)
 	}
 )
 
 MultiSelect.displayName = 'MultiSelect'
 export type { MultiSelectGroup, MultiSelectOption, MultiSelectProps }
-

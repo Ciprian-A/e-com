@@ -8,7 +8,7 @@ export default function AdminLayout({
 	return (
 		<div className='flex w-full'>
 			<AdminSideBar />
-			<section className='m-4 sm:mx-auto '>{children}</section>
+			<section className='my-4 mx-auto '>{children}</section>
 		</div>
 	)
 }
