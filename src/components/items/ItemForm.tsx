@@ -599,10 +599,10 @@ export default function ItemForm({
 															className='h-24 w-24 object-cover rounded-lg border-2 border-gray-200'
 														/>
 														<Button
-															variant='destructive'
+															variant='secondary'
 															size='icon'
 															type='button'
-															className='absolute -top-2 -right-2 h-6 w-6 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-md'
+															className='absolute top-1 right-1 h-6 w-6 rounded-full shadow-md bg-white/70'
 															aria-label={`Remove image ${idx + 1}`}
 															onClick={() => {
 																if (!isString) URL.revokeObjectURL(src)
@@ -620,10 +620,10 @@ export default function ItemForm({
 											})}
 											{field.value.length < MAX_IMAGES && (
 												<UploadFile
-													css='h-24 w-24 border-2 border-dashed hover:border-gray-400 transition-colors'
+													css='h-24 w-24  max-w-24  max-h-24 border-2 border-dashed hover:border-gray-400 transition-colors'
 													type='image'
 													onClick={() => galleryPhotoRef.current?.click()}
-													title='+'
+													title='Add'
 												/>
 											)}
 										</div>
