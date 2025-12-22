@@ -28,6 +28,7 @@ import {
 	InputGroupText,
 	InputGroupTextarea
 } from '@/components/ui/input-group'
+import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
@@ -65,7 +66,7 @@ export default function CategoryForm({
 	formDescription,
 	onSubmit,
 	initialName = '',
-	initialDescription = '',
+	initialDescription = ''
 }: CategoryFormType) {
 	const form = useForm<CategoryDataType>({
 		resolver: zodResolver(formSchema),
@@ -82,9 +83,9 @@ export default function CategoryForm({
 	const {isSubmitting} = form.formState
 
 	return (
-		<Card className='w-full sm:w-xl '>
+		<Card className='w-2xs sm:w-sm md:w-md lg:w-2xl xl:w-3xl'>
 			<CardHeader>
-				<CardTitle>{formTitle}</CardTitle>
+				<CardTitle className='text-2xl'>{formTitle}</CardTitle>
 				<CardDescription>{formDescription}</CardDescription>
 			</CardHeader>
 			<FieldSeparator className='mb-3' />
@@ -101,14 +102,14 @@ export default function CategoryForm({
 							control={form.control}
 							render={({field, fieldState}) => (
 								<Field data-invalid={fieldState.invalid}>
-									<FieldLabel htmlFor='form-category-name'>
-										Category Name
+									<FieldLabel className='text-md' htmlFor='form-category-name'>
+										Category Name <span className='text-red-500'>*</span>
 									</FieldLabel>
 									<Input
 										{...field}
 										id='form-category-name'
 										aria-invalid={fieldState.invalid}
-										placeholder='Type category name'
+										placeholder='e.g., Shoes'
 										autoComplete='off'
 									/>
 									{fieldState.invalid && (
@@ -122,15 +123,17 @@ export default function CategoryForm({
 							control={form.control}
 							render={({field, fieldState}) => (
 								<Field data-invalid={fieldState.invalid}>
-									<FieldLabel htmlFor='form-category-description'>
+									<FieldLabel
+										className='text-md'
+										htmlFor='form-category-description'>
 										Description
 									</FieldLabel>
 									<InputGroup>
 										<InputGroupTextarea
 											{...field}
 											id='form-category-description'
-											placeholder='Type category description'
-											rows={2}
+											placeholder='Include a short description about the newly created category'
+											rows={3}
 											className='min-h-24 resize-none'
 											aria-invalid={fieldState.invalid}
 										/>
@@ -155,12 +158,27 @@ export default function CategoryForm({
 			</CardContent>
 			<FieldSeparator className='mb-3' />
 			<CardFooter className=''>
-				<Field orientation='horizontal' className=''>
-					<Button type='button' variant='outline' onClick={handleCancel}>
+				<Field orientation='horizontal' className='flex sm:justify-end'>
+					<Button
+						className='w-full sm:w-min'
+						type='button'
+						variant='outline'
+						onClick={handleCancel}>
 						Cancel
 					</Button>
-					<Button type='submit' form='form-category' disabled={isSubmitting}>
-						Submit
+					<Button
+						className='w-full sm:w-min'
+						type='submit'
+						form='form-category'
+						disabled={isSubmitting}>
+						{isSubmitting ? (
+							<>
+								<Loader2 className='mr-2 h-4 w-4 animate-spin' />
+								Submitting...
+							</>
+						) : (
+							'Submit'
+						)}{' '}
 					</Button>
 				</Field>
 			</CardFooter>
