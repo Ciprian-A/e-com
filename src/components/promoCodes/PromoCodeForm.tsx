@@ -38,7 +38,7 @@ export const formSchema = z.object({
 	title: z
 		.string()
 		.regex(
-			/^[a-zA-Z0-9 ]+$/,
+			/^[a-zA-Z0-9\s]+$/,
 			'Title must contain only letters and numbers. Special characters (e.g., ! @ # $ %) are not permitted.'
 		)
 		.min(5, 'Promo code title must be at least 5 characters.')
@@ -47,14 +47,14 @@ export const formSchema = z.object({
 		.string()
 		.max(100, 'Description must be at most 100 characters.')
 		.refine(
-			val => val === '' || /^[a-zA-Z0-9 ]+$/.test(val),
+			val => val === '' || /^[a-zA-Z0-9.,\s]+$/.test(val),
 			'Description must contain only letters and numbers. Special characters (e.g., ! @ # $ %) are not permitted.'
 		)
 		.optional(),
 	cuponCode: z
 		.string()
 		.regex(
-			/^[a-zA-Z0-9 ]+$/,
+			/^[a-zA-Z0-9\s]+$/,
 			'Cupon Code must contain only letters and numbers. Special characters (e.g., ! @ # $ %) are not permitted.'
 		)
 		.min(5, 'Cupon code must be at least 5 characters.')
