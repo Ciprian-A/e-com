@@ -117,6 +117,9 @@ export default function PromoCodeForm({
 		router.back()
 	}
 	const {isSubmitting} = form.formState
+	const descriptionValue = form.watch('description') || ''
+	const charCount = descriptionValue.length
+	const charRemaining = 100 - charCount
 
 	return (
 		<Card className='w-2xs sm:w-sm md:w-md lg:w-2xl xl:w-3xl'>
@@ -242,14 +245,15 @@ export default function PromoCodeForm({
 										<InputGroupTextarea
 											{...field}
 											id='form-promo-code-description'
-											placeholder='Type promo code description'
-											rows={2}
+											placeholder='Include a short description about the newly created promo code'
+											rows={3}
 											className='min-h-24 resize-none'
 											aria-invalid={fieldState.invalid}
 										/>
 										<InputGroupAddon align='block-end'>
-											<InputGroupText className='tabular-nums'>
-												{field.value?.length}/100 characters
+											<InputGroupText
+												className={`tabular-nums text-xs ${charRemaining < 20 ? 'text-orange-600 font-semibold' : ''}`}>
+												{charCount}/100
 											</InputGroupText>
 										</InputGroupAddon>
 									</InputGroup>
