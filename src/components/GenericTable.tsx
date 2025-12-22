@@ -37,9 +37,9 @@ export function GenericTable<T extends {id: string}>({
 	actions
 }: GenericTableProps<T>) {
 	return (
-		<Table className='border relative h-full '>
+		<Table className='border relative h-full w-2xs sm:w-sm md:w-md lg:w-2xl xl:w-3xl '>
 			<TableCaption>{tableCaption}</TableCaption>
-			<TableHeader >
+			<TableHeader>
 				<TableRow>
 					{columns.map((col, i) => (
 						<TableHead key={i} className='text-bold text-black'>
@@ -47,7 +47,9 @@ export function GenericTable<T extends {id: string}>({
 						</TableHead>
 					))}
 					{actions && (
-						<TableHead className='text-bold text-black text-right'>Actions</TableHead>
+						<TableHead className='text-bold text-black text-right'>
+							Actions
+						</TableHead>
 					)}
 				</TableRow>
 			</TableHeader>

@@ -11,9 +11,9 @@ async function CategoriesPage() {
   }))
   console.log({categories});
   return (
-			<div className=' w-full  md:w-xl lg:w-2xl p-5 rounded-lg border h-full'>
+		<>
 			<div className='flex items-center justify-between mb-4 '>
-				<h1 className='font-bold'>Categories</h1>
+				<h1 className='font-bold text-2xl'>Categories</h1>
 				<Link
 					href='/admin/categories/new'
 					className='bg-black text-white px-4 py-2 rounded-md'>
@@ -23,7 +23,7 @@ async function CategoriesPage() {
 				</Link>
 			</div>
 			<CategoriesTable categories={categories} />
-		</div>
+		</>
 	)
 }
 
