@@ -5,12 +5,12 @@ import { Plus } from 'lucide-react'
 import Link from 'next/link'
 
 async function ItemsPage() {
-  const dbItems = await getItems()
+	const dbItems = await getItems()
 	const uiItems: Item[] = dbItems.map(mapDbItemToUi)
-  return (
-		<div className=' w-full  md:w-xl lg:w-2xl p-5 rounded-lg border h-full'>
+	return (
+		<>
 			<div className='flex items-center justify-between mb-4 '>
-				<h1 className='font-bold'>Items</h1>
+				<h1 className='font-bold text-2xl'>Items</h1>
 				<Link
 					href='/admin/items/new'
 					className='bg-black text-white px-4 py-2 rounded-md'>
@@ -20,7 +20,7 @@ async function ItemsPage() {
 				</Link>
 			</div>
 			<ItemsTable items={uiItems} />
-		</div>
+		</>
 	)
 }
 
