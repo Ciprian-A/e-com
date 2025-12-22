@@ -120,7 +120,7 @@ export default function PromoCodeForm({
 	return (
 		<Card className='w-2xs sm:w-sm md:w-md lg:w-2xl xl:w-3xl'>
 			<CardHeader>
-				<CardTitle>{formTitle}</CardTitle>
+				<CardTitle className='text-2xl'>{formTitle}</CardTitle>
 				<CardDescription>{formDescription}</CardDescription>
 			</CardHeader>
 			<FieldSeparator className='mb-3' />
@@ -137,14 +137,16 @@ export default function PromoCodeForm({
 							control={form.control}
 							render={({field, fieldState}) => (
 								<Field data-invalid={fieldState.invalid}>
-									<FieldLabel htmlFor='form-promo-code-title'>
-										Promo Code Title
+									<FieldLabel
+										className='text-md'
+										htmlFor='form-promo-code-title'>
+										Promo Code Title <span className='text-red-500'>*</span>
 									</FieldLabel>
 									<Input
 										{...field}
 										id='form-promo-code-title'
 										aria-invalid={fieldState.invalid}
-										placeholder='Type promo code title'
+										placeholder='e.g., Special Discount'
 										autoComplete='off'
 									/>
 									{fieldState.invalid && (
@@ -158,14 +160,16 @@ export default function PromoCodeForm({
 							control={form.control}
 							render={({field, fieldState}) => (
 								<Field data-invalid={fieldState.invalid}>
-									<FieldLabel htmlFor='form-promo-code-cuponCode'>
-										Cupon Code
+									<FieldLabel
+										className='text-md'
+										htmlFor='form-promo-code-cuponCode'>
+										Cupon Code <span className='text-red-500'>*</span>
 									</FieldLabel>
 									<Input
 										{...field}
 										id='form-promo-code-cuponCode'
 										aria-invalid={fieldState.invalid}
-										placeholder='Type cupon code'
+										placeholder='e.g, PROMO20'
 										autoComplete='off'
 									/>
 									{fieldState.invalid && (
@@ -180,7 +184,9 @@ export default function PromoCodeForm({
 								control={form.control}
 								render={({field, fieldState}) => (
 									<Field data-invalid={fieldState.invalid} className='w-screen'>
-										<FieldLabel htmlFor='form-promo-code-discountAmount'>
+										<FieldLabel
+											className='text-md'
+											htmlFor='form-promo-code-discountAmount'>
 											Discount Amount (%)
 										</FieldLabel>
 										<Input
@@ -202,7 +208,9 @@ export default function PromoCodeForm({
 								control={form.control}
 								render={({field, fieldState}) => (
 									<Field data-invalid={fieldState.invalid}>
-										<FieldLabel htmlFor='form-promo-code-isActive'>
+										<FieldLabel
+											className='text-md'
+											htmlFor='form-promo-code-isActive'>
 											Is Active
 										</FieldLabel>
 										<Switch
@@ -224,7 +232,9 @@ export default function PromoCodeForm({
 							control={form.control}
 							render={({field, fieldState}) => (
 								<Field data-invalid={fieldState.invalid}>
-									<FieldLabel htmlFor='form-promo-code-description'>
+									<FieldLabel
+										className='text-md'
+										htmlFor='form-promo-code-description'>
 										Description
 									</FieldLabel>
 									<InputGroup>
@@ -258,8 +268,10 @@ export default function PromoCodeForm({
 								control={form.control}
 								render={({field, fieldState}) => (
 									<Field data-invalid={fieldState.invalid}>
-										<FieldLabel htmlFor='form-promo-code-startDate'>
-											Start Date
+										<FieldLabel
+											className='text-md'
+											htmlFor='form-promo-code-startDate'>
+											Start Date <span className='text-red-500'>*</span>
 										</FieldLabel>
 										<DatePicker
 											{...field}
@@ -279,8 +291,10 @@ export default function PromoCodeForm({
 								control={form.control}
 								render={({field, fieldState}) => (
 									<Field data-invalid={fieldState.invalid}>
-										<FieldLabel htmlFor='form-promo-code-endDate'>
-											End Date
+										<FieldLabel
+											className='text-md'
+											htmlFor='form-promo-code-endDate'>
+											End Date <span className='text-red-500'>*</span>
 										</FieldLabel>
 										<DatePicker
 											{...field}
