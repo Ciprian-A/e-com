@@ -12,9 +12,9 @@ async function PromoCodesPage() {
 	}))
 
 	return (
-		<div className=' w-full  md:w-xl lg:w-2xl p-5 rounded-lg border h-full'>
+		<>
 			<div className='flex items-center justify-between mb-4 '>
-				<h1 className='font-bold'>Promotional Codes</h1>
+				<h1 className='font-bold  text-2xl'>Promotional Codes</h1>
 				<Link
 					href='/admin/promoCodes/new'
 					className='bg-black text-white px-4 py-2 rounded-md'>
@@ -24,7 +24,7 @@ async function PromoCodesPage() {
 				</Link>
 			</div>
 			<PromoCodesTable promoCodes={transformedPromoCodes} />
-		</div>
+		</>
 	)
 }
 
