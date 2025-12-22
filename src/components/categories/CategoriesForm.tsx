@@ -36,7 +36,7 @@ export const formSchema = z.object({
 	name: z
 		.string()
 		.regex(
-			/^[a-zA-Z0-9 ]+$/,
+			/^[a-zA-Z0-9\s]+$/,
 			'Category name must contain only letters and numbers. Special characters (e.g., ! @ # $ %) are not permitted.'
 		)
 		.min(3, 'Category name must be at least 3 characters.')
@@ -45,7 +45,7 @@ export const formSchema = z.object({
 		.string()
 		.max(100, 'Description must be at most 100 characters.')
 		.refine(
-			val => val === '' || /^[a-zA-Z0-9 ]+$/.test(val),
+			val => val === '' || /^[a-zA-Z0-9.,/s]+$/.test(val),
 			'Description must contain only letters and numbers. Special characters (e.g., ! @ # $ %) are not permitted.'
 		)
 		.optional()
@@ -81,6 +81,9 @@ export default function CategoryForm({
 		router.back()
 	}
 	const {isSubmitting} = form.formState
+	const descriptionValue = form.watch('description') || ''
+	const charCount = descriptionValue.length
+	const charRemaining = 100 - charCount
 
 	return (
 		<Card className='w-2xs sm:w-sm md:w-md lg:w-2xl xl:w-3xl'>
@@ -138,8 +141,9 @@ export default function CategoryForm({
 											aria-invalid={fieldState.invalid}
 										/>
 										<InputGroupAddon align='block-end'>
-											<InputGroupText className='tabular-nums'>
-												{field.value?.length}/100 characters
+											<InputGroupText
+												className={`tabular-nums text-xs ${charRemaining < 20 ? 'text-orange-600 font-semibold' : ''}`}>
+												{charCount}/100
 											</InputGroupText>
 										</InputGroupAddon>
 									</InputGroup>
