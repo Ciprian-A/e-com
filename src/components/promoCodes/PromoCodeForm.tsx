@@ -118,7 +118,7 @@ export default function PromoCodeForm({
 	const {isSubmitting} = form.formState
 
 	return (
-		<Card className='w-full sm:w-xl '>
+		<Card className='w-2xs sm:w-sm md:w-md lg:w-2xl xl:w-3xl'>
 			<CardHeader>
 				<CardTitle>{formTitle}</CardTitle>
 				<CardDescription>{formDescription}</CardDescription>
