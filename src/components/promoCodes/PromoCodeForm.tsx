@@ -29,6 +29,7 @@ import {
 	InputGroupTextarea
 } from '@/components/ui/input-group'
 import { Switch } from '@/components/ui/switch'
+import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { DatePicker } from '../DatePicker'
@@ -315,12 +316,28 @@ export default function PromoCodeForm({
 			</CardContent>
 			<FieldSeparator className='mb-3' />
 			<CardFooter className=''>
-				<Field orientation='horizontal' className=''>
-					<Button type='button' variant='outline' onClick={handleCancel}>
+				<Field orientation='horizontal' className='flex sm:justify-end'>
+					<Button
+						type='button'
+						variant='outline'
+						onClick={handleCancel}
+						className='w-full sm:w-min'
+						disabled={isSubmitting}>
 						Cancel
 					</Button>
-					<Button type='submit' form='form-promo-code' disabled={isSubmitting}>
-						Submit
+					<Button
+						type='submit'
+						form='form-promo-code'
+						disabled={isSubmitting}
+						className='w-full sm:w-min'>
+						{isSubmitting ? (
+							<>
+								<Loader2 className='mr-2 h-4 w-4 animate-spin' />
+								Submitting...
+							</>
+						) : (
+							'Submit'
+						)}{' '}
 					</Button>
 				</Field>
 			</CardFooter>
