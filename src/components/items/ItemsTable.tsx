@@ -39,7 +39,7 @@ export function ItemsTable({items}: {items: Item[]}) {
 							alt={row.name}
 							width={20}
 							height={20}
-							className='w-10 h-10 object-cover rounded'
+							className='hidden sm:flex sm:w-10 sm:h-10 object-cover rounded'
 						/>
 					)}
 					<span>{row.name}</span>
