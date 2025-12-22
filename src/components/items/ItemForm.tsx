@@ -194,9 +194,7 @@ export default function ItemForm({
 	return (
 		<Card className='w-2xs sm:w-sm md:w-md lg:w-2xl xl:w-3xl'>
 			<CardHeader>
-				<CardTitle className=''>
-					<span className='text-2xl'>{formTitle}</span>
-				</CardTitle>
+				<CardTitle className='text-2xl'>{formTitle}</CardTitle>
 				<CardDescription>{formDescription}</CardDescription>
 			</CardHeader>
 			<FieldSeparator className='mb-3' />
