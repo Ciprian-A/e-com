@@ -19,7 +19,9 @@ const PromoBanner = async () => {
 					<div className='flex justify-center'>
 						<div className='bg-white text-black py-4 px-6 rounded-full shadow-md'>
 							<span className='font-bold text-base sm:text-xl'>Use code: </span>
-							<span className='font-bold text-red-600'>{sale.couponCode}</span>
+							<span className='font-bold text-base sm:text-xl text-red-600'>
+								{sale.couponCode}
+							</span>
 							<span className='ml-2 font-bold text-base sm:text-xl'>
 								for {sale.discountAmount} % OFF
 							</span>
