@@ -9,19 +9,18 @@ import {
 	CarouselPrevious,
 	type CarouselApi
 } from '@/components/ui/carousel'
-import { imageUrl } from '@/lib/imageUrl'
-import { updateFavourites } from '@/sanity/lib/client'
+// import { updateFavourites } from '@/sanity/lib/client'
 import { Heart } from 'lucide-react'
 
+import { ItemDTO } from '@/types/item'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { Clothing, Footwear } from '../../sanity.types'
 
-const ImageCarousel = ({product}: {product: Footwear | Clothing}) => {
+const ImageCarousel = ({product}: {product: ItemDTO}) => {
 	const [api, setApi] = useState<CarouselApi>()
 	const [current, setCurrent] = useState(0)
 	const {updateFavouriteItem} = useStore()
-	const item = useStore(state => state.storeItems.find(i=>i._id === product._id))
+	const item = useStore(state => state.storeItems.find(i=>i.id === product.id))
 	const isFavourite = item?.favourite
 	
 	useEffect(() => {
@@ -36,20 +35,20 @@ const ImageCarousel = ({product}: {product: Footwear | Clothing}) => {
 	}, [api])
 
 	const handleFavouriteToggle = () => {
-		if (!item || !item._id) return
-		updateFavouriteItem(item._id)
-		updateFavourites(item._id, !item.favourite)
+		if (!item || !item.id) return
+		updateFavouriteItem(item.id)
+		// updateFavourites(item.id, !item.favourite)
 	}
 
 	return (
 		<Carousel setApi={setApi} opts={{loop: true}}>
 			<CarouselContent className='relative'>
-				{item?.images?.map(image => (
+				{item?.imageGallery?.map(image => (
 					<CarouselItem
-						key={image._key}
+						key={image}
 						className='flex w-full justify-center items-center'>
 						<Image
-							src={imageUrl(image).url()}
+							src={image}
 							alt={item.name ?? ''}
 							width={550}
 							height={550}

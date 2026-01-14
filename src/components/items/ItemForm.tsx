@@ -45,9 +45,11 @@ export const formSchema = z.object({
 		.max(32, 'Category name must be at most 32 characters.'),
 	description: z
 		.string()
-		.max(100, 'Description must be at most 100 characters.')
+		.max(500, 'Description must be at most 500 characters.')
 		.refine(
-			val => val === '' || /^[a-zA-Z0-9,.\s]+$/.test(val),
+			val =>{
+				console.log({val});
+				return val === '' || /^[a-zA-Z0-9,.' -]+$/.test(val)},
 			'Description must contain only letters and numbers. Special characters (e.g ! @ # $ %) are not permitted.'
 		)
 		.optional(),
@@ -162,7 +164,7 @@ export default function ItemForm({
 	const {isSubmitting} = form.formState
 	const descriptionValue = form.watch('description') || ''
 	const charCount = descriptionValue.length
-	const charRemaining = 100 - charCount
+	const charRemaining = 500 - charCount
 
 	useEffect(() => {
 		if (productDetailFields.length === 0) {
@@ -267,7 +269,7 @@ export default function ItemForm({
 										<InputGroupAddon align='block-end'>
 											<InputGroupText
 												className={`tabular-nums text-xs ${charRemaining < 20 ? 'text-orange-600 font-semibold' : ''}`}>
-												{charCount}/100
+												{charCount}/500
 											</InputGroupText>
 										</InputGroupAddon>
 									</InputGroup>

@@ -49,7 +49,7 @@ export function ItemsTable({items}: {items: Item[]}) {
 		{
 			header: 'Description',
 			accessor: (row: Item) =>
-				row.description?.trim() ? row.description : 'No description provided.'
+				row.description?.trim() ? row.description.slice(0, 50) + '...' : 'No description provided.'
 		},
 		{
 			header: 'Price',

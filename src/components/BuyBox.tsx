@@ -1,22 +1,23 @@
 'use client'
 
 import useStore from '@/app/(store)/store'
-import { Clothing, Footwear } from '../../sanity.types'
+import { ItemDTO } from '@/types/item'
 import AddToBasket from './AddToBasket'
 import BuyItNow from './BuyItNow'
 import QuantitySelector from './QuantitySelector'
 import { Separator } from './ui/separator'
 
 interface BuyBoxProps {
-	product: Footwear | Clothing
+	product:ItemDTO
 }
 const BuyBox = ({product}: BuyBoxProps) => {
 	const {getSelectedSize} = useStore()
-	const isOutOfStock = !product?.sizesAndStock?.some(p => (p?.stock ?? 0) > 0)
-	const activeSize = getSelectedSize(product._id)
-	const availableStock = product?.sizesAndStock?.find(
+	const isOutOfStock = !product?.variants?.some(p => (p?.stock ?? 0) > 0)
+	const activeSize = getSelectedSize(product.id)
+	const availableStock = product?.variants?.find(
 		p => p.size === activeSize
 	)
+	console.log({product, activeSize, availableStock ,isOutOfStock});
 	return (
 		<div className='w-full lg:w-[35%] flex flex-col border rounded-md p-3 mt-4 lg:mt-0 max-h-max'>
 			{!activeSize ? (
@@ -48,7 +49,7 @@ const BuyBox = ({product}: BuyBoxProps) => {
 							</p>
 							<QuantitySelector
 								qty={availableStock?.stock ?? 0}
-								productId={product._id}
+								productId={product.id}
 							/>
 						</div>
 						<BuyItNow product={product} />

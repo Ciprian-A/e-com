@@ -1,10 +1,21 @@
 'use client'
-import { Category, Clothing, Footwear } from '@/../sanity.types'
+// import { Category, Clothing, Footwear } from '@/../sanity.types'
+import { Category, Item, Variant } from '../../generated/prisma/client'
 import ProductGrid from './ProductGrid'
 
 interface ProductsViewProps {
-	products: (Clothing | Footwear)[]
+	products: Item[]
 	categories?: Category[]
+	variants?: Variant[]
+}
+// interface ProductsViewProps {
+// 	products: (Clothing | Footwear)[]
+// 	categories?: Category[]
+// }
+export type ItemDb =  {
+	items: Item[]
+	categories: Category[]
+	variants: Variant[]
 }
 const ProductsView = ({products}: ProductsViewProps) => {
 	return (

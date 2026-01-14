@@ -2,7 +2,6 @@
 
 import IncrementAndDecrementButton from '@/components/IncrementAndDecrementButton'
 import Loader from '@/components/Loader'
-import { imageUrl } from '@/lib/imageUrl'
 import { SignInButton, useAuth, useUser } from '@clerk/nextjs'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -40,6 +39,7 @@ function BasketPage() {
 			</div>
 		)
 	}
+	console.log({groupedItems});
 	const handleCheckout = async () => {
 		if (!isSignedIn) return
 		setIsloading(true)
@@ -53,7 +53,7 @@ function BasketPage() {
 			const mappedItems = groupedItems.map(item => ({
 				...item,
 				
-				_id: item._id.split('-').slice(0,-1).join('-') // Remove size suffix for product ID
+				//id: item._id.split('-').slice(0,-1).join('-') // Remove size suffix for product ID
 			}))
 			console.log({mappedItems});
 			const checkoutUrl = await createCheckoutSession(mappedItems, metadata)
@@ -78,13 +78,13 @@ function BasketPage() {
 				<div className='flex-grow'>
 					{groupedItems?.map(item => (
 						<div
-							key={`${item._id}-${item.size}`}
+							key={item.id}
 							className='mb-4 p-4 border rounded flex items-center justify-between'>
 							<div className='flex items-center flex-1 min-w-0'>
 								<div className='w-20 h-20 sm:w-h-24 flex-shrink-0 mr-4'>
-									{item.image && (
+									{item.imageUrl && (
 										<Image
-											src={imageUrl(item.image).url()}
+											src={item.imageUrl}
 											alt={item.name ?? 'Product image'}
 											className='w-full h-full object-cover rounded'
 											width={96}
@@ -94,7 +94,7 @@ function BasketPage() {
 								</div>
 								<div className='flex flex-col md:flex-row justify-between w-full  space-y-2'>
 									<div className=' space-y-3'>
-										<Link href={`/product/${item.slug?.current}`} className=''>
+										<Link href={`/product/${item.slug}`} className=''>
 											<h2 className='text-lg sm:text-xl font-semibold truncate text-wrap hover:underline'>
 												{item.name}
 											</h2>
@@ -104,11 +104,11 @@ function BasketPage() {
 										</p>
 										<div className='flex items-center flex-shrink-0 space-x-4'>
 											<IncrementAndDecrementButton
-												productId={item._id}
+												productId={item.id}
 												disabled={item.quantity === 0}
 											/>
 											<button
-												onClick={() => removeItem(item._id)}
+												onClick={() => removeItem(item.id)}
 												className='flex space-x-2 hover:cursor-pointer hover:underline decoration-red-500'>
 												<span className='hidden md:block text-red-500'>
 													Remove

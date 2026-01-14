@@ -21,7 +21,7 @@ model Item {
   slug           String      @unique
   description    String?
   price          Float
-  productDetails Json
+  productDetails Json        @default("[]")
   favourites     Favorite[]
   categories     Category[]  @relation("ItemCategories")
   imageUrl       String

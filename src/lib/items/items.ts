@@ -25,3 +25,28 @@ export const getItem = async (id: string) => {
 	})
 	return data
 }
+export const getItemBySlug = async (slug: string) => {
+	const data = await prisma.item.findUniqueOrThrow({
+		where: {
+			slug
+		},
+		include: {
+			categories: true,
+			variants: true,
+			favourites: true
+		}
+	})
+	const productDetails = Array.isArray(data.productDetails)
+		? (data.productDetails as {key: string; value: string}[])
+		: []
+	const favourites = data.favourites.map(f => ({
+		...f,
+		createdAt: f.createdAt.toISOString()
+	}))
+
+	return {
+		...data,
+		productDetails,
+		favourites
+	}
+}

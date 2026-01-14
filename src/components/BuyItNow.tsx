@@ -1,7 +1,8 @@
 import useStore from '@/app/(store)/store'
 import { SignInButton, useAuth, useUser } from '@clerk/nextjs'
 import { useEffect, useState } from 'react'
-import { Clothing, Footwear } from '../../sanity.types'
+// import { Clothing, Footwear } from '../../sanity.types'
+import { ItemDTO } from '@/types/item'
 import {
 	createCheckoutSession,
 	Metadata
@@ -10,7 +11,7 @@ import Loader from './Loader'
 import { Button } from './ui/button'
 
 interface BuyItNowProps {
-	product: Footwear | Clothing
+	product: ItemDTO
 }
 
 const BuyItNow = ({product}: BuyItNowProps) => {
@@ -29,8 +30,8 @@ const BuyItNow = ({product}: BuyItNowProps) => {
 	const {isSignedIn} = useAuth()
 	const {user} = useUser()
 
-	const size = getSelectedSize(product._id)
-	const selectedQty = getSelectedQuantity(product._id)
+	const size = getSelectedSize(product.id)
+	const selectedQty = getSelectedQuantity(product.id)
 	useEffect(() => {
 		setIsClient(true)
 	}, [])
@@ -43,7 +44,7 @@ const BuyItNow = ({product}: BuyItNowProps) => {
 		if (!isSignedIn) return
 		setIsloading(true)
 		const itemToBeAddedToBasket = items.find(
-			i => i._id === `${product._id}`
+			i => i.id === product.id
 		)
 
 		try {
@@ -61,8 +62,8 @@ const BuyItNow = ({product}: BuyItNowProps) => {
 			const checkoutUrl = await createCheckoutSession(groupedItems, metadata)
 			if (checkoutUrl) {
 				window.location.href = checkoutUrl
-				setSelectedSize(product._id, '')
-				setSelectedQuantity(product._id, 1)
+				setSelectedSize(product.id, '')
+				setSelectedQuantity(product.id, 1)
 			}
 		} catch (error) {
 			console.error('Error creating checkout session:', error)
