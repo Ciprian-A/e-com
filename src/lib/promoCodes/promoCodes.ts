@@ -17,3 +17,11 @@ export const getPromoCode = async (id: string) => {
 	})
 	return data
 }
+export const getActivePromoCode = async () => {
+	const data = await prisma.promoCode.findFirst({
+		where: {
+			isActive: true
+		}
+	})
+	return data
+}
