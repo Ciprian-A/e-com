@@ -33,12 +33,12 @@ import {
 	InputGroupTextarea
 } from '../ui/input-group'
 import { UploadFile } from './UploadFile'
-
+const MAX_TOTAL_SIZE = 5 * 1024 * 1024
 export const formSchema = z.object({
 	name: z
 		.string()
 		.regex(
-			/^[a-zA-Z0-9\s]+$/,
+			/^[a-zA-Z0-9\s&]+$/,
 			'Category name must contain only letters and numbers. Special characters (e.g., ! @ # $ %) are not permitted.'
 		)
 		.min(3, 'Category name must be at least 3 characters.')
@@ -46,12 +46,10 @@ export const formSchema = z.object({
 	description: z
 		.string()
 		.max(500, 'Description must be at most 500 characters.')
-		.refine(
-			val =>{
-				console.log({val});
-				return val === '' || /^[a-zA-Z0-9,.' -]+$/.test(val)},
-			'Description must contain only letters and numbers. Special characters (e.g ! @ # $ %) are not permitted.'
-		)
+		.refine(val => {
+			console.log({val})
+			return val === '' || /^[a-zA-Z0-9,.&' -]+$/.test(val)
+		}, 'Description must contain only letters and numbers. Special characters (e.g ! @ # $ %) are not permitted.')
 		.optional(),
 	price: z.coerce.number().positive('Price must be greater than 0'),
 	productDetails: z
@@ -68,6 +66,16 @@ export const formSchema = z.object({
 			files => files.every(f => f instanceof File || typeof f === 'string'),
 			'All gallery items must be files or valid URLs'
 		)
+		.refine(
+			files => {
+				const total = files
+					.filter(f => f instanceof File)
+					.reduce((sum, file) => sum + file.size, 0)
+				return total <= MAX_TOTAL_SIZE
+			},
+			`Total gallery size must be under ${MAX_TOTAL_SIZE / 1024 / 1024}MB`
+		)
+
 		.max(5, 'You can upload up to 5 images')
 		.optional(),
 	categories: z.array(z.uuid()).optional(),
