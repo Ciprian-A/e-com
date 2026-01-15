@@ -7,7 +7,7 @@ const PromoBanner = async () => {
 	}
 
 	return (
-		<div className='bg-linear-to-r from-[#115acf] via-purple-500 to-[#115acf] text-white ps-6 py-10 mx-4 mt-2 rounded-lg shadow-lg'>
+		<div className='bg-linear-to-r from-[#115acf] via-purple-500 to-[#115acf] text-white ps-6 py-10 mx-4 rounded-lg shadow-lg'>
 			<div className='container mx-auto flex items-center '>
 				<div className='flex-1'>
 					<h2 className='text-3xl sm:text-5xl font-extrabold text-center mb-4'>

@@ -19,9 +19,9 @@ export default async function Home() {
 		`${crypto.randomUUID().slice(0, 5)} >>> Rendered the home page chache with ${items.length} products and ${categories.length} categories`
 	)
 	return (
-		<div className='w-full'>
+		<div className='w-full py-4'>
 			<PromoBanner />
-			<div className='flex flex-col items-center justify-top min-h-screen bg-gray-100 p-4'>
+			<div className='flex flex-col min-h-screen bg-gray-100 px-4'>
 				<ProductsView products={mappedProducts} />
 			</div>
 		</div>
