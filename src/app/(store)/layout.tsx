@@ -1,11 +1,7 @@
-import { DisableDraftMode } from '@/components/DisableDraftMode'
 import Header from '@/components/Header'
 import { SidebarProvider } from '@/components/ui/sidebar'
-import { SanityLive } from '@/sanity/lib/live'
 import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata } from 'next'
-import { VisualEditing } from 'next-sanity/visual-editing'
-import { draftMode } from 'next/headers'
 import '../globals.css'
 
 export const metadata: Metadata = {
@@ -22,19 +18,10 @@ export default async function RootLayout({
 		<ClerkProvider dynamic>
 			<html lang='en'>
 				<body className={` antialiased`}>
-					{(await draftMode()).isEnabled && (
-						<>
-							<DisableDraftMode />
-							<VisualEditing />
-						</>
-					)}
 					<main>
 						<Header />
-						<SidebarProvider>
-						{children}
-						</SidebarProvider>
+						<SidebarProvider>{children}</SidebarProvider>
 					</main>
-					<SanityLive />
 				</body>
 			</html>
 		</ClerkProvider>
