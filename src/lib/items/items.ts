@@ -50,3 +50,23 @@ export const getItemBySlug = async (slug: string) => {
 		favourites
 	}
 }
+
+export const getItemsByCategory = async (categorySlug: string) => {
+	const data = await prisma.item.findMany({
+		where: {
+			categories: {
+				some: {
+					slug: categorySlug
+				}
+			}
+		},
+		include: {
+			categories: true,
+			variants: true
+		},
+		orderBy: {
+			name: 'asc'
+		}
+	})
+	return data
+}
