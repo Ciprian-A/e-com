@@ -9,9 +9,9 @@ export type ItemDTO = {
 	productDetails: {key: string; value: string}[]
 	imageUrl: string
 	imageGallery: string[]
-	categories: CategoryDTO[]
-	variants: VariantDTO[]
-	favourites: FavoriteDTO[]
+	categories?: CategoryDTO[]
+	variants?: VariantDTO[]
+	favourites?: FavoriteDTO[]
 }
 export type VariantDTO = {
 	id: string
@@ -21,6 +21,7 @@ export type VariantDTO = {
 export type CategoryDTO = {
 	id: string
 	name: string
+	slug: string
 	description?: string | null
 }
 export type FavoriteDTO = {

@@ -13,10 +13,11 @@ import { cn } from '@/lib/utils'
 import { Check, ChevronsUpDown } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-// import { Category } from '../../../sanity.types'
- type Category = {
+
+type Category = {
 		id: string
 		name: string
+		slug: string
 		description: string | null
 		createdAt: Date
 		updatedAt: Date
@@ -58,7 +59,7 @@ const CategorySelector = ({categories}: CategorySelectorProps) => {
 								)
 								if (selectedCategory?.name) {
 									setValue(selectedCategory.id)
-									router.push(`/categories/${selectedCategory.name}`)
+									router.push(`/categories/${selectedCategory.slug}`)
 									setOpen(false)
 								}
 							}
@@ -73,7 +74,7 @@ const CategorySelector = ({categories}: CategorySelectorProps) => {
 									value={category.name}
 									onSelect={() => {
 										setValue(value === category.id ? '' : category.id)
-										router.push(`/categories/${category.name}`)
+										router.push(`/categories/${category.slug}`)
 										setOpen(false)
 									}}>
 									{category.name}

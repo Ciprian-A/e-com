@@ -61,8 +61,7 @@ export const getItemsByCategory = async (categorySlug: string) => {
 			}
 		},
 		include: {
-			categories: true,
-			variants: true
+			variants: true,
 		},
 		orderBy: {
 			name: 'asc'
