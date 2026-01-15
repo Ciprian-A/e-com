@@ -13,8 +13,14 @@ import { cn } from '@/lib/utils'
 import { Check, ChevronsUpDown } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { Category } from '../../../sanity.types'
-
+// import { Category } from '../../../sanity.types'
+ type Category = {
+		id: string
+		name: string
+		description: string | null
+		createdAt: Date
+		updatedAt: Date
+ }
 interface CategorySelectorProps {
 	categories: Category[]
 }
@@ -33,7 +39,7 @@ const CategorySelector = ({categories}: CategorySelectorProps) => {
 					className='w-full max-w-full relative flex justify-start sm:flex-none items-center space-x-2 text-black  font-base py-2 px-4 rounded hover:bg-gray-200 border-none shadow-none'>
 					{value
 						? categories &&
-							categories.find(category => category._id === value)?.title
+							categories.find(category => category.id === value)?.name
 						: 'Filter by Category'}
 					<ChevronsUpDown className='ml-2 h-4 shrink-0' />
 				</Button>
@@ -46,13 +52,13 @@ const CategorySelector = ({categories}: CategorySelectorProps) => {
 						onKeyDown={e => {
 							if (e.key === 'Enter') {
 								const selectedCategory = categories.find(c =>
-									c.title
+									c.name
 										?.toLowerCase()
 										.includes(e.currentTarget.value.toLowerCase())
 								)
-								if (selectedCategory?.slug?.current) {
-									setValue(selectedCategory._id)
-									router.push(`/categories/${selectedCategory.slug.current}`)
+								if (selectedCategory?.name) {
+									setValue(selectedCategory.id)
+									router.push(`/categories/${selectedCategory.name}`)
 									setOpen(false)
 								}
 							}
@@ -63,18 +69,18 @@ const CategorySelector = ({categories}: CategorySelectorProps) => {
 						<CommandGroup>
 							{categories.map(category => (
 								<CommandItem
-									key={category._id}
-									value={category.title}
+									key={category.id}
+									value={category.name}
 									onSelect={() => {
-										setValue(value === category._id ? '' : category._id)
-										router.push(`/categories/${category.slug?.current}`)
+										setValue(value === category.id ? '' : category.id)
+										router.push(`/categories/${category.name}`)
 										setOpen(false)
 									}}>
-									{category.title}
+									{category.name}
 									<Check
 										className={cn(
 											'ml-auto h-4 w-4',
-											value === category._id ? 'opacity-100' : 'opacity-0'
+											value === category.id ? 'opacity-100' : 'opacity-0'
 										)}
 									/>
 								</CommandItem>

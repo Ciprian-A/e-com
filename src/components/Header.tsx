@@ -1,4 +1,5 @@
-import { getAllCategories } from '@/sanity/lib/products/getAllCategories'
+// import { getAllCategories } from '@/sanity/lib/products/getAllCategories'
+import { getCategories } from '@/lib/categories/categories'
 import { Basket } from './Basket'
 import Favourites from './Favourites'
 import Logo from './Logo'
@@ -7,7 +8,7 @@ import CategorySelector from './ui/category-selector'
 import User from './User'
 
 const Header = async () => {
-	const categories = await getAllCategories()
+	const categories = await getCategories()
 	return (
 		<header className='border-b-2 '>
 			<div className='grid grid-cols-3 grid-rows-3 items-center space-y-0.5 p-2 md:flex md:w-full md:flex-wrap md:items-center lg:space-x-4 lg:px-4 lg:py-2'>
