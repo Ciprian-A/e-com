@@ -1,4 +1,4 @@
-import { prisma } from '../../../config/db'
+import {prisma} from '../../../config/db'
 
 export const getItems = async () => {
 	const data = await prisma.item.findMany({
@@ -61,10 +61,31 @@ export const getItemsByCategory = async (categorySlug: string) => {
 			}
 		},
 		include: {
-			variants: true,
+			variants: true
 		},
 		orderBy: {
 			name: 'asc'
+		}
+	})
+	return data
+}
+
+export const getFavouriteItemsByUser = async (userId: string) => {
+	const data = await prisma.item.findMany({
+		where: {
+			favourites: {
+				some: {
+					userId
+				}
+			}
+		},
+		include: {
+			categories: true,
+			variants: true,
+			favourites: true
+		},
+		orderBy: {
+			createdAt: 'desc'
 		}
 	})
 	return data
