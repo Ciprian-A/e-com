@@ -1,6 +1,6 @@
 'use client'
 import useStore from '@/app/(store)/store'
-import { ItemSize } from '@/app/(store)/store/storeSlice'
+import {ItemSize} from '@/app/(store)/store/storeSlice'
 import {
 	Select,
 	SelectContent,
@@ -8,7 +8,7 @@ import {
 	SelectTrigger,
 	SelectValue
 } from '@/components/ui/select'
-import { ItemDTO } from '@/types/item'
+import {ItemDTO} from '@/types/item'
 
 interface SizeSelectorProps {
 	product: ItemDTO
@@ -35,15 +35,15 @@ interface SizeSelectorProps {
 // const allClothingSizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL']
 
 function SizeSelector({product}: SizeSelectorProps) {
-	const { setSelectedSize, getSelectedSize} = useStore()
+	const {setSelectedSize, getSelectedSize} = useStore()
 	const availableSizeList = product?.variants?.map(p => p.size) as string[]
-	const type = 'footwear' in product ? 'footwear' : 'clothing'
+	// const type = 'footwear' in product ? 'footwear' : 'clothing'
 	const selectedSize = getSelectedSize(product.id)
 
 	const handleValueChange = (value: string) => {
 		setSelectedSize(product.id, value as ItemSize)
 	}
-	console.log({availableSizeList, selectedSize});
+	console.log({availableSizeList, selectedSize})
 	return (
 		<div className=''>
 			<Select
@@ -53,16 +53,14 @@ function SizeSelector({product}: SizeSelectorProps) {
 					<SelectValue placeholder='Select a size' />
 				</SelectTrigger>
 				<SelectContent>
-					{
-						availableSizeList.map((size: string) => (
-							<SelectItem
-								key={size}
-								value={size}
-								disabled={!availableSizeList?.includes(size)}>
-								{size}
-							</SelectItem>
-						))
-					}
+					{availableSizeList.map((size: string) => (
+						<SelectItem
+							key={size}
+							value={size}
+							disabled={!availableSizeList?.includes(size)}>
+							{size}
+						</SelectItem>
+					))}
 				</SelectContent>
 			</Select>
 		</div>
