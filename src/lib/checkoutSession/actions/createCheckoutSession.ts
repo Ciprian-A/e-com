@@ -1,14 +1,15 @@
 'use server'
 
-import { StoreItem } from '@/app/(store)/store/storeSlice'
-import { imageUrl } from '@/lib/imageUrl'
+import {StoreItem} from '@/app/(store)/store/storeSlice'
 import stripe from '@/lib/stripe'
 
 export type Metadata = {
 	orderNumber: string
 	customerName: string
 	customerEmail: string
-	clerkUserId: string
+	storeUserId: string
+	currency?: string
+	promoCodeId?: string
 }
 
 export const createCheckoutSession = async (
@@ -24,7 +25,6 @@ export const createCheckoutSession = async (
 			email: metadata.customerEmail,
 			limit: 1
 		})
-
 		let customerId: string | undefined
 		if (customers.data.length > 0) {
 			customerId = customers.data[0].id
@@ -35,7 +35,7 @@ export const createCheckoutSession = async (
 				: `${process.env.NEXT_PUBLIC_DEV_URL}`
 
 		const successUrl = `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}&orderNumber=${metadata.orderNumber}`
-		const cancelUrl = `${baseUrl}/basket`		
+		const cancelUrl = `${baseUrl}/basket`
 		const session = await stripe.checkout.sessions.create({
 			customer: customerId,
 			customer_creation: customerId ? undefined : 'always',
@@ -47,21 +47,22 @@ export const createCheckoutSession = async (
 			cancel_url: cancelUrl,
 			line_items: items.map(item => ({
 				price_data: {
-					currency: 'gbp',
+					currency: metadata.currency ?? 'gbp',
 					unit_amount: Math.round(item.price! * 100),
 					product_data: {
 						name: item.name || 'Unnamed Product',
-						description: `Product ID: ${item._id}`,
+						description: `Product ID: ${item.id}`,
 						metadata: {
-							id: item._id,
+							itemId: item.id,
 							size: item.size
 						},
-						images: item.image ? [imageUrl(item.image).url()] : undefined
+						images: item.imageUrl ? [item.imageUrl] : undefined
 					}
 				},
 				quantity: item.quantity
 			}))
 		})
+		console.log({items, itemsWithoutPrice, customers, baseUrl, session})
 		return session.url
 	} catch (error) {
 		console.error('Error creating checkout session:', error)

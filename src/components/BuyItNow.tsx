@@ -57,7 +57,7 @@ const BuyItNow = ({product}: BuyItNowProps) => {
 				orderNumber: crypto.randomUUID(),
 				customerName: user?.fullName ?? 'Unknown',
 				customerEmail: user?.emailAddresses[0].emailAddress ?? 'Unknown',
-				clerkUserId: user!.id
+				storeUserId: user!.id
 			}
 			const checkoutUrl = await createCheckoutSession(groupedItems, metadata)
 			if (checkoutUrl) {

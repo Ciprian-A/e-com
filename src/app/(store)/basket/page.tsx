@@ -48,7 +48,7 @@ function BasketPage() {
 				orderNumber: crypto.randomUUID(),
 				customerName: user?.fullName ?? 'Unknown',
 				customerEmail: user?.emailAddresses[0].emailAddress ?? 'Unknown',
-				clerkUserId: user!.id
+				storeUserId: user!.id
 			}
 			const mappedItems = groupedItems.map(item => ({
 				...item,
