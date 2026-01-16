@@ -1,9 +1,9 @@
 'use server'
 
-import { generateSlug } from '@/lib/generateSlug'
-import { uploadGalleryImages } from '@/lib/storage/storage'
-import { revalidatePath } from 'next/cache'
-import { prisma } from '../../../../config/db'
+import {generateSlug} from '@/lib/generateSlug'
+import {uploadGalleryImages} from '@/lib/storage/storage'
+import {revalidatePath} from 'next/cache'
+import {prisma} from '../../../../config/db'
 
 export async function createItem(formData: FormData) {
 	const name = formData.get('name')?.toString() ?? ''
@@ -34,7 +34,6 @@ export async function createItem(formData: FormData) {
 
 	const galleryFiles = formData.getAll('gallery') as File[]
 	const slug = generateSlug(name)
-
 
 	// Call the extracted storage functions
 	const galleryUrls = await uploadGalleryImages(galleryFiles)
@@ -96,8 +95,8 @@ export async function updateItem(id: string, formData: FormData) {
 	const galleryFiles = formData.getAll('gallery') as File[]
 
 	let galleryUrls: string[] | undefined = undefined
-	let newGalleryFiles: File[] = []
-	let existingGalleryUrls: string[] = []
+	const newGalleryFiles: File[] = []
+	const existingGalleryUrls: string[] = []
 
 	for (const entry of galleryFiles) {
 		if (typeof entry === 'string') {
