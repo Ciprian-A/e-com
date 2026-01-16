@@ -1,7 +1,9 @@
 import {Item} from '@/components/items/ItemsTable'
 import {Prisma} from '../../config/db'
 
-export function mapDbItemToUi(item: Prisma.ItemGetPayload<object>): Item {
+export function mapDbItemToUi(
+	item: Prisma.ItemGetPayload<Prisma.ItemDefaultArgs>
+): Item {
 	return {
 		id: item.id,
 		name: item.name,
