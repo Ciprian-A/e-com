@@ -1,17 +1,18 @@
 import { formatCurrency } from '@/lib/formatCurrency'
-import { imageUrl } from '@/lib/imageUrl'
-import { getMyOrders } from '@/sanity/lib/orders/getMyOrders'
+import { getUserOrders } from '@/lib/orders/orders'
 import { auth } from '@clerk/nextjs/server'
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
+
 async function Orders() {
 	const {userId} = await auth()
 	if (!userId) {
 		return redirect('/')
 	}
-	const orders = await getMyOrders(userId)
+	const orders = await getUserOrders(userId)
+	console.log({userId, orders})
 	return (
-		<div className='flex flex-col items-center min-h-screen bg-gray-50 p-4'>
+		<div className='flex flex-col items-center w-full min-h-screen bg-gray-50 p-4'>
 			<div className='bg-white p-4 sm:p-8 reounded-xl shadow-lg w-full max-w-4xl'>
 				<h1 className='text-4xl font-bld text-gray-900 tracking-tight mb-8'>
 					Orders History
@@ -39,8 +40,8 @@ async function Orders() {
 										<div className='sm:text-right'>
 											<p className='text-sm text-gray-600 mb-1'>Order Date</p>
 											<p className='font-medium'>
-												{order.orderDate
-													? new Date(order.orderDate).toLocaleDateString()
+												{order.createdAt
+													? new Date(order.createdAt).toLocaleDateString()
 													: 'N/A'}
 											</p>
 										</div>
@@ -50,8 +51,8 @@ async function Orders() {
 										<div className='flex items-center'>
 											<span className='text-sm mr-2'>Status:</span>
 											<span
-												className={`px-3 py-1 rounded-full text-sm ${order.status === 'paid' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
-												{order.status}
+												className={`px-3 py-1 rounded-full text-sm ${order.orderStatus === 'PAID' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+												{order.orderStatus}
 											</span>
 										</div>
 										<div className='sm:text-right'>
@@ -61,12 +62,12 @@ async function Orders() {
 											</p>
 										</div>
 									</div>
-									{order.amountDiscount ? (
+									{order.amountDiscounted ? (
 										<div className='mt-4 p-3 sm:p-4 bg-red-50 rounded-lg'>
 											<p className='text-red-600 font-medium mb-1 text-sm sm:text-base'>
 												Discount Applied:{' '}
 												{formatCurrency(
-													order.totalPrice ?? 0 + order.amountDiscount,
+													order.totalPrice ?? 0 + order.amountDiscounted,
 													order.currency
 												)}
 											</p>
@@ -78,16 +79,16 @@ async function Orders() {
 										Order Items
 									</p>
 									<div className='space-y-3 sm:space-y-4'>
-										{order.products?.map(product => (
+										{order.orderItems?.map(item => (
 											<div
-												key={product.product?._id + crypto.randomUUID().slice(0,5)}
+												key={item.itemId + crypto.randomUUID().slice(0, 5)}
 												className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 py-2 border-b last:border-b-0'>
 												<div className='flex items-center gap-3 sm:gap-4'>
-													{product.product?.image && (
+													{item?.item.imageUrl && (
 														<div className='relative h-14 w-14 sm:h-16 sm:w-16 flex-shrink-0 rounded-md overflow-hidden'>
 															<Image
-																src={imageUrl(product.product?.image).url()}
-																alt={product.product?.name ?? ''}
+																src={item?.item.imageUrl}
+																alt={item?.item.name ?? ''}
 																className='object-cover'
 																fill
 															/>
@@ -95,33 +96,20 @@ async function Orders() {
 													)}
 													<div>
 														<p className='font-medium text-sm sm:text-base'>
-															{product.product?.name}
+															{item?.item.name}
 														</p>
 														<p className='text-sm text-gray-600'>
-															Quantity:{' '}
-															{(product?.sizeAndQuantity?.reduce(
-																(acc, item) => acc + (item.quantity ?? 0),
-																0
-															) ||
-																0) ??
-																'N/A'}
+															Quantity: {item.quantity ? item.quantity : 'N/A'}
 														</p>
 														<p className='text-sm text-gray-600'>
-															Size:{' '}
-															{(product?.sizeAndQuantity?.map(item => item.size).join(', '
-															) ) ??
-																'N/A'}
+															Size: {item.size ? item.size : 'N/A'}
 														</p>
 													</div>
 												</div>
 												<p className='font-medium text-right'>
-													{product.product?.price && product.sizeAndQuantity
+													{item?.item.price && item.quantity
 														? formatCurrency(
-																product.product?.price *
-																	(product.sizeAndQuantity.reduce(
-																		(acc, item) => acc + (item.quantity ?? 0),
-																		0
-																	) || 0),
+																item?.item.price * (item.quantity || 0),
 																order.currency
 															)
 														: 'N/A'}
