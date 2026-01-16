@@ -1,14 +1,14 @@
 'use client'
 
-import { deletePromoCode } from '@/lib/promoCodes/actions/promoCodes'
-import { useRouter } from 'next/navigation'
-import { GenericTable } from '../GenericTable'
-import { TableActions } from '../TableActions'
+import {deletePromoCode} from '@/lib/promoCodes/actions/promoCodes'
+import {useRouter} from 'next/navigation'
+import {GenericTable} from '../GenericTable'
+import {TableActions} from '../TableActions'
 
 interface PromoCode {
 	id: string
 	title: string
-	cuponCode: string
+	couponCode: string
 	description?: string
 	discountAmount: number
 	isActive: boolean
@@ -35,7 +35,7 @@ export function PromoCodesTable({promoCodes}: {promoCodes: PromoCode[]}) {
 		},
 		{
 			header: 'Coupon Code',
-			accessor: (row: PromoCode) => row.cuponCode
+			accessor: (row: PromoCode) => row.couponCode
 		},
 		{
 			header: 'Discount (%)',
