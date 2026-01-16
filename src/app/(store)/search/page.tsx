@@ -1,5 +1,5 @@
 import ProductGrid from '@/components/ProductGrid'
-import {searchProductsByName} from '@/sanity/lib/products/searchProductsByName'
+import {searchItemsByName} from '@/lib/items/items'
 
 const SearchPage = async ({
 	searchParams
@@ -7,8 +7,13 @@ const SearchPage = async ({
 	searchParams: Promise<{query: string}>
 }) => {
 	const {query} = await searchParams
-	const products = await searchProductsByName(query)
-
+	const products = await searchItemsByName(query)
+	const mappedProducts = products.map(product => ({
+		...product,
+		productDetails: Array.isArray(product.productDetails)
+			? (product.productDetails as {key: string; value: string}[])
+			: []
+	}))
 	if (!products.length) {
 		return (
 			<div className='flex flex-col items-center justify-top min-h-screen bg-gray-100 p-4'>
@@ -29,7 +34,7 @@ const SearchPage = async ({
 				<h1 className='text-3-xl font-bold mb-6 text-center'>
 					Search results for: {query}
 				</h1>
-				<ProductGrid products={products} />
+				<ProductGrid products={mappedProducts} />
 			</div>
 		</div>
 	)

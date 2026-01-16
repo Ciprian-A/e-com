@@ -90,3 +90,21 @@ export const getFavouriteItemsByUser = async (userId: string) => {
 	})
 	return data
 }
+export const searchItemsByName = async (query: string) => {
+	const data = await prisma.item.findMany({
+		where: {
+			name: {
+				contains: query,
+				mode: 'insensitive'
+			}
+		},
+		include: {
+			categories: true,
+			variants: true
+		},
+		orderBy: {
+			name: 'asc'
+		}
+	})
+	return data
+}

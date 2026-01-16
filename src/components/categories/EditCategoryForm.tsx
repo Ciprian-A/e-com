@@ -1,6 +1,6 @@
-import { updateCategory } from '@/lib/categories/actions/categories'
-import { redirect } from 'next/navigation'
-import CategoryForm, { CategoryDataType } from './CategoriesForm'
+import {updateCategory} from '@/lib/categories/actions/categories'
+import {redirect} from 'next/navigation'
+import CategoryForm, {CategoryDataType} from './CategoriesForm'
 
 function EditCategoryForm({
 	category
@@ -8,7 +8,7 @@ function EditCategoryForm({
 	category: {
 		id: string
 		name: string
-		description?: string 
+		description?: string
 	}
 }) {
 	async function onSubmit(data: CategoryDataType) {

@@ -1,8 +1,9 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
+import {revalidatePath} from 'next/cache'
 
-import { prisma } from '../../../../config/db'
+import {generateSlug} from '@/lib/generateSlug'
+import {prisma} from '../../../../config/db'
 
 type CategoryData = {
 	name: string
@@ -16,14 +17,15 @@ export const createCategory = async (categoryData: CategoryData) => {
 	try {
 		const existingcategory = await prisma.category.findFirst({
 			where: {
-				id: categoryData.name
+				name: categoryData.name
 			}
 		})
 		if (existingcategory) {
 			throw new Error('This category already exists.')
 		}
+		const slug = generateSlug(categoryData.name)
 		const category = await prisma.category.create({
-			data: {...categoryData}
+			data: {...categoryData, slug}
 		})
 		revalidatePath('/admin/categories')
 
@@ -35,9 +37,10 @@ export const createCategory = async (categoryData: CategoryData) => {
 }
 export const updateCategory = async (categoryData: UpdateCategoryData) => {
 	try {
+		const slug = generateSlug(categoryData.name)
 		const category = await prisma.category.update({
 			where: {id: categoryData.id},
-			data: {...categoryData}
+			data: {...categoryData, slug}
 		})
 		revalidatePath('/admin/categories')
 
