@@ -1,12 +1,12 @@
 'use client'
 
-import { ChevronDownIcon } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import {ChevronDownIcon} from 'lucide-react'
+import {useEffect, useState} from 'react'
 
-import { Button } from '@/components/ui/button'
-import { Calendar } from '@/components/ui/calendar'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { formatDate } from '@/lib/formatDate'
+import {Button} from '@/components/ui/button'
+import {Calendar} from '@/components/ui/calendar'
+import {Popover, PopoverContent, PopoverTrigger} from '@/components/ui/popover'
+import {formatDate} from '@/lib/formatDate'
 
 export function DatePicker({
 	date: initialDate,
@@ -57,7 +57,3 @@ export function DatePicker({
 		</div>
 	)
 }
-
-;('2025-12-31T00:00:00.000Z')
-;('2025-12-31T23:04:05.000Z')
-;('2025-12-25T01:03:41.000Z')
