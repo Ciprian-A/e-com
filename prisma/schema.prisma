@@ -98,7 +98,7 @@ model PromoCode {
   title          String
   description    String?
   discountAmount Float
-  cuponCode      String   @unique
+  couponCode     String   @unique
   isActive       Boolean  @default(false)
   startDate      DateTime
   endDate        DateTime

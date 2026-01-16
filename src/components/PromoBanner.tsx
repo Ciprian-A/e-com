@@ -11,7 +11,7 @@ const PromoBanner = async () => {
 		<PromoBannerClient
 			title={sale.title}
 			description={sale.description!}
-			couponCode={sale.cuponCode}
+			couponCode={sale.couponCode}
 			discountAmount={sale.discountAmount}
 		/>
 	)
