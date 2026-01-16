@@ -1,11 +1,11 @@
 'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect, useRef, useState } from 'react'
-import { Controller, useFieldArray, useForm } from 'react-hook-form'
+import {zodResolver} from '@hookform/resolvers/zod'
+import {useEffect, useRef, useState} from 'react'
+import {Controller, useFieldArray, useForm} from 'react-hook-form'
 import * as z from 'zod'
 
-import { Button } from '@/components/ui/button'
+import {Button} from '@/components/ui/button'
 import {
 	Card,
 	CardContent,
@@ -22,17 +22,18 @@ import {
 	FieldLabel,
 	FieldSeparator
 } from '@/components/ui/field'
-import { Loader2, Plus, X } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { MultiSelect } from '../MultiSelect'
-import { Input } from '../ui/input'
+import {Loader2, Plus, X} from 'lucide-react'
+import Image from 'next/image'
+import {useRouter} from 'next/navigation'
+import {MultiSelect} from '../MultiSelect'
+import {Input} from '../ui/input'
 import {
 	InputGroup,
 	InputGroupAddon,
 	InputGroupText,
 	InputGroupTextarea
 } from '../ui/input-group'
-import { UploadFile } from './UploadFile'
+import {UploadFile} from './UploadFile'
 const MAX_TOTAL_SIZE = 5 * 1024 * 1024
 export const formSchema = z.object({
 	name: z
@@ -601,7 +602,7 @@ export default function ItemForm({
 																Cover
 															</span>
 														)}
-														<img
+														<Image
 															src={src}
 															alt={`Gallery preview ${idx + 1}`}
 															className='h-24 w-24 object-cover rounded-lg border-2 border-gray-200'
