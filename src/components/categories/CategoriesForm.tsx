@@ -36,7 +36,7 @@ export const formSchema = z.object({
 	name: z
 		.string()
 		.regex(
-			/^[a-zA-Z0-9\s]+$/,
+			/^[a-zA-Z0-9'\s-]+$/,
 			'Category name must contain only letters and numbers. Special characters (e.g., ! @ # $ %) are not permitted.'
 		)
 		.min(3, 'Category name must be at least 3 characters.')
@@ -45,7 +45,7 @@ export const formSchema = z.object({
 		.string()
 		.max(100, 'Description must be at most 100 characters.')
 		.refine(
-			val => val === '' || /^[a-zA-Z0-9.,/s]+$/.test(val),
+			val => val === '' || /^[a-zA-Z0-9.,\s'-]+$/.test(val),
 			'Description must contain only letters and numbers. Special characters (e.g., ! @ # $ %) are not permitted.'
 		)
 		.optional()
