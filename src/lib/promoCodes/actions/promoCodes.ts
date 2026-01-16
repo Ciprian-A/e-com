@@ -1,12 +1,12 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
+import {revalidatePath} from 'next/cache'
 
-import { prisma } from '../../../../config/db'
+import {prisma} from '../../../../config/db'
 
 type PromoCodeData = {
 	title: string
-	cuponCode: string
+	couponCode: string
 	description?: string
 	discountAmount: number
 	isActive: boolean
@@ -21,7 +21,7 @@ export const createPromoCode = async (promoCodeData: PromoCodeData) => {
 	try {
 		const existingPromoCode = await prisma.promoCode.findFirst({
 			where: {
-				cuponCode: promoCodeData.cuponCode
+				couponCode: promoCodeData.couponCode
 			}
 		})
 		if (existingPromoCode) {

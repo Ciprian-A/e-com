@@ -1,10 +1,10 @@
 'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Controller, useForm } from 'react-hook-form'
+import {zodResolver} from '@hookform/resolvers/zod'
+import {Controller, useForm} from 'react-hook-form'
 import * as z from 'zod'
 
-import { Button } from '@/components/ui/button'
+import {Button} from '@/components/ui/button'
 import {
 	Card,
 	CardContent,
@@ -21,18 +21,18 @@ import {
 	FieldLabel,
 	FieldSeparator
 } from '@/components/ui/field'
-import { Input } from '@/components/ui/input'
+import {Input} from '@/components/ui/input'
 import {
 	InputGroup,
 	InputGroupAddon,
 	InputGroupText,
 	InputGroupTextarea
 } from '@/components/ui/input-group'
-import { Switch } from '@/components/ui/switch'
-import { Loader2 } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { toast } from 'sonner'
-import { DatePicker } from '../DatePicker'
+import {Switch} from '@/components/ui/switch'
+import {Loader2} from 'lucide-react'
+import {useRouter} from 'next/navigation'
+import {toast} from 'sonner'
+import {DatePicker} from '../DatePicker'
 
 export const formSchema = z.object({
 	title: z
@@ -51,7 +51,7 @@ export const formSchema = z.object({
 			'Description must contain only letters and numbers. Some special characters (e.g., @ # $ ) are not permitted.'
 		)
 		.optional(),
-	cuponCode: z
+	couponCode: z
 		.string()
 		.regex(
 			/^[a-zA-Z0-9\s]+$/,
@@ -72,7 +72,7 @@ type PromoCodeFormType = {
 	formDescription?: string
 	initialTitle?: string
 	initialDescription?: string
-	initialCuponCode?: string
+	initialCouponCode?: string
 	initialDiscountAmount?: number
 	initialIsActive?: boolean
 	initialStartDate?: Date
@@ -89,7 +89,7 @@ export default function PromoCodeForm({
 	onSubmit,
 	initialTitle = '',
 	initialDescription = '',
-	initialCuponCode = '',
+	initialCouponCode = '',
 	initialDiscountAmount = 0,
 	initialIsActive = false,
 	initialStartDate = undefined,
@@ -104,7 +104,7 @@ export default function PromoCodeForm({
 		defaultValues: {
 			title: initialTitle,
 			description: initialDescription,
-			cuponCode: initialCuponCode,
+			couponCode: initialCouponCode,
 			discountAmount: initialDiscountAmount,
 			isActive: initialIsActive,
 			startDate: initialStartDate,
@@ -160,7 +160,7 @@ export default function PromoCodeForm({
 							)}
 						/>
 						<Controller
-							name='cuponCode'
+							name='couponCode'
 							control={form.control}
 							render={({field, fieldState}) => (
 								<Field data-invalid={fieldState.invalid}>

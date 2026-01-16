@@ -1,25 +1,24 @@
-import { updatePromoCode } from '@/lib/promoCodes/actions/promoCodes'
-import { redirect } from 'next/navigation'
-import PromoCodeForm, { PromoCodeDataType } from './PromoCodeForm'
+import {updatePromoCode} from '@/lib/promoCodes/actions/promoCodes'
+import {redirect} from 'next/navigation'
+import PromoCodeForm, {PromoCodeDataType} from './PromoCodeForm'
 
 function EditPromoCodeForm({
 	promoCode
 }: {
 	promoCode: {
-		id:string
+		id: string
 		title: string
-		description?: string 
+		description?: string
 		discountAmount: number
-		cuponCode: string
+		couponCode: string
 		isActive: boolean
 		startDate: Date
 		endDate: Date
 	}
 }) {
-	
-	async function onSubmit( data: PromoCodeDataType) {
+	async function onSubmit(data: PromoCodeDataType) {
 		'use server'
-		await updatePromoCode({ ...data, id: promoCode.id })
+		await updatePromoCode({...data, id: promoCode.id})
 		redirect('/admin/promoCodes')
 	}
 	return (
@@ -30,7 +29,7 @@ function EditPromoCodeForm({
 				formDescription='Make changes to your promotional code details below.'
 				initialTitle={promoCode.title}
 				initialDescription={promoCode.description}
-				initialCuponCode={promoCode.cuponCode}
+				initialCouponCode={promoCode.couponCode}
 				initialDiscountAmount={promoCode.discountAmount}
 				initialIsActive={promoCode.isActive}
 				initialStartDate={promoCode.startDate}
