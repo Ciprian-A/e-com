@@ -2,6 +2,7 @@
 
 import { Check, Copy, Percent } from 'lucide-react'
 import { useState } from 'react'
+import { Button } from './ui/button'
 
 interface PromoBannerClientProps {
 	title: string
@@ -25,7 +26,7 @@ const PromoBannerClient = ({
 	}
 
 	return (
-		<div className='relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900 to-gray-800 p-1 mb-10'>
+		<div className='relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900 to-gray-800 p-1 mb-10 shadow-xl/30'>
 			<div className='relative bg-white/10 backdrop-blur-lg rounded-xl p-8 md:p-12'>
 				<div className='absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32'></div>
 				<div className='absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full -ml-24 -mb-24'></div>
@@ -52,9 +53,10 @@ const PromoBannerClient = ({
 								{couponCode}
 							</code>
 						</div>
-						<button
+						<Button
 							onClick={copyCode}
-							className='bg-white text-gray-600 hover:bg-gray-100  rounded-lg px-6 py-7 font-medium transition shadow-lg hover:shadow-xl flex items-center justify-center gap-2 border-white'>
+							variant='outline'
+							className='text-white bg-gray-600 hover:bg-gray-100 py-10 rounded-lg  font-medium transition shadow-lg hover:shadow-xl flex items-center justify-center gap-2 border-2 border-white'>
 							{copied ? (
 								<>
 									<Check className='w-5 h-5' />
@@ -66,7 +68,7 @@ const PromoBannerClient = ({
 									Copy Code
 								</>
 							)}
-						</button>
+						</Button>
 					</div>
 					<p className='text-white/90 text-sm mt-4'>
 						Save {discountAmount}% on your entire order
