@@ -1,6 +1,7 @@
 'use server'
 
 import {StoreItem} from '@/app/(store)/store/storeSlice'
+import {stripUuidSuffix} from '@/lib/stripUuidSuffix'
 import stripe from '@/lib/stripe'
 
 export type Metadata = {
@@ -53,7 +54,7 @@ export const createCheckoutSession = async (
 						name: item.name || 'Unnamed Product',
 						description: `Product ID: ${item.id}`,
 						metadata: {
-							itemId: item.id,
+							itemId: stripUuidSuffix(item.id),
 							size: item.size
 						},
 						images: item.imageUrl ? [item.imageUrl] : undefined

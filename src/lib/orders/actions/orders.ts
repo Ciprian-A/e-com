@@ -102,7 +102,7 @@ export async function createOrder(session: Stripe.Checkout.Session) {
 			const price = item.price as Stripe.Price
 
 			const itemId = product.metadata.itemId
-			const size = price.metadata?.size ?? null
+			const size = product.metadata.size as string
 
 			if (!itemId) {
 				throw new Error('Stripe product missing itemId metadata')
