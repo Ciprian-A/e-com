@@ -1,7 +1,5 @@
-import { ItemDTO } from '@/types/item'
-import { StateCreator } from 'zustand'
-// import { Item } from '../../../../generated/prisma/client'
-// import { Clothing, Footwear } from '../../../../sanity.types'
+import {ItemDTO} from '@/types/item'
+import {StateCreator} from 'zustand'
 
 export type StoreItem = ItemDTO & {
 	size: ItemSize
@@ -126,7 +124,7 @@ export const createStoreSlice: StateCreator<StoreSlice, [], [], StoreSlice> = (
 
 			const newItem: StoreItem = {
 				...item,
-				 id: compositeId,
+				id: compositeId,
 				size,
 				quantity: qty
 			}

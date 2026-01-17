@@ -1,14 +1,13 @@
 import useStore from '@/app/(store)/store'
-import { SignInButton, useAuth, useUser } from '@clerk/nextjs'
-import { useEffect, useState } from 'react'
-// import { Clothing, Footwear } from '../../sanity.types'
-import { ItemDTO } from '@/types/item'
+import {ItemDTO} from '@/types/item'
+import {SignInButton, useAuth, useUser} from '@clerk/nextjs'
+import {useEffect, useState} from 'react'
 import {
 	createCheckoutSession,
 	Metadata
 } from '../lib/checkoutSession/actions/createCheckoutSession'
 import Loader from './Loader'
-import { Button } from './ui/button'
+import {Button} from './ui/button'
 
 interface BuyItNowProps {
 	product: ItemDTO
@@ -43,14 +42,12 @@ const BuyItNow = ({product}: BuyItNowProps) => {
 	const handleBuyItNow = async () => {
 		if (!isSignedIn) return
 		setIsloading(true)
-		const itemToBeAddedToBasket = items.find(
-			i => i.id === product.id
-		)
+		const itemToBeAddedToBasket = items.find(i => i.id === product.id)
 
 		try {
 			const groupedItems = getGroupedItems().filter(item => item.quantity > 0)
 
-			if (itemToBeAddedToBasket && size !==undefined ) {
+			if (itemToBeAddedToBasket && size !== undefined) {
 				addItemToBasket(itemToBeAddedToBasket, size, selectedQty)
 			}
 			const metadata: Metadata = {

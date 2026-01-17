@@ -1,20 +1,24 @@
 import React from 'react'
 
 import useStore from '@/app/(store)/store'
-import { StoreItem } from '@/app/(store)/store/storeSlice'
-// import { imageUrl } from '@/lib/imageUrl'
-// import { updateFavourites } from '@/sanity/lib/client'
-import { Heart } from 'lucide-react'
+import {StoreItem} from '@/app/(store)/store/storeSlice'
+import {Heart} from 'lucide-react'
 
 import Image from 'next/image'
 import Link from 'next/link'
 
-const ProductThumb = ({product}: {product: Omit<StoreItem, 'size' | 'quantity'>}) => {
+const ProductThumb = ({
+	product
+}: {
+	product: Omit<StoreItem, 'size' | 'quantity'>
+}) => {
 	const {updateFavouriteItem} = useStore()
 	const isOutOfStock = !product?.variants?.some(p => (p?.stock ?? 0) > 0)
 	const isFavourite = product.favourite
-	console.log({product});
-	const handleFavouriteToggle = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+	console.log({product})
+	const handleFavouriteToggle = (
+		e: React.MouseEvent<SVGSVGElement, MouseEvent>
+	) => {
 		e.preventDefault()
 		e.stopPropagation()
 		updateFavouriteItem(product.id)
@@ -46,8 +50,7 @@ const ProductThumb = ({product}: {product: Omit<StoreItem, 'size' | 'quantity'>}
 					{product.name}
 				</h2>
 				<p className='mt-2 text-sm text-gray-600 line-clamp-2'>
-					{product.description &&
-						product.description ||
+					{(product.description && product.description) ||
 						'No description available'}
 				</p>
 				<p className='mt-2 text=lg font-bold text-gray-900'>

@@ -1,5 +1,3 @@
-// import {getAllFavouriteProducts} from '@/sanity/lib/products/getAllFavouriteProducts'
-
 export default async function FavouritesPage() {
 	// const allFavouriteProducts = await getAllFavouriteProducts()
 	if (0 === 0) {

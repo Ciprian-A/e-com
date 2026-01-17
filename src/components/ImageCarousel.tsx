@@ -9,20 +9,21 @@ import {
 	CarouselPrevious,
 	type CarouselApi
 } from '@/components/ui/carousel'
-// import { updateFavourites } from '@/sanity/lib/client'
-import { Heart } from 'lucide-react'
+import {Heart} from 'lucide-react'
 
-import { ItemDTO } from '@/types/item'
+import {ItemDTO} from '@/types/item'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import {useEffect, useState} from 'react'
 
 const ImageCarousel = ({product}: {product: ItemDTO}) => {
 	const [api, setApi] = useState<CarouselApi>()
 	const [current, setCurrent] = useState(0)
 	const {updateFavouriteItem} = useStore()
-	const item = useStore(state => state.storeItems.find(i=>i.id === product.id))
+	const item = useStore(state =>
+		state.storeItems.find(i => i.id === product.id)
+	)
 	const isFavourite = item?.favourite
-	
+
 	useEffect(() => {
 		if (!api) {
 			return
