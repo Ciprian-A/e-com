@@ -1,4 +1,5 @@
 'use client'
+import {useEffect} from 'react'
 
 import {
 	DropdownMenu,
@@ -9,6 +10,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
+import {syncUser} from '@/lib/users/actions/users'
 import {
 	ClerkLoaded,
 	SignedIn,
@@ -16,12 +18,21 @@ import {
 	SignUpButton,
 	useUser
 } from '@clerk/nextjs'
-import { LogInIcon, LogOutIcon, UserRoundIcon } from 'lucide-react'
+import {LogInIcon, LogOutIcon, UserRoundIcon} from 'lucide-react'
 import Orders from './Orders'
 import TooltipHeader from './TooltipHeader'
 
 const User = () => {
 	const {user} = useUser()
+	useEffect(() => {
+		const sync = async () => {
+			if (user) {
+				const syncedUser = await syncUser()
+				console.log('User sync ---->>>>', {syncedUser})
+			}
+		}
+		sync()
+	}, [user])
 	return (
 		<div className='hover:bg-gray-200 py-1 px-2 rounded cursor-pointer'>
 			<DropdownMenu>
