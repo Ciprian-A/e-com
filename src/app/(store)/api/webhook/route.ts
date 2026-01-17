@@ -3,7 +3,6 @@ import stripe from '@/lib/stripe'
 import {headers} from 'next/headers'
 import {NextRequest, NextResponse} from 'next/server'
 import Stripe from 'stripe'
-// import { Metadata } from '../../../../lib/checkoutSession/actions/createCheckoutSession'
 
 export async function POST(req: NextRequest) {
 	const body = await req.text()
@@ -38,9 +37,9 @@ export async function POST(req: NextRequest) {
 		const session = event.data.object as Stripe.Checkout.Session
 		try {
 			const order = await createOrder(session)
-			console.log('Order created in Sanity:', order)
+			console.log('Order created in Database:', order)
 		} catch (error) {
-			console.log('Error creating order in Sanity:', error)
+			console.log('Error creating order in Database:', error)
 			return NextResponse.json({error: 'Error creating order'}, {status: 500})
 		}
 	}

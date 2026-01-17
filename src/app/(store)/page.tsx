@@ -1,7 +1,7 @@
 import ProductsView from '@/components/ProductsView'
 import PromoBanner from '@/components/PromoBanner'
-import { getCategories } from '@/lib/categories/categories'
-import { getItems } from '@/lib/items/items'
+import {getItems} from '@/lib/items/items'
+import {getCategories} from '../../lib/categories/categories'
 
 export const dynamic = 'force-static'
 export const revalidate = 60 // revaliate at most every 60 seconds

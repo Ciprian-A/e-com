@@ -1,6 +1,6 @@
-import { getProductBySlug } from '@/sanity/lib/products/getProductBySlug'
-import type { Metadata } from 'next'
-import { Suspense } from 'react'
+import {getItemBySlug} from '@/lib/items/items'
+import type {Metadata} from 'next'
+import {Suspense} from 'react'
 
 export async function generateMetadata({
 	params
@@ -8,7 +8,7 @@ export async function generateMetadata({
 	params: Promise<{slug: string}>
 }): Promise<Metadata> {
 	const {slug} = await params
-	const product = await getProductBySlug(slug)
+	const product = await getItemBySlug(slug)
 
 	return {
 		title: `Shoppy - ${product?.name}`,

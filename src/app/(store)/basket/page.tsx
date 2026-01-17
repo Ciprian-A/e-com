@@ -2,11 +2,11 @@
 
 import IncrementAndDecrementButton from '@/components/IncrementAndDecrementButton'
 import Loader from '@/components/Loader'
-import { SignInButton, useAuth, useUser } from '@clerk/nextjs'
+import {SignInButton, useAuth, useUser} from '@clerk/nextjs'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { useEffect, useState } from 'react'
+import {useEffect, useState} from 'react'
 import {
 	createCheckoutSession,
 	Metadata
@@ -39,7 +39,6 @@ function BasketPage() {
 			</div>
 		)
 	}
-	console.log({groupedItems});
 	const handleCheckout = async () => {
 		if (!isSignedIn) return
 		setIsloading(true)
@@ -48,14 +47,13 @@ function BasketPage() {
 				orderNumber: crypto.randomUUID(),
 				customerName: user?.fullName ?? 'Unknown',
 				customerEmail: user?.emailAddresses[0].emailAddress ?? 'Unknown',
-				storeUserId: user!.id
+				storeUserId: user?.id ?? 'Unknown'
 			}
 			const mappedItems = groupedItems.map(item => ({
-				...item,
-				
+				...item
 				//id: item._id.split('-').slice(0,-1).join('-') // Remove size suffix for product ID
 			}))
-			console.log({mappedItems});
+			console.log({mappedItems})
 			const checkoutUrl = await createCheckoutSession(mappedItems, metadata)
 			if (checkoutUrl) {
 				window.location.href = checkoutUrl
