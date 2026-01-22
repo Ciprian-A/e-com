@@ -1,9 +1,9 @@
 import BuyBox from '@/components/BuyBox'
 import ImageCarousel from '@/components/ImageCarousel'
 import SizeSelector from '@/components/SizeSelector'
-import { Separator } from '@/components/ui/separator'
-import { getItemBySlug } from '@/lib/items/items'
-import { notFound } from 'next/navigation'
+import {Separator} from '@/components/ui/separator'
+import {getItemBySlug} from '@/lib/items/items'
+import {notFound} from 'next/navigation'
 
 export const dynamic = 'force-static'
 export const revalidate = 60 // revaliate at most every 60 seconds
@@ -21,8 +21,15 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 	return (
 		<div className='container mx-auto px-4 py-8'>
 			<div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
-				<div className='aspect-4/3 overflow-hidden'>
-					{product.imageUrl && <ImageCarousel product={product} />}
+				<div className='overflow-hidden '>
+					{product.imageUrl && (
+						<ImageCarousel
+							sideNav
+							gallery={product.imageGallery}
+							id={product.id}
+							name={`Image of ${product.name}`}
+						/>
+					)}
 				</div>
 				<div className='flex flex-col w-full'>
 					<div className=' flex flex-col lg:flex-row space-x-8'>
