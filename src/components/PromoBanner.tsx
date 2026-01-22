@@ -1,4 +1,5 @@
-import { getActivePromoCode } from '@/lib/promoCodes/promoCodes'
+import {getCategories} from '@/lib/categories/categories'
+import {getActivePromoCode} from '@/lib/promoCodes/promoCodes'
 import PromoBannerClient from './PromoBannerClient'
 
 const PromoBanner = async () => {
@@ -7,6 +8,8 @@ const PromoBanner = async () => {
 		return null
 	}
 
+	const categories = await getCategories()
+	console.log({categories, sale})
 	return (
 		<PromoBannerClient
 			title={sale.title}
