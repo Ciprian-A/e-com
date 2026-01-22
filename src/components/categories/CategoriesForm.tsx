@@ -28,7 +28,7 @@ import {
 	InputGroupText,
 	InputGroupTextarea
 } from '@/components/ui/input-group'
-import {Loader2} from 'lucide-react'
+import {Loader2, X} from 'lucide-react'
 import Image from 'next/image'
 import {useRouter} from 'next/navigation'
 import {useRef} from 'react'
@@ -96,7 +96,11 @@ export default function CategoryForm({
 			name: initialName,
 			description: initialDescription,
 			categoryImage:
-				initialCategoryImage instanceof File ? initialCategoryImage : undefined
+				initialCategoryImage && typeof initialCategoryImage === 'string'
+					? initialCategoryImage
+					: initialCategoryImage instanceof File
+						? initialCategoryImage
+						: undefined
 		}
 	})
 	const router = useRouter()
@@ -213,18 +217,42 @@ export default function CategoryForm({
 											description={`Upload an image to label your category.`}
 										/>
 									) : (
-										<div className='mt-2 relative inline-block'>
+										<div className='mt-2 relative max-w-max'>
 											<Image
 												src={
 													typeof field.value === 'string'
 														? field.value
 														: URL.createObjectURL(field.value)
 												}
-												width={32}
-												height={32}
+												width={100}
+												height={100}
 												alt='Image Category'
 												className='h-32 w-32 object-cover rounded-lg border-2 border-gray-200'
 											/>
+											<Button
+												variant='secondary'
+												size='icon'
+												type='button'
+												className='absolute top-1 right-1 h-6 w-6 rounded-full shadow-md bg-white/70'
+												aria-label='Remove image'
+												onClick={() => {
+													// Revoke object URL if needed
+													if (field.value instanceof File) {
+														URL.revokeObjectURL(
+															URL.createObjectURL(field.value)
+														)
+													}
+
+													// Clear the field
+													field.onChange(null)
+
+													// Reset the input element
+													if (photoRef.current) {
+														photoRef.current.value = ''
+													}
+												}}>
+												<X className='h-4 w-4' />
+											</Button>
 										</div>
 									)}
 									{fieldState.invalid && (

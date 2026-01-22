@@ -9,6 +9,7 @@ function EditCategoryForm({
 		id: string
 		name: string
 		description?: string
+		categoryImageUrl?: string
 	}
 }) {
 	console.log({category})
@@ -25,6 +26,7 @@ function EditCategoryForm({
 				formDescription='Make changes to your promotional code details below.'
 				initialName={category.name}
 				initialDescription={category.description}
+				initialCategoryImage={category.categoryImageUrl}
 			/>
 		</div>
 	)
