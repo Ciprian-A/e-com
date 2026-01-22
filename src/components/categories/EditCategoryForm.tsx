@@ -1,6 +1,6 @@
 import {updateCategory} from '@/lib/categories/actions/categories'
 import {redirect} from 'next/navigation'
-import CategoryForm, {CategoryDataType} from './CategoriesForm'
+import CategoryForm from './CategoriesForm'
 
 function EditCategoryForm({
 	category
@@ -11,9 +11,10 @@ function EditCategoryForm({
 		description?: string
 	}
 }) {
-	async function onSubmit(data: CategoryDataType) {
+	console.log({category})
+	async function onSubmit(data: FormData) {
 		'use server'
-		await updateCategory({...data, id: category.id})
+		await updateCategory(category.id, data)
 		redirect('/admin/categories')
 	}
 	return (

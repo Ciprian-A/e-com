@@ -3,29 +3,31 @@
 import {revalidatePath} from 'next/cache'
 
 import {generateSlug} from '@/lib/generateSlug'
+import {uploadSingleImage} from '@/lib/storage/storage'
 import {prisma} from '../../../../config/db'
 
-type CategoryData = {
-	name: string
-	description?: string
-}
-
-type UpdateCategoryData = CategoryData & {
-	id: string
-}
-export const createCategory = async (categoryData: CategoryData) => {
+export const createCategory = async (formData: FormData) => {
+	const name = formData.get('name')?.toString() ?? ''
+	const description = formData.get('description')?.toString() ?? ''
+	const categoryImage = formData.get('categoryImage') as File
 	try {
 		const existingcategory = await prisma.category.findFirst({
 			where: {
-				name: categoryData.name
+				name
 			}
 		})
 		if (existingcategory) {
 			throw new Error('This category already exists.')
 		}
-		const slug = generateSlug(categoryData.name)
+		const slug = generateSlug(name)
+		const imageUrl = await uploadSingleImage(categoryImage)
 		const category = await prisma.category.create({
-			data: {...categoryData, slug}
+			data: {
+				name,
+				description,
+				slug,
+				categoryImageUrl: imageUrl
+			}
 		})
 		revalidatePath('/admin/categories')
 
@@ -35,15 +37,19 @@ export const createCategory = async (categoryData: CategoryData) => {
 		throw new Error('Failed to create category.')
 	}
 }
-export const updateCategory = async (categoryData: UpdateCategoryData) => {
+export const updateCategory = async (id: string, formData: FormData) => {
+	const name = formData.get('name')?.toString() ?? ''
+	const description = formData.get('description')?.toString() ?? ''
+	const categoryImage = formData.get('categoryImage') as File
 	try {
-		const slug = generateSlug(categoryData.name)
+		const slug = generateSlug(name)
+		const imageUrl = await uploadSingleImage(categoryImage)
 		const category = await prisma.category.update({
-			where: {id: categoryData.id},
-			data: {...categoryData, slug}
+			where: {id},
+			data: {name, description, slug, categoryImageUrl: imageUrl}
 		})
 		revalidatePath('/admin/categories')
-
+		console.log({name, description, categoryImage, updatedCategory: category})
 		return category
 	} catch (error) {
 		console.log('Error updating category:', error)

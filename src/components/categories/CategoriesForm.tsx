@@ -1,10 +1,10 @@
 'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Controller, useForm } from 'react-hook-form'
+import {zodResolver} from '@hookform/resolvers/zod'
+import {Controller, useForm} from 'react-hook-form'
 import * as z from 'zod'
 
-import { Button } from '@/components/ui/button'
+import {Button} from '@/components/ui/button'
 import {
 	Card,
 	CardContent,
@@ -21,16 +21,20 @@ import {
 	FieldLabel,
 	FieldSeparator
 } from '@/components/ui/field'
-import { Input } from '@/components/ui/input'
+import {Input} from '@/components/ui/input'
 import {
 	InputGroup,
 	InputGroupAddon,
 	InputGroupText,
 	InputGroupTextarea
 } from '@/components/ui/input-group'
-import { Loader2 } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { toast } from 'sonner'
+import {Loader2} from 'lucide-react'
+import Image from 'next/image'
+import {useRouter} from 'next/navigation'
+import {useRef} from 'react'
+import {UploadFile} from '../items/UploadFile'
+
+const FILE_SIZE = 5 * 1024 * 1024
 
 export const formSchema = z.object({
 	name: z
@@ -45,18 +49,34 @@ export const formSchema = z.object({
 		.string()
 		.max(100, 'Description must be at most 100 characters.')
 		.refine(
-			val => val === '' || /^[a-zA-Z0-9.,\s'-]+$/.test(val),
+			val => val === '' || /^[a-zA-Z0-9,.&' -]+$/.test(val),
 			'Description must contain only letters and numbers. Special characters (e.g., ! @ # $ %) are not permitted.'
+		)
+		.optional(),
+	categoryImage: z
+		.union([z.instanceof(File), z.url(), z.undefined()])
+		.refine(
+			f => f instanceof File || typeof f === 'string',
+			'Image must be a file or valid URL'
+		)
+		.refine(
+			file => {
+				if (!file || typeof file === 'string') return true
+				return file.size <= FILE_SIZE
+			},
+			`Max file size is ${FILE_SIZE / (1024 * 1024)}MB`
 		)
 		.optional()
 })
+
 type CategoryFormType = {
 	formTitle?: string
 	formDescription?: string
 	initialName?: string
 	initialDescription?: string
+	initialCategoryImage?: File | string | null | undefined
 
-	onSubmit: (formData: CategoryDataType) => Promise<void>
+	onSubmit: (formData: FormData) => Promise<void>
 }
 
 export type CategoryDataType = z.infer<typeof formSchema>
@@ -66,13 +86,17 @@ export default function CategoryForm({
 	formDescription,
 	onSubmit,
 	initialName = '',
-	initialDescription = ''
+	initialDescription = '',
+	initialCategoryImage = ''
 }: CategoryFormType) {
+	const photoRef = useRef<HTMLInputElement>(null)
 	const form = useForm<CategoryDataType>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			name: initialName,
-			description: initialDescription
+			description: initialDescription,
+			categoryImage:
+				initialCategoryImage instanceof File ? initialCategoryImage : undefined
 		}
 	})
 	const router = useRouter()
@@ -95,9 +119,13 @@ export default function CategoryForm({
 			<CardContent>
 				<form
 					id='form-category'
-					onSubmit={form.handleSubmit(async (values: CategoryDataType) => {
-						await onSubmit(values)
-						toast('You submitted the following values:')
+					onSubmit={form.handleSubmit(async (data: CategoryDataType) => {
+						const formData = new FormData()
+
+						formData.append('name', data.name)
+						formData.append('description', data.description ?? '')
+						formData.append('categoryImage', data.categoryImage ?? '')
+						await onSubmit(formData)
 					})}>
 					<FieldGroup>
 						<Controller
@@ -151,6 +179,54 @@ export default function CategoryForm({
 										Include a short description about the the newly created
 										category.
 									</FieldDescription>
+									{fieldState.invalid && (
+										<FieldError errors={[fieldState.error]} />
+									)}
+								</Field>
+							)}
+						/>
+						<Controller
+							name='categoryImage'
+							control={form.control}
+							render={({field, fieldState}) => (
+								<Field data-invalid={fieldState.invalid}>
+									<FieldLabel htmlFor='form-category-image' className='text-md'>
+										Category Image
+									</FieldLabel>
+									<Input
+										ref={photoRef}
+										hidden
+										type='file'
+										accept='image/*'
+										id='form-category-image'
+										aria-invalid={fieldState.invalid}
+										onChange={e => {
+											field.onChange(e.target.files?.[0] ?? null)
+										}}
+									/>
+									{!field.value ? (
+										<UploadFile
+											type='image'
+											onClick={() => photoRef.current?.click()}
+											css='border-2 border-dashed hover:border-gray-400 transition-colors'
+											title='Upload Image'
+											description={`Upload an image to label your category.`}
+										/>
+									) : (
+										<div className='mt-2 relative inline-block'>
+											<Image
+												src={
+													typeof field.value === 'string'
+														? field.value
+														: URL.createObjectURL(field.value)
+												}
+												width={32}
+												height={32}
+												alt='Image Category'
+												className='h-32 w-32 object-cover rounded-lg border-2 border-gray-200'
+											/>
+										</div>
+									)}
 									{fieldState.invalid && (
 										<FieldError errors={[fieldState.error]} />
 									)}

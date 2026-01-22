@@ -76,7 +76,6 @@ export const formSchema = z.object({
 			},
 			`Total gallery size must be under ${MAX_TOTAL_SIZE / 1024 / 1024}MB`
 		)
-
 		.max(5, 'You can upload up to 5 images')
 		.optional(),
 	categories: z.array(z.uuid()).optional(),
