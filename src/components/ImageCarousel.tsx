@@ -63,7 +63,7 @@ const ImageCarousel = ({
 		<Carousel
 			className='relative   bg-[#f7f7f7] rounded-lg'
 			setApi={setApi}
-			opts={{loop: false, active: true}}
+			opts={{loop: true, active: true}}
 			plugins={plugins}>
 			<div className='flex flex-col gap-4 relative p-1 sm:p-4'>
 				<div className='flex-1'>
@@ -73,8 +73,8 @@ const ImageCarousel = ({
 								<Image
 									src={image}
 									alt={name ?? ''}
-									width={100}
-									height={100}
+									width={500}
+									height={500}
 									className='w-full h-full object-cover md:max-h-[500px] rounded-lg '
 								/>
 							</CarouselItem>
