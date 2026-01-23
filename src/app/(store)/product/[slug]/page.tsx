@@ -1,6 +1,6 @@
 import BuyBox from '@/components/BuyBox'
 import ImageCarousel from '@/components/ImageCarousel'
-import SizeSelector from '@/components/SizeSelector'
+import SizeList from '@/components/SizeList'
 import {Separator} from '@/components/ui/separator'
 import {getItemBySlug} from '@/lib/items/items'
 import {notFound} from 'next/navigation'
@@ -11,6 +11,7 @@ export const revalidate = 60 // revaliate at most every 60 seconds
 const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 	const {slug} = await params
 	const product = await getItemBySlug(slug)
+	const sizeList = product.variants.map(p => p.size)
 
 	console.log(
 		`${crypto.randomUUID().slice(0, 5)} >>> Rendered the product page chache for ${slug}`
@@ -40,10 +41,7 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 							</div>
 							<Separator className='my-4 w-full' />
 							<div>
-								<p className='text-base mb-2'>
-									Size<span className='text-red-500'>*</span>
-								</p>
-								<SizeSelector product={product} />
+								<SizeList sizes={sizeList} productId={product.id} />
 							</div>
 							<div className='mt-8 w-full'>
 								<h3 className='text-xl font-bold'>Product details</h3>
