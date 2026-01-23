@@ -31,3 +31,53 @@ export const getUserOrders = async (userId: string) => {
 	console.log('getUserOrders ----->>>>>>', {orders})
 	return orders
 }
+
+export const getAllOrders = async () => {
+	const orders = await prisma.order.findMany({
+		include: {
+			orderItems: {
+				include: {
+					item: {
+						select: {
+							id: true,
+							name: true,
+							slug: true,
+							imageUrl: true,
+							price: true,
+							variants: true
+						}
+					}
+				}
+			}
+		},
+		orderBy: {
+			createdAt: 'desc'
+		}
+	})
+	return orders
+}
+export const getOrderById = async (id: string) => {
+	const order = await prisma.order.findFirstOrThrow({
+		where: {orderNumber: id},
+		include: {
+			orderItems: {
+				include: {
+					item: {
+						select: {
+							id: true,
+							name: true,
+							slug: true,
+							imageUrl: true,
+							price: true,
+							variants: true
+						}
+					}
+				}
+			}
+		},
+		orderBy: {
+			createdAt: 'desc'
+		}
+	})
+	return order
+}

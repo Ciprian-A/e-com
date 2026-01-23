@@ -1,21 +1,20 @@
 'use client'
 
-import { deleteItem } from '@/lib/items/actions/items'
+import {deleteItem} from '@/lib/items/actions/items'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import { GenericTable } from '../GenericTable'
-import { TableActions } from '../TableActions'
+import {useRouter} from 'next/navigation'
+import {GenericTable} from '../GenericTable'
+import {TableActions} from '../TableActions'
 
 export interface Item {
 	id: string
 	name: string
-	description?: string 
+	description?: string
 	price: number
-	productDetails:
-		| {
-				key: string
-				value: string
-		  }[]
+	productDetails: {
+		key: string
+		value: string
+	}[]
 	imageUrl: string
 	imageGallery: string[]
 	createdAt: Date
@@ -26,7 +25,7 @@ export function ItemsTable({items}: {items: Item[]}) {
 	const router = useRouter()
 	const handleDelete = async (id: string) => {
 		await deleteItem(id)
-    console.log('item deleted', id);
+		console.log('item deleted', id)
 	}
 	const columns = [
 		{
@@ -49,7 +48,9 @@ export function ItemsTable({items}: {items: Item[]}) {
 		{
 			header: 'Description',
 			accessor: (row: Item) =>
-				row.description?.trim() ? row.description.slice(0, 50) + '...' : 'No description provided.'
+				row.description?.trim()
+					? row.description.slice(0, 50) + '...'
+					: 'No description provided.'
 		},
 		{
 			header: 'Price',
@@ -57,7 +58,7 @@ export function ItemsTable({items}: {items: Item[]}) {
 		}
 	]
 
-	const actions = (row: {id: string}) => (
+	const actions = (row: Item) => (
 		<TableActions
 			dialogTitle='Delete Item'
 			dialogDescription='This action cannot be undone. Are you sure you want to delete this item?'
@@ -72,6 +73,7 @@ export function ItemsTable({items}: {items: Item[]}) {
 			data={items}
 			actions={actions}
 			tableCaption='Your recent items.'
+			rowKey={row => row.id}
 		/>
 	)
 }

@@ -47,7 +47,7 @@ export function PromoCodesTable({promoCodes}: {promoCodes: PromoCode[]}) {
 		}
 	]
 
-	const actions = (row: {id: string}) => (
+	const actions = (row: PromoCode) => (
 		<TableActions
 			dialogTitle='Delete Promo Code'
 			dialogDescription='This action cannot be undone. Are you sure you want to delete this promo code?'
@@ -62,6 +62,7 @@ export function PromoCodesTable({promoCodes}: {promoCodes: PromoCode[]}) {
 			data={promoCodes}
 			actions={actions}
 			tableCaption='Your recent promotional codes.'
+			rowKey={row => row.id}
 		/>
 	)
 }

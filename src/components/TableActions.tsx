@@ -10,15 +10,15 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle
 } from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
+import {Button} from '@/components/ui/button'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { EllipsisVertical } from 'lucide-react'
-import { useState } from 'react'
+import {EllipsisVertical} from 'lucide-react'
+import {useState} from 'react'
 
 export function TableActions({
 	onEdit,
@@ -37,7 +37,7 @@ export function TableActions({
 		<>
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
-					<Button 
+					<Button
 						variant='ghost'
 						size='icon'
 						className='h-6 w-6 p-0 hover:cursor-pointer hover:bg-gray-300'>
@@ -47,7 +47,7 @@ export function TableActions({
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align='end' className='w-28'>
 					<DropdownMenuItem onClick={onEdit}>Edit</DropdownMenuItem>
-					<DropdownMenuItem 
+					<DropdownMenuItem
 						onClick={() => setShowConfirm(true)}
 						className='text-red-500'>
 						Delete
@@ -58,9 +58,7 @@ export function TableActions({
 				<AlertDialogContent>
 					<AlertDialogHeader>
 						<AlertDialogTitle>{dialogTitle}</AlertDialogTitle>
-						<AlertDialogDescription>
-						{dialogDescription}
-						</AlertDialogDescription>
+						<AlertDialogDescription>{dialogDescription}</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>
 						<AlertDialogCancel>Cancel</AlertDialogCancel>

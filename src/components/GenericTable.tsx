@@ -28,13 +28,15 @@ interface GenericTableProps<T> {
 	tableCaption?: string
 	actions?: (row: T) => React.ReactNode
 	footer?: (data: T[]) => React.ReactNode
+	rowKey: (row: T) => string
 }
 
-export function GenericTable<T extends {id: string}>({
+export function GenericTable<T>({
 	columns,
 	data,
 	tableCaption,
-	actions
+	actions,
+	rowKey
 }: GenericTableProps<T>) {
 	return (
 		<Table className='border relative h-full w-2xs sm:w-sm md:w-md lg:w-2xl xl:w-3xl '>
@@ -55,7 +57,7 @@ export function GenericTable<T extends {id: string}>({
 			</TableHeader>
 			<TableBody>
 				{data.map(row => (
-					<TableRow key={row.id}>
+					<TableRow key={rowKey(row)}>
 						{columns.map((col, i) => (
 							<TableCell key={i} className={col.className}>
 								{typeof col.accessor === 'function'

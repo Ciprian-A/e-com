@@ -1,9 +1,9 @@
 'use client'
 
-import { deleteCategory } from '@/lib/categories/actions/categories'
-import { useRouter } from 'next/navigation'
-import { GenericTable } from '../GenericTable'
-import { TableActions } from '../TableActions'
+import {deleteCategory} from '@/lib/categories/actions/categories'
+import {useRouter} from 'next/navigation'
+import {GenericTable} from '../GenericTable'
+import {TableActions} from '../TableActions'
 
 interface Category {
 	id: string
@@ -30,7 +30,7 @@ export function CategoriesTable({categories}: {categories: Category[]}) {
 		}
 	]
 
-	const actions = (row: {id: string}) => (
+	const actions = (row: Category) => (
 		<TableActions
 			dialogTitle='Delete Category'
 			dialogDescription='This action cannot be undone. Are you sure you want to delete this category?'
@@ -45,6 +45,7 @@ export function CategoriesTable({categories}: {categories: Category[]}) {
 			data={categories}
 			actions={actions}
 			tableCaption='Your recent product categories.'
+			rowKey={row => row.id}
 		/>
 	)
 }
