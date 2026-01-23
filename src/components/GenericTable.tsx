@@ -29,6 +29,8 @@ interface GenericTableProps<T> {
 	actions?: (row: T) => React.ReactNode
 	footer?: (data: T[]) => React.ReactNode
 	rowKey: (row: T) => string
+	onRowClick?: (row: T) => void
+	rowEnd?: (row: T) => React.ReactNode // TODO: replace action
 }
 
 export function GenericTable<T>({
@@ -36,7 +38,8 @@ export function GenericTable<T>({
 	data,
 	tableCaption,
 	actions,
-	rowKey
+	rowKey,
+	onRowClick
 }: GenericTableProps<T>) {
 	return (
 		<Table className='border relative h-full w-2xs sm:w-sm md:w-md lg:w-2xl xl:w-3xl '>
@@ -57,7 +60,10 @@ export function GenericTable<T>({
 			</TableHeader>
 			<TableBody>
 				{data.map(row => (
-					<TableRow key={rowKey(row)}>
+					<TableRow
+						key={rowKey(row)}
+						className={onRowClick ? 'cursor-pointer hover:bg-gray-100' : ''}
+						onClick={() => onRowClick?.(row)}>
 						{columns.map((col, i) => (
 							<TableCell key={i} className={col.className}>
 								{typeof col.accessor === 'function'
@@ -66,7 +72,11 @@ export function GenericTable<T>({
 							</TableCell>
 						))}
 						{actions && (
-							<TableCell className='text-right'>{actions(row)}</TableCell>
+							<TableCell
+								className='text-right'
+								onClick={e => e.stopPropagation()}>
+								{actions(row)}
+							</TableCell>
 						)}
 					</TableRow>
 				))}

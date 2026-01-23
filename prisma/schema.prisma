@@ -66,7 +66,7 @@ model Category {
 
 model OrderItem {
   id        String  @id @default(uuid())
-  order     Order   @relation(fields: [orderId], references: [orderNumber])
+  order     Order   @relation(fields: [orderId], references: [orderNumber], onDelete: Cascade)
   orderId   String
   item      Item    @relation(fields: [itemId], references: [id], onDelete: Cascade)
   itemId    String

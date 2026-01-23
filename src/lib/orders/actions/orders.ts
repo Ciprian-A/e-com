@@ -47,6 +47,7 @@
 import {normalizeStripeCurrency} from '@/lib/constants/currency'
 import stripe from '@/lib/stripe'
 // import { OrderStatus } from '@prisma/client'
+import {revalidatePath} from 'next/cache'
 import Stripe from 'stripe'
 import {prisma} from '../../../../config/db'
 
@@ -126,4 +127,18 @@ export async function createOrder(session: Stripe.Checkout.Session) {
 		console.log('createOrder ----->>>>>>>', {order})
 		return order
 	})
+}
+
+export const deleteOrderById = async (id: string) => {
+	try {
+		await prisma.order.delete({
+			where: {
+				orderNumber: id
+			}
+		})
+		revalidatePath('/admin/orders')
+	} catch (error) {
+		console.log('Error deleting order:', error)
+		throw new Error('Failed to delete order.')
+	}
 }

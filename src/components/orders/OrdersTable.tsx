@@ -1,18 +1,11 @@
 'use client'
 
-import {deleteCategory} from '@/lib/categories/actions/categories'
+import {deleteOrderById} from '@/lib/orders/actions/orders'
 import {OrderDTO} from '@/types/item'
 import {useRouter} from 'next/navigation'
+import {DeleteModal} from '../DeleteModal'
 import {GenericTable} from '../GenericTable'
-import {TableActions} from '../TableActions'
 
-interface Category {
-	id: string
-	name: string
-	description?: string
-	createdAt: Date
-	updatedAt: Date
-}
 type Order = Pick<
 	OrderDTO,
 	'orderNumber' | 'totalPrice' | 'currency' | 'amountDiscounted' | 'orderStatus'
@@ -21,7 +14,7 @@ type Order = Pick<
 export function OrdersTable({orders}: {orders: Order[]}) {
 	const router = useRouter()
 	const handleDelete = async (id: string) => {
-		await deleteCategory(id)
+		await deleteOrderById(id)
 	}
 	const columns = [
 		{
@@ -47,10 +40,9 @@ export function OrdersTable({orders}: {orders: Order[]}) {
 	]
 
 	const actions = (row: Order) => (
-		<TableActions
+		<DeleteModal
 			dialogTitle='Delete Order'
 			dialogDescription='This action cannot be undone. Are you sure you want to delete this order?'
-			onEdit={() => router.push(`/admin/orders/${row.orderNumber}/edit`)}
 			onDelete={() => handleDelete(row.orderNumber)}
 		/>
 	)
@@ -62,6 +54,7 @@ export function OrdersTable({orders}: {orders: Order[]}) {
 			actions={actions}
 			tableCaption='Recent orders.'
 			rowKey={row => row.orderNumber}
+			onRowClick={row => router.push(`/admin/orders/${row.orderNumber}`)}
 		/>
 	)
 }
