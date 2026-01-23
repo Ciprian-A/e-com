@@ -12,7 +12,6 @@ function EditCategoryForm({
 		categoryImageUrl?: string
 	}
 }) {
-	console.log({category})
 	async function onSubmit(data: FormData) {
 		'use server'
 		await updateCategory(category.id, data)

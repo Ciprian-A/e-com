@@ -78,7 +78,6 @@ export async function createOrder(session: Stripe.Checkout.Session) {
 			expand: ['data.price.product']
 		}
 	)
-	console.log({lineItems})
 	return prisma.$transaction(async tx => {
 		const order = await tx.order.create({
 			data: {
@@ -124,7 +123,6 @@ export async function createOrder(session: Stripe.Checkout.Session) {
 				}
 			})
 		}
-		console.log('createOrder ----->>>>>>>', {order})
 		return order
 	})
 }

@@ -28,7 +28,6 @@ const User = () => {
 		const sync = async () => {
 			if (user) {
 				const syncedUser = await syncUser()
-				console.log('User sync ---->>>>', {syncedUser})
 			}
 		}
 		sync()

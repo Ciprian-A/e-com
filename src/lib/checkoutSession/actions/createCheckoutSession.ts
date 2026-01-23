@@ -63,7 +63,6 @@ export const createCheckoutSession = async (
 				quantity: item.quantity
 			}))
 		})
-		console.log({items, itemsWithoutPrice, customers, baseUrl, session})
 		return session.url
 	} catch (error) {
 		console.error('Error creating checkout session:', error)

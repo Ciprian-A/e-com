@@ -28,7 +28,6 @@ export const getUserOrders = async (userId: string) => {
 			createdAt: 'desc'
 		}
 	})
-	console.log('getUserOrders ----->>>>>>', {orders})
 	return orders
 }
 

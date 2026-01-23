@@ -25,7 +25,6 @@ export function ItemsTable({items}: {items: Item[]}) {
 	const router = useRouter()
 	const handleDelete = async (id: string) => {
 		await deleteItem(id)
-		console.log('item deleted', id)
 	}
 	const columns = [
 		{

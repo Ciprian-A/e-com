@@ -5,7 +5,6 @@ import Image from 'next/image'
 async function Order({params}: {params: Promise<{orderId: string}>}) {
 	const {orderId} = await params
 	const order = await getOrderById(orderId)
-	console.log({orderId})
 	return (
 		<>
 			<div className='w-2xs sm:w-sm md:w-md lg:w-2xl xl:w-3xl'>
@@ -114,9 +113,6 @@ async function Order({params}: {params: Promise<{orderId: string}>}) {
 				</div>
 			</div>
 		</>
-		// <div>
-		// 	 {orderId}
-		// </div>
 	)
 }
 

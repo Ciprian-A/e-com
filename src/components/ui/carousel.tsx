@@ -258,7 +258,6 @@ function CarouselSideNav({images}: {images?: string[]}) {
 	const {scrollSnaps, selectedIndex, api} = useCarousel()
 
 	if (!api) return null
-	console.log({scrollSnaps, images})
 	return (
 		<div className=' flex  gap-3 z-20 overflow-auto'>
 			{scrollSnaps.map((_, i) => (

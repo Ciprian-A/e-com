@@ -1,16 +1,15 @@
-import { CategoriesTable } from '@/components/categories/CategoriesTable';
-import { getCategories } from '@/lib/categories/categories';
-import { Plus } from 'lucide-react';
-import Link from 'next/link';
+import {CategoriesTable} from '@/components/categories/CategoriesTable'
+import {getCategories} from '@/lib/categories/categories'
+import {Plus} from 'lucide-react'
+import Link from 'next/link'
 
 async function CategoriesPage() {
-  const categoriesData = await getCategories()
-  const categories = categoriesData.map(cat => ({
-	...cat,
-	description: cat.description ?? undefined
-  }))
-  console.log({categories});
-  return (
+	const categoriesData = await getCategories()
+	const categories = categoriesData.map(cat => ({
+		...cat,
+		description: cat.description ?? undefined
+	}))
+	return (
 		<>
 			<div className='flex items-center justify-between mb-4 '>
 				<h1 className='font-bold text-2xl'>Categories</h1>

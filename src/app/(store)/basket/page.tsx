@@ -51,9 +51,7 @@ function BasketPage() {
 			}
 			const mappedItems = groupedItems.map(item => ({
 				...item
-				//id: item._id.split('-').slice(0,-1).join('-') // Remove size suffix for product ID
 			}))
-			console.log({mappedItems})
 			const checkoutUrl = await createCheckoutSession(mappedItems, metadata)
 			if (checkoutUrl) {
 				window.location.href = checkoutUrl

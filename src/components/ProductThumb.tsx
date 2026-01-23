@@ -15,7 +15,7 @@ const ProductThumb = ({
 	const {updateFavouriteItem} = useStore()
 	const isOutOfStock = !product?.variants?.some(p => (p?.stock ?? 0) > 0)
 	const isFavourite = product.favourite
-	console.log({product})
+
 	const handleFavouriteToggle = (
 		e: React.MouseEvent<SVGSVGElement, MouseEvent>
 	) => {

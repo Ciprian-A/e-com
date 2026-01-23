@@ -72,7 +72,6 @@ export const createStoreSlice: StateCreator<StoreSlice, [], [], StoreSlice> = (
 		})),
 	getStoreItems: () => get().storeItems,
 	setSelectedSize: (id, size) => {
-		// console.log('setSelectedSize->>>', {id, size})
 		set(state => ({
 			storeItems: state.storeItems.map(item =>
 				item.id === id ? {...item, size} : item
@@ -82,8 +81,6 @@ export const createStoreSlice: StateCreator<StoreSlice, [], [], StoreSlice> = (
 	getSelectedSize: (id: string) => {
 		const foundItem = get().storeItems.find(item => item.id === id)
 		const size = foundItem && foundItem.size ? foundItem.size : ''
-
-		// console.log('getSelectedSize->>>', {foundItem, size})
 		return size
 	},
 	setSelectedQuantity: (id, qty) => {
@@ -96,9 +93,7 @@ export const createStoreSlice: StateCreator<StoreSlice, [], [], StoreSlice> = (
 	},
 	getSelectedQuantity: (id: string) => {
 		const foundItem = get().storeItems.find(item => item.id === id)
-
 		const quantity = foundItem && foundItem.quantity ? foundItem.quantity : 1
-		// console.log('getSelectedQuantity->>>', {foundItem, quantity})
 		return quantity
 	},
 	getItemFromStore: (itemId: string) =>

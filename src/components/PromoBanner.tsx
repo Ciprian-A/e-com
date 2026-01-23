@@ -9,7 +9,6 @@ const PromoBanner = async () => {
 	}
 
 	const categories = await getCategories()
-	console.log({categories, sale})
 	return (
 		<PromoBannerClient
 			title={sale.title}

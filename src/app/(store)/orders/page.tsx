@@ -1,8 +1,8 @@
-import { formatCurrency } from '@/lib/formatCurrency'
-import { getUserOrders } from '@/lib/orders/orders'
-import { auth } from '@clerk/nextjs/server'
+import {formatCurrency} from '@/lib/formatCurrency'
+import {getUserOrders} from '@/lib/orders/orders'
+import {auth} from '@clerk/nextjs/server'
 import Image from 'next/image'
-import { redirect } from 'next/navigation'
+import {redirect} from 'next/navigation'
 
 async function Orders() {
 	const {userId} = await auth()
@@ -10,7 +10,6 @@ async function Orders() {
 		return redirect('/')
 	}
 	const orders = await getUserOrders(userId)
-	console.log({userId, orders})
 	return (
 		<div className='flex flex-col items-center w-full min-h-screen bg-gray-50 p-4'>
 			<div className='bg-white p-4 sm:p-8 reounded-xl shadow-lg w-full max-w-4xl'>

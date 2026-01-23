@@ -23,12 +23,10 @@ export function DatePicker({
 	useEffect(() => {
 		setDate(initialDate)
 	}, [initialDate])
-	console.log({initialDate, date})
 	const handleSelect = (newDate: Date | undefined) => {
 		setDate(newDate)
-		onDateChange(newDate) // 👈 propagate to RHF
+		onDateChange(newDate) // propagate to RHF
 		setOpen(false)
-		console.log('ónSelect--->date', {date})
 	}
 
 	return (

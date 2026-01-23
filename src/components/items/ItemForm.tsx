@@ -48,7 +48,6 @@ export const formSchema = z.object({
 		.string()
 		.max(500, 'Description must be at most 500 characters.')
 		.refine(val => {
-			console.log({val})
 			return val === '' || /^[a-zA-Z0-9,.&' -]+$/.test(val)
 		}, 'Description must contain only letters and numbers. Special characters (e.g ! @ # $ %) are not permitted.')
 		.optional(),
