@@ -10,6 +10,8 @@ import {
 	CarouselSideNav,
 	type CarouselApi
 } from '@/components/ui/carousel'
+import {toggleFavoriteItem} from '@/lib/items/actions/items'
+import {useUser} from '@clerk/nextjs'
 import {EmblaPluginType} from 'embla-carousel'
 import Autoplay from 'embla-carousel-autoplay'
 import Fade from 'embla-carousel-fade'
@@ -35,6 +37,7 @@ const ImageCarousel = ({
 	const [current, setCurrent] = useState(0)
 	const {updateFavouriteItem} = useStore()
 	const item = useStore(state => state.storeItems.find(i => i.id === id))
+	const {user} = useUser()
 	const isFavourite = item?.favourite
 	const autoplayPlugin = autoplay ? Autoplay({delay: 5000}) : undefined
 	const fadePlugin = Fade()
@@ -53,12 +56,18 @@ const ImageCarousel = ({
 		})
 	}, [api])
 
-	const handleFavouriteToggle = () => {
-		if (!item || !item.id) return
-		updateFavouriteItem(item.id)
-		// updateFavourites(item.id, !item.favourite)
-	}
+	const handleFavouriteToggle = async () => {
+		if (!item?.id || !user) return
 
+		updateFavouriteItem(item.id)
+
+		try {
+			await toggleFavoriteItem(user.id, item.id)
+		} catch {
+			updateFavouriteItem(item.id)
+		}
+	}
+	console.log({item})
 	return (
 		<Carousel
 			className='relative   bg-[#f7f7f7] rounded-lg'

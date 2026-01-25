@@ -150,3 +150,39 @@ export const deleteItem = async (id: string) => {
 		throw new Error('Failed to delete item.')
 	}
 }
+
+export const toggleFavoriteItem = async (userId: string, itemId: string) => {
+	try {
+		const existingFavorite = await prisma.favorite.findUnique({
+			where: {
+				userId_itemId: {
+					userId,
+					itemId
+				}
+			}
+		})
+
+		if (existingFavorite) {
+			await prisma.favorite.delete({
+				where: {
+					userId_itemId: {
+						userId,
+						itemId
+					}
+				}
+			})
+			return {action: 'removed'}
+		} else {
+			await prisma.favorite.create({
+				data: {
+					userId,
+					itemId
+				}
+			})
+			return {action: 'added'}
+		}
+	} catch (error) {
+		console.error('Error updating favorites:', error)
+		throw new Error('Failed to update favorites.')
+	}
+}
