@@ -1,5 +1,6 @@
 'use client'
 
+import {useAuthModal} from '@/app/(store)/authModalStore'
 import useStore from '@/app/(store)/store'
 import {
 	Carousel,
@@ -38,6 +39,8 @@ const ImageCarousel = ({
 	const {updateFavouriteItem} = useStore()
 	const item = useStore(state => state.storeItems.find(i => i.id === id))
 	const {user} = useUser()
+	const {open: openAuthModal} = useAuthModal()
+
 	const isFavourite = item?.favourite
 	const autoplayPlugin = autoplay ? Autoplay({delay: 5000}) : undefined
 	const fadePlugin = Fade()
@@ -57,7 +60,12 @@ const ImageCarousel = ({
 	}, [api])
 
 	const handleFavouriteToggle = async () => {
-		if (!item?.id || !user) return
+		if (!item?.id) return
+
+		if (!user) {
+			openAuthModal()
+			return
+		}
 
 		updateFavouriteItem(item.id)
 

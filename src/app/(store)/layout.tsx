@@ -1,7 +1,8 @@
+import AuthRequiredModal from '@/components/AuthRequiredModal'
 import Header from '@/components/Header'
-import { SidebarProvider } from '@/components/ui/sidebar'
-import { ClerkProvider } from '@clerk/nextjs'
-import type { Metadata } from 'next'
+import {SidebarProvider} from '@/components/ui/sidebar'
+import {ClerkProvider} from '@clerk/nextjs'
+import type {Metadata} from 'next'
 import '../globals.css'
 
 export const metadata: Metadata = {
@@ -21,6 +22,7 @@ export default async function RootLayout({
 					<main>
 						<Header />
 						<SidebarProvider>{children}</SidebarProvider>
+						<AuthRequiredModal />
 					</main>
 				</body>
 			</html>
