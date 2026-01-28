@@ -103,15 +103,32 @@ export async function createOrder(session: Stripe.Checkout.Session) {
 
 			const itemId = product.metadata.itemId
 			const size = product.metadata.size as string
+			const quantity = item.quantity ?? 1
 
-			if (!itemId) {
-				throw new Error('Stripe product missing itemId metadata')
+			if (!itemId || !size) {
+				throw new Error('Stripe product missing itemId or size metadata')
 			}
 
-			// Optional safety check: ensure Item exists
-			await tx.item.findUniqueOrThrow({
-				where: {id: itemId}
+			const updatedVariant = await tx.variant.updateMany({
+				where: {
+					itemId,
+					size,
+					stock: {
+						gte: quantity
+					}
+				},
+				data: {
+					stock: {
+						decrement: quantity // Prisma built-in atomic decrement
+					}
+				}
 			})
+
+			if (updatedVariant.count === 0) {
+				throw new Error(
+					`Order failed: Insufficient stock for ${product.name} (Size: ${size})`
+				)
+			}
 
 			await tx.orderItem.create({
 				data: {
