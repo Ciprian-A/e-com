@@ -27,7 +27,7 @@ const User = () => {
 	useEffect(() => {
 		const sync = async () => {
 			if (user) {
-				const syncedUser = await syncUser()
+				await syncUser()
 			}
 		}
 		sync()

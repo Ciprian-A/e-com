@@ -1,7 +1,23 @@
+import ProductsView from '@/components/ProductsView'
+import {getFavouriteItemsByUser} from '@/lib/items/items'
+import {getCurrentUserFromDB} from '@/lib/users/actions/users'
+
 export default async function FavouritesPage() {
-	// const allFavouriteProducts = await getAllFavouriteProducts()
-	if (0 === 0) {
-		// if (allFavouriteProducts.length === 0) {
+	const currentUser = await getCurrentUserFromDB()
+	const allFavouriteItems = await getFavouriteItemsByUser(currentUser!.id)
+	const mappedProducts = allFavouriteItems.map(product => ({
+		...product,
+		productDetails: Array.isArray(product.productDetails)
+			? (product.productDetails as {key: string; value: string}[])
+			: [],
+		createdAt: product.createdAt.toISOString(),
+		favourites: product.favourites.map(fav => ({
+			...fav,
+			createdAt: fav.createdAt.toISOString()
+		}))
+	}))
+
+	if (allFavouriteItems.length === 0) {
 		return (
 			<div className='container mx-auto p-4 flex flex-col items-center justify-center min-h-[50vh]'>
 				<h1 className='text-2xl font-bold mb-6 text-gray-800'>
@@ -14,7 +30,5 @@ export default async function FavouritesPage() {
 			</div>
 		)
 	}
-	return <div></div>
+	return <div>{<ProductsView products={mappedProducts} />}</div>
 }
-
-//{<ProductsView products={allFavouriteProducts} />}
