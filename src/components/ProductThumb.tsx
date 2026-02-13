@@ -24,7 +24,7 @@ const ProductThumb = ({product}: {product: ItemDTO}) => {
 	const isFavouriteInDB = product.favourites?.some(
 		fav => fav.userId === user?.id && fav.itemId === product.id
 	)
-	const isFavouriteItem = isFavouriteInStore ?? isFavouriteInDB
+	const isFavouriteItem = isFavouriteInStore || isFavouriteInDB
 
 	const handleFavouriteToggle = async (
 		e: React.MouseEvent<SVGSVGElement, MouseEvent>

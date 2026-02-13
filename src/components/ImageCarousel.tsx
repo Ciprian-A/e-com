@@ -25,12 +25,14 @@ const ImageCarousel = ({
 	gallery,
 	id,
 	name,
+	isFavouriteInDB = false,
 	sideNav = false,
 	autoplay = false
 }: {
 	id: string
 	name: string
 	gallery: string[]
+	isFavouriteInDB: boolean
 	sideNav?: boolean
 	autoplay?: boolean
 }) => {
@@ -44,6 +46,7 @@ const ImageCarousel = ({
 	const isFavouriteInStore = useStore(state =>
 		state.favouriteItemIds.includes(id)
 	)
+	const isFavouriteItem = isFavouriteInStore || isFavouriteInDB
 	const autoplayPlugin = autoplay ? Autoplay({delay: 5000}) : undefined
 	const fadePlugin = Fade()
 	const plugins = [autoplayPlugin, fadePlugin].filter(
@@ -99,7 +102,7 @@ const ImageCarousel = ({
 						))}
 					</CarouselContent>
 					<Heart
-						className={` w-8 h-8 md:w-14 md:h-14 p-2 absolute top-6 right-6 bg-white shadow hover:shadow-lg rounded-full cursor-pointer focus:outline-none ${isFavouriteInStore ? 'text-red-500 fill-current' : ''}`}
+						className={` w-8 h-8 md:w-14 md:h-14 p-2 absolute top-6 right-6 bg-white shadow hover:shadow-lg rounded-full cursor-pointer focus:outline-none ${isFavouriteItem ? 'text-red-500 fill-current' : ''}`}
 						onClick={handleFavouriteToggle}
 						strokeWidth={1.5}
 					/>

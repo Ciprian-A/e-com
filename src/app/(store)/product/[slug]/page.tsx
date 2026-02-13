@@ -3,14 +3,19 @@ import ImageCarousel from '@/components/ImageCarousel'
 import SizeList from '@/components/SizeList'
 import {Separator} from '@/components/ui/separator'
 import {getItemBySlug} from '@/lib/items/items'
+import {getCurrentUserFromDB} from '@/lib/users/actions/users'
 import {notFound} from 'next/navigation'
 
-export const dynamic = 'force-static'
+export const dynamic = 'force-dynamic'
 export const revalidate = 60 // revaliate at most every 60 seconds
 
 const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 	const {slug} = await params
+	const user = await getCurrentUserFromDB()
 	const product = await getItemBySlug(slug)
+	const isFavouriteInDB = product.favourites?.some(
+		fav => fav.userId === user?.id && fav.itemId === product.id
+	)
 	const mappedProduct = {
 		...product,
 		createdAt: product.createdAt.toISOString(),
@@ -34,6 +39,7 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 							gallery={product.imageGallery}
 							id={product.id}
 							name={`Image of ${product.name}`}
+							isFavouriteInDB={isFavouriteInDB}
 						/>
 					)}
 				</div>
