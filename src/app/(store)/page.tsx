@@ -11,9 +11,15 @@ export default async function Home() {
 	const categories = await getCategories()
 	const mappedProducts = items.map(product => ({
 		...product,
+		createdAt: product.createdAt.toISOString(),
+		updatedAt: product.updatedAt.toISOString(),
 		productDetails: Array.isArray(product.productDetails)
 			? (product.productDetails as {key: string; value: string}[])
-			: []
+			: [],
+		favourites: product.favourites.map(fav => ({
+			...fav,
+			createdAt: fav.createdAt.toISOString()
+		}))
 	}))
 	console.log(
 		`${crypto.randomUUID().slice(0, 5)} >>> Rendered the home page chache with ${items.length} products and ${categories.length} categories`

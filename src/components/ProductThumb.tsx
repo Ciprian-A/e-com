@@ -1,27 +1,55 @@
-import React from 'react'
-
-import {StoreItem} from '@/app/(store)/store/storeSlice'
+import useStore from '@/app/(store)/store'
+import {useUser} from '@clerk/nextjs'
 import Image from 'next/image'
 import Link from 'next/link'
+import React from 'react'
 
-const ProductThumb = ({
-	product
-}: {
-	product: Omit<StoreItem, 'size' | 'quantity'>
-}) => {
+import {useAuthModal} from '@/app/(store)/authModalStore'
+import {toggleFavoriteItem} from '@/lib/items/actions/items'
+import {ItemDTO} from '@/types/item'
+import {Heart} from 'lucide-react'
+
+const ProductThumb = ({product}: {product: ItemDTO}) => {
+	const {user} = useUser()
+	const {open: openAuthModal} = useAuthModal()
+	const {updateFavouriteItem} = useStore()
+
 	const isOutOfStock = !product?.variants?.some(p => (p?.stock ?? 0) > 0)
-	const isFavourite = product.favourite
+	const item = useStore(state =>
+		state.storeItems.find(i => i.id === product.id)
+	)
+	const isFavouriteInStore = useStore(state =>
+		state.favouriteItemIds.includes(product.id)
+	)
+	const isFavouriteInDB = product.favourites?.some(
+		fav => fav.userId === user?.id && fav.itemId === product.id
+	)
+	const isFavouriteItem = isFavouriteInStore ?? isFavouriteInDB
 
-	const handleFavouriteToggle = (
+	const handleFavouriteToggle = async (
 		e: React.MouseEvent<SVGSVGElement, MouseEvent>
 	) => {
 		e.preventDefault()
 		e.stopPropagation()
+
+		if (!item?.id) return
+		if (!user) {
+			openAuthModal()
+			return
+		}
+
+		updateFavouriteItem(item.id)
+
+		try {
+			await toggleFavoriteItem(user.id, item.id)
+		} catch (error) {
+			updateFavouriteItem(item.id)
+		}
 	}
 	return (
 		<Link
 			href={`/product/${product?.slug}`}
-			className='flex flex-col bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden'>
+			className='group flex flex-col bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden'>
 			<div className='group relative aspect-4/3 w-full h-full overflow-hidden '>
 				{product.imageUrl && (
 					<div className=''>
@@ -31,6 +59,10 @@ const ProductThumb = ({
 							alt={product.name || 'Product image'}
 							fill
 							sizes='(max-width: 768px 100vw, (max-width: 1200px) 50vw, 33vw'
+						/>
+						<Heart
+							className={`child w-10 h-10 p-1 absolute top-2 right-2 transition-all bg-white shadow hover:shadow-md rounded-full ${isFavouriteItem ? 'text-red-500 fill-current' : ''}`}
+							onClick={handleFavouriteToggle}
 						/>
 					</div>
 				)}

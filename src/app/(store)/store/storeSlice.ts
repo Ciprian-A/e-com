@@ -4,11 +4,11 @@ import {StateCreator} from 'zustand'
 export type StoreItem = ItemDTO & {
 	size: ItemSize
 	quantity: number
-	favourite?: boolean
 }
 type StoreState = {
 	basketItems: StoreItem[]
 	storeItems: StoreItem[]
+	favouriteItemIds: string[]
 }
 export type ItemSize =
 	| '5'
@@ -61,13 +61,13 @@ export const createStoreSlice: StateCreator<StoreSlice, [], [], StoreSlice> = (
 ) => ({
 	basketItems: [],
 	storeItems: [],
+	favouriteItemIds: [],
 	setStoreItems: (items: ItemDTO[]) =>
 		set(() => ({
 			storeItems: items.map(item => ({
 				...item,
 				size: '',
-				quantity: 0,
-				favourite: false
+				quantity: 0
 			}))
 		})),
 	getStoreItems: () => get().storeItems,
@@ -100,9 +100,9 @@ export const createStoreSlice: StateCreator<StoreSlice, [], [], StoreSlice> = (
 		get().storeItems.find(p => p.id === itemId),
 	updateFavouriteItem: itemId =>
 		set(state => ({
-			storeItems: state.storeItems.map(p =>
-				p.id === itemId ? {...p, favourite: !p.favourite} : p
-			)
+			favouriteItemIds: state.favouriteItemIds.includes(itemId)
+				? state.favouriteItemIds.filter(id => id !== itemId)
+				: [...state.favouriteItemIds, itemId]
 		})),
 	addItemToBasket: (item, size, qty) =>
 		set(state => {

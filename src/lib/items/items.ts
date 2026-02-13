@@ -7,7 +7,8 @@ export const getItems = async () => {
 		},
 		include: {
 			categories: true,
-			variants: true
+			variants: true,
+			favourites: true
 		}
 	})
 	return data
@@ -100,7 +101,8 @@ export const searchItemsByName = async (query: string) => {
 		},
 		include: {
 			categories: true,
-			variants: true
+			variants: true,
+			favourites: true
 		},
 		orderBy: {
 			name: 'asc'

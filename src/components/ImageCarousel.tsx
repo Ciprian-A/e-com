@@ -28,11 +28,11 @@ const ImageCarousel = ({
 	sideNav = false,
 	autoplay = false
 }: {
+	id: string
+	name: string
 	gallery: string[]
 	sideNav?: boolean
 	autoplay?: boolean
-	id?: string
-	name?: string
 }) => {
 	const [api, setApi] = useState<CarouselApi>()
 	const [current, setCurrent] = useState(0)
@@ -41,7 +41,9 @@ const ImageCarousel = ({
 	const {user} = useUser()
 	const {open: openAuthModal} = useAuthModal()
 
-	const isFavourite = item?.favourite
+	const isFavouriteInStore = useStore(state =>
+		state.favouriteItemIds.includes(id)
+	)
 	const autoplayPlugin = autoplay ? Autoplay({delay: 5000}) : undefined
 	const fadePlugin = Fade()
 	const plugins = [autoplayPlugin, fadePlugin].filter(
@@ -75,7 +77,6 @@ const ImageCarousel = ({
 			updateFavouriteItem(item.id)
 		}
 	}
-	console.log({item})
 	return (
 		<Carousel
 			className='relative   bg-[#f7f7f7] rounded-lg'
@@ -98,7 +99,7 @@ const ImageCarousel = ({
 						))}
 					</CarouselContent>
 					<Heart
-						className={` w-8 h-8 md:w-14 md:h-14 p-2 absolute top-6 right-6 bg-white shadow hover:shadow-lg rounded-full cursor-pointer focus:outline-none ${isFavourite ? 'text-red-500 fill-current' : ''}`}
+						className={` w-8 h-8 md:w-14 md:h-14 p-2 absolute top-6 right-6 bg-white shadow hover:shadow-lg rounded-full cursor-pointer focus:outline-none ${isFavouriteInStore ? 'text-red-500 fill-current' : ''}`}
 						onClick={handleFavouriteToggle}
 						strokeWidth={1.5}
 					/>

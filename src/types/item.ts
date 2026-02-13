@@ -1,4 +1,4 @@
-import { Currency, OrderStatus } from '../../generated/prisma/enums'
+import {Currency, OrderStatus} from '../../generated/prisma/enums'
 
 export type ItemDTO = {
 	id: string
@@ -12,6 +12,8 @@ export type ItemDTO = {
 	categories?: CategoryDTO[]
 	variants?: VariantDTO[]
 	favourites?: FavoriteDTO[]
+	createdAt: string
+	updatedAt: string
 }
 export type VariantDTO = {
 	id: string
@@ -35,7 +37,7 @@ export type OrderItemDTO = {
 	itemId: string
 	quantity: number
 	unitPrice: number
-	item: ItemDTO | null 
+	item: ItemDTO | null
 }
 export type OrderDTO = {
 	orderNumber: string
