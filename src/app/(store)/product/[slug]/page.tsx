@@ -11,6 +11,11 @@ export const revalidate = 60 // revaliate at most every 60 seconds
 const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 	const {slug} = await params
 	const product = await getItemBySlug(slug)
+	const mappedProduct = {
+		...product,
+		createdAt: product.createdAt.toISOString(),
+		updatedAt: product.updatedAt.toISOString()
+	}
 	const sizeList = product.variants.map(p => p.size)
 
 	console.log(
@@ -53,7 +58,7 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 								))}
 							</div>
 						</div>
-						<BuyBox product={product} />
+						<BuyBox product={mappedProduct} />
 					</div>
 					<Separator className='my-4' />
 					<div className='prose mb-6'>

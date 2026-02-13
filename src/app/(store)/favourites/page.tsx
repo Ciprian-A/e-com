@@ -11,6 +11,7 @@ export default async function FavouritesPage() {
 			? (product.productDetails as {key: string; value: string}[])
 			: [],
 		createdAt: product.createdAt.toISOString(),
+		updatedAt: product.updatedAt.toISOString(),
 		favourites: product.favourites.map(fav => ({
 			...fav,
 			createdAt: fav.createdAt.toISOString()
