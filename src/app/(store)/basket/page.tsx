@@ -22,7 +22,7 @@ function BasketPage() {
 		(total, item) => total + item.price * item.quantity,
 		0
 	)
-	const {isSignedIn} = useAuth()
+	const {isSignedIn, sessionClaims} = useAuth()
 	const {user} = useUser()
 
 	const [isClient, setIsClient] = useState(false)

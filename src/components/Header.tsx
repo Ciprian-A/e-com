@@ -1,4 +1,6 @@
 import {getCategories} from '@/lib/categories/categories'
+import {auth} from '@clerk/nextjs/server'
+import Admin from './Admin'
 import {Basket} from './Basket'
 import Favourites from './Favourites'
 import Logo from './Logo'
@@ -7,6 +9,7 @@ import CategorySelector from './ui/category-selector'
 import User from './User'
 
 const Header = async () => {
+	const {sessionClaims} = await auth()
 	const categories = await getCategories()
 	return (
 		<header className='border-b-2 '>
@@ -24,6 +27,7 @@ const Header = async () => {
 				</div>
 				<div className='grid row-start-1 row-end-1 col-start-2 col-span-full lg:flex items-center justify-end'>
 					<div className='flex'>
+						{sessionClaims?.metadata?.role === 'admin' && <Admin />}
 						<Favourites />
 						<Basket />
 						<User />

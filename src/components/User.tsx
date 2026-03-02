@@ -33,11 +33,11 @@ const User = () => {
 		sync()
 	}, [user])
 	return (
-		<div className='hover:bg-gray-200 py-1 px-2 rounded cursor-pointer'>
+		<div className='hover:bg-gray-200 py-1 px-2 rounded cursor-pointer flex items-center'>
 			<DropdownMenu>
 				<TooltipHeader description='Your account'>
 					<DropdownMenuTrigger asChild>
-						<UserRoundIcon className='w-6 h-6 ' />
+						<UserRoundIcon className='w-6 h-6' />
 					</DropdownMenuTrigger>
 				</TooltipHeader>
 				<DropdownMenuContent align='end'>
