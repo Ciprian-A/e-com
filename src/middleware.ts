@@ -1,10 +1,10 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
-import { NextResponse } from 'next/server';
+import {clerkMiddleware, createRouteMatcher} from '@clerk/nextjs/server'
+import {NextResponse} from 'next/server'
 
-const isAdminRoute = createRouteMatcher(['/studio(.*)'])
+const isAdminRoute = createRouteMatcher(['/admin(.*)'])
 
 export default clerkMiddleware(async (auth, req) => {
-	// Protect all routes starting with `/studio`
+	// Protect all routes starting with `/admin`
 	if (
 		isAdminRoute(req) &&
 		(await auth()).sessionClaims?.metadata?.role !== 'admin'
