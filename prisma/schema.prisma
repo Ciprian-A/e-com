@@ -15,6 +15,11 @@ model User {
   favorites Favorite[]
 }
 
+enum ProductType {
+  SIMPLE
+  VARIANT
+}
+
 model Item {
   id             String      @id @default(uuid())
   name           String
@@ -30,6 +35,8 @@ model Item {
   updatedAt      DateTime    @updatedAt
   orderItems     OrderItem[]
   variants       Variant[]
+  type           ProductType @default(SIMPLE)
+  stock          Int?
 }
 
 model Variant {
@@ -40,6 +47,7 @@ model Variant {
   stock     Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
   @@unique([itemId, size])
 }
 
