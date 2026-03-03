@@ -11,6 +11,8 @@ export async function createItem(formData: FormData) {
 	const description = formData.get('description')?.toString() ?? ''
 	const price = formData.get('price')?.toString() ?? '0'
 	const productDetailsRaw = formData.get('product-details')?.toString() ?? '[]'
+	const type = formData.get('type')?.toString() ?? 'SIMPLE'
+	const stock = formData.get('stock')?.toString() ?? '0'
 	let productDetails: {key: string; value: string}[] = []
 	try {
 		productDetails = JSON.parse(productDetailsRaw)
@@ -48,6 +50,8 @@ export async function createItem(formData: FormData) {
 			imageUrl: galleryUrls[0],
 			imageGallery: galleryUrls,
 			price: Number(price),
+			type: type as ProductType,
+			stock: Number(stock),
 			productDetails,
 			categories: {
 				connect: categories.map(id => ({id}))
