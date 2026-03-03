@@ -21,8 +21,8 @@ function EditCategoryForm({
 		<div>
 			<CategoryForm
 				onSubmit={onSubmit}
-				formTitle='Edit Promo Code'
-				formDescription='Make changes to your promotional code details below.'
+				formTitle='Edit Category'
+				formDescription='Make changes to your category bellow.'
 				initialName={category.name}
 				initialDescription={category.description}
 				initialCategoryImage={category.categoryImageUrl}

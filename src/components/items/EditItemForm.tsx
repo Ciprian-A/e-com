@@ -36,8 +36,8 @@ function EditItemForm({
 		<div>
 			<ItemForm
 				onSubmit={onSubmit}
-				formTitle='Edit Promo Code'
-				formDescription='Make changes to your promotional code details below.'
+				formTitle='Edit Item'
+				formDescription='Make changes to your item below.'
 				initialName={item.name}
 				initialDescription={item.description}
 				initialPrice={item.price}
