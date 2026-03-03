@@ -5,6 +5,7 @@ import React, {useTransition} from 'react'
 
 import {useAuthModal} from '@/app/(store)/authModalStore'
 import {favoritesChannel} from '@/favoritesChannel'
+import {isItemOutOfStock} from '@/lib/isItemOutOfStock'
 import {toggleFavoriteItem} from '@/lib/items/actions/items'
 import useStore from '@/store'
 import {ItemDTO} from '@/types/item'
@@ -19,7 +20,7 @@ const ProductThumb = ({product}: {product: ItemDTO}) => {
 	const removeFavoriteItem = useStore(state => state.removeFavoriteItem)
 	const favorites = useStore(state => state.favoriteItems)
 
-	const isOutOfStock = !product?.variants?.some(p => (p?.stock ?? 0) > 0)
+	const isOutOfStock = isItemOutOfStock(product)
 	const isFavorite = favorites.some(fav => fav.id === product.id)
 
 	const handleFavouriteToggle = async (

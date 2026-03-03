@@ -1,7 +1,8 @@
 'use client'
 
+import {isItemOutOfStock} from '@/lib/isItemOutOfStock'
 import useStore from '@/store'
-import {VariantDTO} from '@/types/item'
+import {ItemDTO, VariantDTO} from '@/types/item'
 import AddToBasket from './AddToBasket'
 import BuyItNow from './BuyItNow'
 import QuantitySelector from './QuantitySelector'
@@ -14,9 +15,18 @@ interface BuyBoxProps {
 	name: string
 	slug: string
 	image: string
+	product: ItemDTO
 }
-const BuyBox = ({id, price, variants, name, slug, image}: BuyBoxProps) => {
-	const isOutOfStock = !variants?.some(p => (p?.stock ?? 0) > 0)
+const BuyBox = ({
+	id,
+	price,
+	variants,
+	name,
+	slug,
+	image,
+	product
+}: BuyBoxProps) => {
+	const isOutOfStock = isItemOutOfStock(product)
 	const activeSize = useStore(state => state.getSelectedSize(id))
 	const availableStock = variants?.find(p => p.size === activeSize)
 	const quantity = useStore(state => state.getSelectedQuantity(id))

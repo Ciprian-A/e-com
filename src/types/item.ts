@@ -1,4 +1,5 @@
 import {Currency, OrderStatus} from '../../generated/prisma/enums'
+export type ProductType = 'SIMPLE' | 'VARIANT'
 
 export type ItemDTO = {
 	id: string
@@ -14,6 +15,8 @@ export type ItemDTO = {
 	favourites?: FavoriteDTO[]
 	createdAt: string
 	updatedAt: string
+	type: ProductType
+	stock?: number
 }
 export type VariantDTO = {
 	id: string

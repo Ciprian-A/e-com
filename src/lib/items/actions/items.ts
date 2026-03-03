@@ -2,6 +2,7 @@
 
 import {generateSlug} from '@/lib/generateSlug'
 import {uploadGalleryImages} from '@/lib/storage/storage'
+import {ProductType} from '@/types/item'
 import {revalidatePath} from 'next/cache'
 import {prisma} from '../../../../config/db'
 
@@ -67,6 +68,8 @@ export async function updateItem(id: string, formData: FormData) {
 	const name = formData.get('name')?.toString() ?? ''
 	const description = formData.get('description')?.toString() ?? ''
 	const price = formData.get('price')?.toString() ?? '0'
+	const type = formData.get('type')?.toString() ?? 'SIMPLE'
+	const stock = formData.get('stock')?.toString() ?? '0'
 
 	const productDetailsRaw = formData.get('product-details')?.toString() ?? '[]'
 	let productDetails: {key: string; value: string}[] = []
@@ -124,6 +127,8 @@ export async function updateItem(id: string, formData: FormData) {
 			imageUrl: galleryUrls[0],
 			imageGallery: galleryUrls,
 			price: Number(price),
+			type: type as ProductType,
+			stock: Number(stock),
 			productDetails,
 			categories: {
 				set: categories.map(id => ({id}))

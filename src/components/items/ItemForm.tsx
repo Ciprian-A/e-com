@@ -33,60 +33,97 @@ import {
 	InputGroupText,
 	InputGroupTextarea
 } from '../ui/input-group'
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue
+} from '../ui/select'
 import {UploadFile} from './UploadFile'
 const MAX_TOTAL_SIZE = 5 * 1024 * 1024
-export const formSchema = z.object({
-	name: z
-		.string()
-		.regex(
-			/^[a-zA-Z0-9\s&]+$/,
-			'Category name must contain only letters and numbers. Special characters (e.g., ! @ # $ %) are not permitted.'
-		)
-		.min(3, 'Category name must be at least 3 characters.')
-		.max(32, 'Category name must be at most 32 characters.'),
-	description: z
-		.string()
-		.max(500, 'Description must be at most 500 characters.')
-		.refine(val => {
-			return val === '' || /^[a-zA-Z0-9,.&' -]+$/.test(val)
-		}, 'Description must contain only letters and numbers. Special characters (e.g ! @ # $ %) are not permitted.')
-		.optional(),
-	price: z.coerce.number().positive('Price must be greater than 0'),
-	productDetails: z
-		.array(
-			z.object({
-				key: z.string().min(1, 'Key is required'),
-				value: z.string().min(1, 'Value is required')
-			})
-		)
-		.optional(),
-	imageGallery: z
-		.array(z.any())
-		.refine(
-			files => files.every(f => f instanceof File || typeof f === 'string'),
-			'All gallery items must be files or valid URLs'
-		)
-		.refine(
-			files => {
-				const total = files
-					.filter(f => f instanceof File)
-					.reduce((sum, file) => sum + file.size, 0)
-				return total <= MAX_TOTAL_SIZE
-			},
-			`Total gallery size must be under ${MAX_TOTAL_SIZE / 1024 / 1024}MB`
-		)
-		.max(5, 'You can upload up to 5 images')
-		.optional(),
-	categories: z.array(z.uuid()).optional(),
-	variants: z
-		.array(
-			z.object({
-				size: z.string().min(1, 'Size is required'),
-				stock: z.coerce.number().int().nonnegative('Stock must be >= 0')
-			})
-		)
-		.optional()
-})
+export const formSchema = z
+	.object({
+		name: z
+			.string()
+			.regex(
+				/^[a-zA-Z0-9\s&]+$/,
+				'Category name must contain only letters and numbers. Special characters (e.g., ! @ # $ %) are not permitted.'
+			)
+			.min(3, 'Category name must be at least 3 characters.')
+			.max(32, 'Category name must be at most 32 characters.'),
+		description: z
+			.string()
+			.max(500, 'Description must be at most 500 characters.')
+			.refine(val => {
+				return val === '' || /^[a-zA-Z0-9,.&' -]+$/.test(val)
+			}, 'Description must contain only letters and numbers. Special characters (e.g ! @ # $ %) are not permitted.')
+			.optional(),
+		price: z.coerce.number().positive('Price must be greater than 0'),
+		productDetails: z
+			.array(
+				z.object({
+					key: z.string().min(1, 'Key is required'),
+					value: z.string().min(1, 'Value is required')
+				})
+			)
+			.optional(),
+		imageGallery: z
+			.array(z.any())
+			.refine(
+				files => files.every(f => f instanceof File || typeof f === 'string'),
+				'All gallery items must be files or valid URLs'
+			)
+			.refine(
+				files => {
+					const total = files
+						.filter(f => f instanceof File)
+						.reduce((sum, file) => sum + file.size, 0)
+					return total <= MAX_TOTAL_SIZE
+				},
+				`Total gallery size must be under ${MAX_TOTAL_SIZE / 1024 / 1024}MB`
+			)
+			.max(5, 'You can upload up to 5 images')
+			.optional(),
+		categories: z.array(z.uuid()).optional(),
+		type: z.enum(['SIMPLE', 'VARIANT']),
+		stock: z.coerce.number().int().nonnegative().optional(),
+		variants: z
+			.array(
+				z.object({
+					size: z.string().min(1, 'Size is required'),
+					stock: z.coerce.number().int().nonnegative('Stock must be >= 0')
+				})
+			)
+			.optional()
+	})
+	.refine(
+		data => {
+			if (
+				data.type === 'VARIANT' &&
+				(!data.variants || data.variants.length === 0)
+			) {
+				return false
+			}
+			return true
+		},
+		{
+			message: 'Variant products must have at least one variant.',
+			path: ['variants']
+		}
+	)
+	.refine(
+		data => {
+			if (data.type === 'SIMPLE' && data.stock === undefined) {
+				return false
+			}
+			return true
+		},
+		{
+			message: 'Simple products must have a stock value.',
+			path: ['stock']
+		}
+	)
 
 type ItemFormType = {
 	formTitle?: string
@@ -103,6 +140,8 @@ type ItemFormType = {
 	initialImageGallery?: (File | string)[]
 	initialCategories?: {id: string; name: string}[]
 	initialVariants?: {size: string; stock: number}[]
+	initialType: 'SIMPLE' | 'VARIANT'
+	initialStock?: number
 	onSubmit: (formData: FormData) => Promise<void>
 }
 
@@ -121,7 +160,9 @@ export default function ItemForm({
 	initialProductDetails = [],
 	initialImageGallery = [],
 	initialCategories = [],
-	initialVariants = []
+	initialVariants = [],
+	initialType = 'SIMPLE',
+	initialStock = 0
 }: ItemFormType) {
 	const [localError, setLocalError] = useState<string | null>(null)
 	const [showProductDetails, setShowProductDetails] = useState(
@@ -139,10 +180,11 @@ export default function ItemForm({
 			productDetails: initialProductDetails,
 			imageGallery: initialImageGallery,
 			categories: initialCategories.map(cat => cat.id) || [],
-			variants: initialVariants
+			variants: initialVariants,
+			type: initialType,
+			stock: initialStock
 		}
 	})
-
 	const MAX_IMAGES = 5
 	const {
 		fields: productDetailFields,
@@ -172,6 +214,8 @@ export default function ItemForm({
 	const descriptionValue = form.watch('description') || ''
 	const charCount = descriptionValue.length
 	const charRemaining = 500 - charCount
+	const productTypeValue = form.watch('type') // === 'SIMPLE'
+	const stockValue = form.watch('stock') // === 'SIMPLE'
 
 	useEffect(() => {
 		if (productDetailFields.length === 0) {
@@ -222,7 +266,8 @@ export default function ItemForm({
 						)
 						formData.append('categories', JSON.stringify(data.categories ?? []))
 						formData.append('variants', JSON.stringify(data.variants ?? []))
-
+						formData.append('type', data.type)
+						formData.append('stock', String(data.stock))
 						if (data.imageGallery && data.imageGallery.length > 0) {
 							data.imageGallery.forEach(file => {
 								formData.append('gallery', file)
@@ -291,44 +336,112 @@ export default function ItemForm({
 						/>
 
 						{/* Price */}
-						<Controller
-							name='price'
-							control={form.control}
-							render={({field: {onChange, value, ...field}, fieldState}) => (
-								<Field data-invalid={fieldState.invalid}>
-									<FieldLabel htmlFor='form-item-price' className='text-md'>
-										Price <span className='text-red-500'>*</span>
-									</FieldLabel>
-									<div className='flex gap-2'>
-										<div className='flex items-center px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-sm font-medium text-gray-700'>
-											£
+						<FieldGroup className='flex flex-col sm:flex-row'>
+							<Controller
+								name='price'
+								control={form.control}
+								render={({field: {onChange, value, ...field}, fieldState}) => (
+									<Field data-invalid={fieldState.invalid}>
+										<FieldLabel htmlFor='form-item-price' className='text-md'>
+											Price <span className='text-red-500'>*</span>
+										</FieldLabel>
+										<div className='flex gap-2'>
+											<div className='flex items-center px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-sm font-medium text-gray-700'>
+												£
+											</div>
+											<Input
+												{...field}
+												type='number'
+												step='0.01'
+												id='form-item-price'
+												aria-invalid={fieldState.invalid}
+												placeholder='0.00'
+												className='flex-1'
+												value={
+													(value as number) === 0 ||
+													Number.isNaN(value as number)
+														? ''
+														: String(value as number)
+												}
+												onChange={e => {
+													const val = e.target.value
+													onChange(val === '' ? 0 : parseFloat(val))
+												}}
+											/>
 										</div>
-										<Input
-											{...field}
-											type='number'
-											step='0.01'
-											id='form-item-price'
-											aria-invalid={fieldState.invalid}
-											placeholder='0.00'
-											className='flex-1'
-											value={
-												(value as number) === 0 || Number.isNaN(value as number)
-													? ''
-													: (value as number)
-											}
-											onChange={e => {
-												const val = e.target.value
-												onChange(val === '' ? 0 : parseFloat(val))
-											}}
-										/>
-									</div>
-									{fieldState.invalid && (
-										<FieldError errors={[fieldState.error]} />
+										{fieldState.invalid && (
+											<FieldError errors={[fieldState.error]} />
+										)}
+									</Field>
+								)}
+							/>
+							<Controller
+								name='type'
+								control={form.control}
+								render={({field}) => (
+									<Field>
+										<FieldLabel htmlFor='form-item-type' className='text-md'>
+											Product Type <span className='text-red-500'>*</span>
+										</FieldLabel>
+										<Select
+											onValueChange={field.onChange}
+											value={field.value}
+											defaultValue={field.value}>
+											<SelectTrigger className='w-full'>
+												<SelectValue placeholder='Select Product Type' />
+											</SelectTrigger>
+											<SelectContent>
+												<SelectItem value='SIMPLE'>
+													Simple product (no sizes)
+												</SelectItem>
+												<SelectItem value='VARIANT'>
+													Variant product (sizes)
+												</SelectItem>
+											</SelectContent>
+										</Select>
+									</Field>
+								)}
+							/>
+							{form.watch('type') === 'SIMPLE' && (
+								<Controller
+									name='stock'
+									control={form.control}
+									render={({
+										field: {onChange, value, ...field},
+										fieldState
+									}) => (
+										<Field data-invalid={fieldState.invalid} className='w-full'>
+											<FieldLabel
+												htmlFor='form-product-type-simple-stock'
+												className='text-md'>
+												Stock <span className='text-red-500'>*</span>
+											</FieldLabel>
+											<Input
+												{...field}
+												id='form-product-type-simple-stock'
+												aria-invalid={fieldState.invalid}
+												aria-label='Stock quantity'
+												placeholder='0'
+												type='number'
+												value={
+													(value as number) === 0 ||
+													Number.isNaN(value as number)
+														? ''
+														: String(value as number)
+												}
+												onChange={e => {
+													const val = e.target.value
+													onChange(val === '' ? 4 : parseInt(val, 10))
+												}}
+											/>
+											{fieldState.invalid && (
+												<FieldError errors={[fieldState.error]} />
+											)}
+										</Field>
 									)}
-								</Field>
+								/>
 							)}
-						/>
-
+						</FieldGroup>
 						{/* Product Details Section */}
 						<div className='border border-gray-200 rounded-lg p-4 space-y-3'>
 							<div className='flex flex-col space-y-3 sm:flex-row justify-between items-center'>
@@ -430,122 +543,121 @@ export default function ItemForm({
 								</FieldGroup>
 							)}
 						</div>
-
 						{/* Product Variants Section */}
-						<div className='border border-gray-200 rounded-lg p-4 space-y-3'>
-							<div className='flex flex-col space-y-3 sm:flex-row justify-between items-center'>
-								<div>
-									<h3 className='text-md font-semibold text-gray-900'>
-										Product Variants
-										{showVariants && variantFields.length > 0 && (
-											<span className='ml-2 text-xs font-normal text-gray-500'>
-												({variantFields.length})
-											</span>
-										)}
-									</h3>
-									<p className='text-xs text-gray-500 mt-0.5'>
-										Add different sizes or versions with stock quantities
-									</p>
+						{productTypeValue === 'VARIANT' && (
+							<div className='border border-gray-200 rounded-lg p-4 space-y-3 '>
+								<div className='flex flex-col space-y-3 sm:flex-row justify-between items-center'>
+									<div>
+										<h3 className='text-md font-semibold text-gray-900'>
+											Product Variants
+											{showVariants && variantFields.length > 0 && (
+												<span className='ml-2 text-xs font-normal text-gray-500'>
+													({variantFields.length})
+												</span>
+											)}
+										</h3>
+										<p className='text-xs text-gray-500 mt-0.5'>
+											Add different sizes or versions with stock quantities
+										</p>
+									</div>
+									{!showVariants && (
+										<Button
+											className='w-full sm:w-min sm:self-start'
+											type='button'
+											variant='outline'
+											size='sm'
+											onClick={handleAddVariants}>
+											<Plus className='h-4 w-4 mr-1' />
+											Add Variants
+										</Button>
+									)}
 								</div>
-								{!showVariants && (
-									<Button
-										className='w-full sm:w-min sm:self-start'
-										type='button'
-										variant='outline'
-										size='sm'
-										onClick={handleAddVariants}>
-										<Plus className='h-4 w-4 mr-1' />
-										Add Variants
-									</Button>
+								{showVariants && (
+									<FieldGroup className='space-y-3'>
+										{variantFields.map((field, index) => (
+											<div
+												key={field.id}
+												className='flex flex-col sm:flex-row gap-2'>
+												<Controller
+													name={`variants.${index}.size`}
+													control={form.control}
+													render={({field, fieldState}) => (
+														<Field
+															data-invalid={fieldState.invalid}
+															className='w-full'>
+															<Input
+																{...field}
+																id={`form-variant-size-${index}`}
+																aria-invalid={fieldState.invalid}
+																aria-label='Variant size'
+																placeholder='Size (e.g., Medium, XL)'
+																autoComplete='off'
+															/>
+															{fieldState.invalid && (
+																<FieldError errors={[fieldState.error]} />
+															)}
+														</Field>
+													)}
+												/>
+												<Controller
+													name={`variants.${index}.stock`}
+													control={form.control}
+													render={({
+														field: {onChange, value, ...field},
+														fieldState
+													}) => (
+														<Field
+															data-invalid={fieldState.invalid}
+															className='w-full'>
+															<Input
+																{...field}
+																type='number'
+																id={`form-variant-stock-${index}`}
+																aria-invalid={fieldState.invalid}
+																aria-label='Stock quantity'
+																placeholder='Stock'
+																autoComplete='off'
+																value={
+																	(value as number) === 0 ||
+																	Number.isNaN(value as number)
+																		? ''
+																		: (value as number)
+																}
+																onChange={e => {
+																	const val = e.target.value
+																	onChange(val === '' ? 0 : parseInt(val, 10))
+																}}
+															/>
+															{fieldState.invalid && (
+																<FieldError errors={[fieldState.error]} />
+															)}
+														</Field>
+													)}
+												/>
+												<Button
+													type='button'
+													variant='outline'
+													className='shrink-0 w-full h-9 sm:w-9 px-4 py-2'
+													aria-label='Remove variant'
+													onClick={() => removeVariant(index)}>
+													<X className='h-4 w-4' />
+													<span className='sm:hidden'>Remove Field</span>
+												</Button>
+											</div>
+										))}
+										<Button
+											type='button'
+											variant='ghost'
+											size='sm'
+											className='w-full'
+											onClick={() => appendVariant({size: '', stock: 0})}>
+											<Plus className='h-4 w-4 mr-1' />
+											Add Another Variant
+										</Button>
+									</FieldGroup>
 								)}
 							</div>
-
-							{showVariants && (
-								<FieldGroup className='space-y-3'>
-									{variantFields.map((field, index) => (
-										<div
-											key={field.id}
-											className='flex flex-col sm:flex-row gap-2'>
-											<Controller
-												name={`variants.${index}.size`}
-												control={form.control}
-												render={({field, fieldState}) => (
-													<Field
-														data-invalid={fieldState.invalid}
-														className='w-full'>
-														<Input
-															{...field}
-															id={`form-variant-size-${index}`}
-															aria-invalid={fieldState.invalid}
-															aria-label='Variant size'
-															placeholder='Size (e.g., Medium, XL)'
-															autoComplete='off'
-														/>
-														{fieldState.invalid && (
-															<FieldError errors={[fieldState.error]} />
-														)}
-													</Field>
-												)}
-											/>
-											<Controller
-												name={`variants.${index}.stock`}
-												control={form.control}
-												render={({
-													field: {onChange, value, ...field},
-													fieldState
-												}) => (
-													<Field
-														data-invalid={fieldState.invalid}
-														className='w-full'>
-														<Input
-															{...field}
-															type='number'
-															id={`form-variant-stock-${index}`}
-															aria-invalid={fieldState.invalid}
-															aria-label='Stock quantity'
-															placeholder='Stock'
-															autoComplete='off'
-															value={
-																(value as number) === 0 ||
-																Number.isNaN(value as number)
-																	? ''
-																	: (value as number)
-															}
-															onChange={e => {
-																const val = e.target.value
-																onChange(val === '' ? 0 : parseInt(val, 10))
-															}}
-														/>
-														{fieldState.invalid && (
-															<FieldError errors={[fieldState.error]} />
-														)}
-													</Field>
-												)}
-											/>
-											<Button
-												type='button'
-												variant='outline'
-												className='shrink-0 w-full h-9 sm:w-9 px-4 py-2'
-												aria-label='Remove variant'
-												onClick={() => removeVariant(index)}>
-												<X className='h-4 w-4' />
-												<span className='sm:hidden'>Remove Field</span>
-											</Button>
-										</div>
-									))}
-									<Button
-										type='button'
-										variant='ghost'
-										size='sm'
-										className='w-full'
-										onClick={() => appendVariant({size: '', stock: 0})}>
-										<Plus className='h-4 w-4 mr-1' />
-										Add Another Variant
-									</Button>
-								</FieldGroup>
-							)}
-						</div>
-
+						)}
 						{/* Image Gallery */}
 						<Controller
 							name='imageGallery'
@@ -579,7 +691,6 @@ export default function ItemForm({
 											}
 										}}
 									/>
-
 									{!field.value?.length ? (
 										<UploadFile
 											type='gallery'
@@ -637,7 +748,6 @@ export default function ItemForm({
 											)}
 										</div>
 									)}
-
 									<FieldDescription>
 										Upload up to {MAX_IMAGES} images. The first image will be
 										used as the cover image.
@@ -652,7 +762,6 @@ export default function ItemForm({
 								</Field>
 							)}
 						/>
-
 						{/* Categories */}
 						<Controller
 							name='categories'

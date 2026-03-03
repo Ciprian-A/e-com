@@ -1,5 +1,5 @@
-import { updateItem } from '@/lib/items/actions/items'
-import { redirect } from 'next/navigation'
+import {updateItem} from '@/lib/items/actions/items'
+import {redirect} from 'next/navigation'
 import ItemForm from './ItemForm'
 
 function EditItemForm({
@@ -23,6 +23,8 @@ function EditItemForm({
 		imageUrl: string | null
 		imageGallery: string[]
 		variants?: {size: string; stock: number}[]
+		type: 'SIMPLE' | 'VARIANT'
+		stock?: number
 	}
 }) {
 	async function onSubmit(data: FormData) {
@@ -45,6 +47,8 @@ function EditItemForm({
 				initialCategories={item.categories}
 				initialVariants={item.variants}
 				categories={categories}
+				initialType={item.type}
+				initialStock={item?.stock!}
 			/>
 		</div>
 	)

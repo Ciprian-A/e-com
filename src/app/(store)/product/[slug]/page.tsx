@@ -18,6 +18,7 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 
 	const mappedProduct: ItemDTO = {
 		...product,
+		stock: product.stock ?? 0,
 		productDetails: Array.isArray(product.productDetails)
 			? (product.productDetails as {key: string; value: string}[])
 			: [],
@@ -87,6 +88,7 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 									name={mappedProduct.name}
 									slug={mappedProduct.slug}
 									image={mappedProduct.imageUrl}
+									product={mappedProduct}
 								/>
 							</ClientOnly>
 						</ProductClientSection>
