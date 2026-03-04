@@ -26,7 +26,7 @@ export default function FavouritesPage() {
 		<div className='flex flex-col items-center justify-top w-full min-h-screen bg-gray-100 '>
 			<div className='bg-white p-8 rounded-lg shadow-md w-full min-h-screen '>
 				<h1 className='text-2xl font-bold mb-6 '>
-					{user?.fullName}'s Favourites
+					{user?.fullName}&apos;s Favourites
 				</h1>
 				<ProductsView products={favoriteProducts} />
 			</div>

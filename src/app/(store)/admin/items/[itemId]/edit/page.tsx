@@ -1,6 +1,6 @@
 import EditItemForm from '@/components/items/EditItemForm'
-import { getCategories } from '@/lib/categories/categories'
-import { getItem } from '@/lib/items/items'
+import {getCategories} from '@/lib/categories/categories'
+import {getItem} from '@/lib/items/items'
 
 async function EditItemPage({params}: {params: Promise<{itemId: string}>}) {
 	const {itemId} = await params
@@ -9,6 +9,7 @@ async function EditItemPage({params}: {params: Promise<{itemId: string}>}) {
 	const normalizedItem = {
 		...item,
 		description: item.description ?? undefined,
+		stock: item.stock ?? undefined,
 		productDetails: Array.isArray(item.productDetails)
 			? (item.productDetails as {key: string; value: string}[])
 			: []

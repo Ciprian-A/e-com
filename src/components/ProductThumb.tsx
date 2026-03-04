@@ -29,7 +29,7 @@ const ProductThumb = ({product}: {product: ItemDTO}) => {
 		e.preventDefault()
 		e.stopPropagation()
 
-		if (!user) {
+		if (!user || !user.id) {
 			openAuthModal()
 			return
 		}
@@ -46,7 +46,7 @@ const ProductThumb = ({product}: {product: ItemDTO}) => {
 			action: isFavorite ? 'removed' : 'added'
 		})
 		startTransition(async () => {
-			await toggleFavoriteItem(user?.id!, product.id)
+			await toggleFavoriteItem(user.id, product.id)
 		})
 	}
 	return (

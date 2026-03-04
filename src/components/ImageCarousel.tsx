@@ -27,7 +27,6 @@ const ImageCarousel = ({
 	gallery,
 	id,
 	name,
-	slug,
 	product,
 	sideNav = false,
 	autoplay = false
@@ -49,7 +48,7 @@ const ImageCarousel = ({
 
 	const [isPending, startTransition] = useTransition()
 
-	if (typeof window === 'undefined') return null
+	// if (typeof window === 'undefined') return null
 
 	const isFavorite = useStore(state =>
 		state.favoriteItems.some(i => i.id === id)
@@ -78,7 +77,7 @@ const ImageCarousel = ({
 	const handleFavouriteToggle = async () => {
 		if (!id) return
 
-		if (!user) {
+		if (!user || !user.id) {
 			openAuthModal()
 			return
 		}
@@ -95,7 +94,7 @@ const ImageCarousel = ({
 		})
 
 		startTransition(async () => {
-			await toggleFavoriteItem(user?.id!, id)
+			await toggleFavoriteItem(user.id, id)
 		})
 	}
 	return (

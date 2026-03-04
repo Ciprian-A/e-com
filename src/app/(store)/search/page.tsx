@@ -10,6 +10,7 @@ const SearchPage = async ({
 	const products = await searchItemsByName(query)
 	const mappedProducts = products.map(product => ({
 		...product,
+		stock: product.stock ?? 0,
 		createdAt: product.createdAt.toISOString(),
 		updatedAt: product.updatedAt.toISOString(),
 		productDetails: Array.isArray(product.productDetails)

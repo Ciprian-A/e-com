@@ -48,7 +48,7 @@ function EditItemForm({
 				initialVariants={item.variants}
 				categories={categories}
 				initialType={item.type}
-				initialStock={item?.stock!}
+				initialStock={item.stock ?? 0}
 			/>
 		</div>
 	)

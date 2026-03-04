@@ -6,6 +6,7 @@ const CategoryPage = async ({params}: {params: Promise<{slug: string}>}) => {
 	const products = await getItemsByCategory(slug)
 	const mappedProducts = products.map(product => ({
 		...product,
+		stock: product.stock ?? 0,
 		createdAt: product.createdAt.toISOString(),
 		updatedAt: product.updatedAt.toISOString(),
 		productDetails: Array.isArray(product.productDetails)
