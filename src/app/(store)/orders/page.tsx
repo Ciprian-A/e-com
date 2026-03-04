@@ -10,6 +10,7 @@ async function Orders() {
 		return redirect('/')
 	}
 	const orders = await getUserOrders(userId)
+	console.log({orders})
 	return (
 		<div className='flex flex-col items-center w-full min-h-screen bg-gray-50 p-4'>
 			<div className='bg-white p-4 sm:p-8 reounded-xl shadow-lg w-full max-w-4xl'>
@@ -100,9 +101,11 @@ async function Orders() {
 														<p className='text-sm text-gray-600'>
 															Quantity: {item.quantity ? item.quantity : 'N/A'}
 														</p>
-														<p className='text-sm text-gray-600'>
-															Size: {item.size ? item.size : 'N/A'}
-														</p>
+														{item.size && (
+															<p className='text-sm text-gray-600'>
+																Size: {item.size}
+															</p>
+														)}
 													</div>
 												</div>
 												<p className='font-medium text-right'>
