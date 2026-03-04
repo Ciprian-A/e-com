@@ -28,8 +28,13 @@ const BuyBox = ({
 }: BuyBoxProps) => {
 	const isOutOfStock = isItemOutOfStock(product)
 	const activeSize = useStore(state => state.getSelectedSize(id))
-	const availableStock = variants?.find(p => p.size === activeSize)
 	const quantity = useStore(state => state.getSelectedQuantity(id))
+
+	const isSimpleProductType = product.type === 'SIMPLE'
+	const availableStock = isSimpleProductType
+		? product.stock
+		: variants?.find(p => p.size === activeSize)?.stock
+
 	return (
 		<div className='w-full lg:w-[35%] flex flex-col border rounded-md p-3 mt-4 lg:mt-0 max-h-max'>
 			<div className='h-full flex flex-col justify-between'>
@@ -46,10 +51,10 @@ const BuyBox = ({
 					)}
 				</div>
 				<Separator className='my-4' />
-				<div className=' space-y-3 '>
+				<div className=' space-y-3'>
 					<div>
 						<p className='text-base mb-2'>Quantity: {quantity}</p>
-						<QuantitySelector qty={availableStock?.stock ?? 0} productId={id} />
+						<QuantitySelector qty={availableStock ?? 0} productId={id} />
 					</div>
 					<BuyItNow
 						productId={id}
@@ -66,6 +71,8 @@ const BuyBox = ({
 						price={price}
 						image={image}
 						variants={variants}
+						productType={product.type}
+						availableStock={availableStock ?? 0}
 					/>
 				</div>
 			</div>

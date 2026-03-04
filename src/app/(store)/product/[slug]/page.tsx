@@ -22,13 +22,13 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 		productDetails: Array.isArray(product.productDetails)
 			? (product.productDetails as {key: string; value: string}[])
 			: [],
-
 		createdAt: product.createdAt.toISOString(),
 		updatedAt: product.updatedAt.toISOString(),
 		favourites: product.favourites.map(fav => ({
 			...fav
 		}))
 	}
+	const isVariantProductType = product.type === 'VARIANT'
 	const sizeList = (mappedProduct.variants ?? []).map(p => p.size)
 
 	console.log(
@@ -64,11 +64,13 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 								£{product.price?.toFixed(2)}
 							</div>
 							<Separator className='my-4 w-full' />
-							<ProductClientSection>
-								<ClientOnly>
-									<SizeList sizes={sizeList} productId={mappedProduct.id} />
-								</ClientOnly>
-							</ProductClientSection>
+							{isVariantProductType && (
+								<ProductClientSection>
+									<ClientOnly>
+										<SizeList sizes={sizeList} productId={mappedProduct.id} />
+									</ClientOnly>
+								</ProductClientSection>
+							)}
 							<div className='mt-8 w-full'>
 								<h3 className='text-xl font-bold'>Product details</h3>
 								{mappedProduct?.productDetails?.map(p => (

@@ -1,52 +1,7 @@
-// 'use server'
-
-// import { prisma,Prisma } from '../../../../config/db';
-
-// export const createOrder = async (userId: string, items: Array<{itemId: string; quantity: number; size?: string}>) => {
-//   if (!userId) {
-//     throw new Error('User ID is required')
-//   }
-//   const order = await prisma.order.create({
-//     data: {
-//       storeUserId: userId,
-//       stripeCheckoutSessionId: '',
-//       stripeCustomerID: '',
-//       customerName: '',
-//       customerEmail: '',
-//       orderItems: {
-//         create: items.map(item => ({
-//           itemId: item.itemId,
-//           quantity: item.quantity,
-//           size: item.size,
-//           unitPrice: 0 // Placeholder, should be set to actual item price
-//         }))
-//       }
-//     },
-//     include: {
-//       orderItems: {
-//         include: {
-//           item: {
-//             select: {
-//               id: true,
-//               name: true,
-//               slug: true,
-//               imageUrl: true,
-//               price: true,
-//               variants: true
-//             }
-//           }
-//         }
-//       }
-//     }
-//   })
-//   return order
-// }
-
 'use server'
 
 import {normalizeStripeCurrency} from '@/lib/constants/currency'
 import stripe from '@/lib/stripe'
-// import { OrderStatus } from '@prisma/client'
 import {revalidatePath} from 'next/cache'
 import Stripe from 'stripe'
 import {prisma} from '../../../../config/db'
@@ -102,43 +57,87 @@ export async function createOrder(session: Stripe.Checkout.Session) {
 			const price = item.price as Stripe.Price
 
 			const itemId = product.metadata.itemId
-			const size = product.metadata.size as string
+			const size = product.metadata.size || null
 			const quantity = item.quantity ?? 1
 
-			if (!itemId || !size) {
-				throw new Error('Stripe product missing itemId or size metadata')
+			if (!itemId) {
+				throw new Error('Stripe product missing itemId metadata')
 			}
+			// Fetch item with variants
 
-			const updatedVariant = await tx.variant.updateMany({
-				where: {
-					itemId,
-					size,
-					stock: {
-						gte: quantity
-					}
-				},
-				data: {
-					stock: {
-						decrement: quantity
-					}
-				}
+			const dbItem = await tx.item.findUnique({
+				where: {id: itemId},
+				include: {variants: true}
 			})
-
-			if (updatedVariant.count === 0) {
-				throw new Error(
-					`Order failed: Insufficient stock for ${product.name} (Size: ${size})`
-				)
+			if (!dbItem) {
+				throw new Error(`Item not found: ${itemId}`)
 			}
-
-			await tx.orderItem.create({
-				data: {
-					orderId: order.orderNumber,
-					itemId,
-					quantity: item.quantity ?? 1,
-					size,
-					unitPrice: (price.unit_amount ?? 0) / 100
+			// SIMPLE PRODUCT
+			if (dbItem.type === 'SIMPLE') {
+				if (dbItem.stock === null || dbItem.stock < quantity) {
+					throw new Error(`Insufficient stock for simple item: ${dbItem.name}`)
 				}
-			})
+
+				// Deduct stock from Item
+				await tx.item.update({
+					where: {id: itemId},
+					data: {
+						stock: dbItem.stock - quantity
+					}
+				})
+
+				// Create order item
+				await tx.orderItem.create({
+					data: {
+						orderId: order.orderNumber,
+						itemId,
+						quantity,
+						size: null,
+						unitPrice: (price.unit_amount ?? 0) / 100
+					}
+				})
+
+				continue
+			}
+			// VARIANT PRODUCT
+			if (dbItem.type === 'VARIANT') {
+				if (!size) {
+					throw new Error(`Variant item missing size: ${dbItem.name}`)
+				}
+
+				const variant = dbItem.variants.find(v => v.size === size)
+				if (!variant) {
+					throw new Error(`Variant not found: ${dbItem.name} (size: ${size})`)
+				}
+
+				if (variant.stock < quantity) {
+					throw new Error(
+						`Insufficient stock for ${dbItem.name} (size: ${size})`
+					)
+				}
+
+				// Deduct stock from Variant
+				await tx.variant.update({
+					where: {id: variant.id},
+					data: {
+						stock: variant.stock - quantity
+					}
+				})
+
+				// Create order item
+				await tx.orderItem.create({
+					data: {
+						orderId: order.orderNumber,
+						itemId,
+						quantity,
+						size,
+						unitPrice: (price.unit_amount ?? 0) / 100
+					}
+				})
+
+				continue
+			}
+			throw new Error(`Unknown product type for item ${dbItem.id}`)
 		}
 		return order
 	})

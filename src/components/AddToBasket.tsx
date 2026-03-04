@@ -9,7 +9,8 @@ interface AddToBasketProps {
 	price: number
 	image: string
 	variants: {size: string; stock: number}[]
-	disabled?: boolean
+	productType: 'SIMPLE' | 'VARIANT'
+	availableStock: number
 }
 
 const AddToBasket = ({
@@ -19,28 +20,33 @@ const AddToBasket = ({
 	price,
 	image,
 	variants,
-	disabled
+	productType,
+	availableStock
 }: AddToBasketProps) => {
 	const activeSize = useStore(state => state.getSelectedSize(productId))
 	const quantity = useStore(state => state.getSelectedQuantity(productId))
 	const addToBasket = useStore(state => state.addItemToBasket)
+	const isSimpleProductType = productType === 'SIMPLE'
+	const selectedVariant = !isSimpleProductType
+		? variants.find(v => v.size === activeSize)
+		: null
 
-	const selectedVariant = variants.find(v => v.size === activeSize)
-	const availableStock = selectedVariant?.stock ?? 0
-
-	const isDisabled =
-		disabled || !activeSize || quantity < 1 || quantity > availableStock
+	const isDisabled = isSimpleProductType
+		? quantity < 1 || quantity > availableStock
+		: !activeSize || quantity < 1 || quantity > availableStock
 
 	const handleAddToBasket = () => {
 		if (isDisabled) return
 
 		const basketItem = {
-			uniqueKey: `${productId}-${activeSize}`,
+			uniqueKey: isSimpleProductType
+				? `${productId}-simple`
+				: `${productId}-${activeSize}`,
 			productId,
 			name,
 			slug,
 			price,
-			size: activeSize,
+			size: isSimpleProductType ? null : activeSize,
 			quantity,
 			image
 		}
@@ -49,7 +55,7 @@ const AddToBasket = ({
 
 	return (
 		<Button
-			className={`${disabled ? 'cursor-not-allowed' : ' disabled:bg-gray-900 w-full rounded-md bg-gray-900 text-white text-base border-black border-2 hover:bg-gray-700 py-5'}`}
+			className={`${isDisabled ? 'cursor-not-allowed' : ''} disabled:bg-gray-900 w-full rounded-md bg-gray-900 text-white text-base border-black border-2 hover:bg-gray-700 py-5`}
 			onClick={handleAddToBasket}>
 			Add to basket
 		</Button>

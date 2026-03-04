@@ -43,7 +43,7 @@ export type ItemSize =
 	| 'XL'
 	| '2XL'
 	| '3XL'
-	| ''
+	| null
 type StoreActions = {
 	addFavoriteItem: (item: ItemDTO) => void
 	removeFavoriteItem: (id: string) => void
@@ -79,7 +79,7 @@ export const createStoreSlice: StateCreator<StoreSlice, [], [], StoreSlice> = (
 			}
 		}))
 	},
-	getSelectedSize: productId => get().selectedSizes[productId] ?? '',
+	getSelectedSize: productId => get().selectedSizes[productId] ?? null,
 	setSelectedQuantity: (productId, qty) =>
 		set(state => ({
 			selectedQuantities: {
