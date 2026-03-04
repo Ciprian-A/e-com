@@ -26,7 +26,7 @@ function SizeSelector({product}: SizeSelectorProps) {
 	return (
 		<div className=''>
 			<Select
-				value={selectedSize}
+				value={selectedSize ?? ''}
 				onValueChange={value => handleValueChange(value)}>
 				<SelectTrigger className='w-full'>
 					<SelectValue placeholder='Select a size' />

@@ -214,8 +214,7 @@ export default function ItemForm({
 	const descriptionValue = form.watch('description') || ''
 	const charCount = descriptionValue.length
 	const charRemaining = 500 - charCount
-	const productTypeValue = form.watch('type') // === 'SIMPLE'
-	const stockValue = form.watch('stock') // === 'SIMPLE'
+	const productTypeValue = form.watch('type')
 
 	useEffect(() => {
 		if (productDetailFields.length === 0) {

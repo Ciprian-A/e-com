@@ -8,7 +8,6 @@ interface AddToBasketProps {
 	slug: string
 	price: number
 	image: string
-	variants: {size: string; stock: number}[]
 	productType: 'SIMPLE' | 'VARIANT'
 	availableStock: number
 }
@@ -19,7 +18,6 @@ const AddToBasket = ({
 	slug,
 	price,
 	image,
-	variants,
 	productType,
 	availableStock
 }: AddToBasketProps) => {
@@ -27,10 +25,6 @@ const AddToBasket = ({
 	const quantity = useStore(state => state.getSelectedQuantity(productId))
 	const addToBasket = useStore(state => state.addItemToBasket)
 	const isSimpleProductType = productType === 'SIMPLE'
-	const selectedVariant = !isSimpleProductType
-		? variants.find(v => v.size === activeSize)
-		: null
-
 	const isDisabled = isSimpleProductType
 		? quantity < 1 || quantity > availableStock
 		: !activeSize || quantity < 1 || quantity > availableStock

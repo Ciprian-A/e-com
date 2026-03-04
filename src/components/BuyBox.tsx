@@ -70,7 +70,7 @@ const BuyBox = ({
 						slug={slug}
 						price={price}
 						image={image}
-						variants={variants}
+						// variants={variants}
 						productType={product.type}
 						availableStock={availableStock ?? 0}
 					/>
