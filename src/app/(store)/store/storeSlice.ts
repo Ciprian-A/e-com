@@ -153,5 +153,6 @@ export const createStoreSlice: StateCreator<StoreSlice, [], [], StoreSlice> = (
 			0
 		)
 	},
-	clearBasket: () => set({basket: {}})
+	clearBasket: () =>
+		set({basket: {}, selectedQuantities: {}, selectedSizes: {}})
 })
