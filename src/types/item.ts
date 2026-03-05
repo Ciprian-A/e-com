@@ -10,18 +10,21 @@ export type ItemDTO = {
 	productDetails: {key: string; value: string}[]
 	imageUrl: string
 	imageGallery: string[]
+	createdAt?: string
+	updatedAt?: string
+	type: ProductType
+	stock?: number
 	categories?: CategoryDTO[]
 	variants?: VariantDTO[]
 	favourites?: FavoriteDTO[]
-	createdAt: string
-	updatedAt: string
-	type: ProductType
-	stock?: number
 }
 export type VariantDTO = {
 	id: string
 	size: string
 	stock: number
+	itemId?: string
+	createdAt?: string
+	updatedAt?: string
 }
 export type CategoryDTO = {
 	id: string
@@ -40,12 +43,14 @@ export type OrderItemDTO = {
 	itemId: string
 	quantity: number
 	unitPrice: number
-	item: ItemDTO | null
+	item: ItemPreviewDTO | null
+	size: string | null
 }
 export type OrderDTO = {
 	orderNumber: string
 	stripeCheckoutSessionId: string
 	stripeCustomerID: string
+	storeUserId: string
 	customerName: string
 	customerEmail: string
 	stripePaymentIntentId: string
@@ -57,6 +62,7 @@ export type OrderDTO = {
 	createdAt: string
 	updatedAt: string
 	orderItems: OrderItemDTO[]
+	emailSent: boolean
 }
 export type PromoCodeDTO = {
 	id: string
@@ -68,3 +74,20 @@ export type PromoCodeDTO = {
 	startDate: string
 	endDate: string
 }
+// Define what a "Preview" version of an Item looks like
+export type ItemPreviewDTO = Pick<
+	ItemDTO,
+	'id' | 'name' | 'slug' | 'price' | 'imageUrl'
+> & {
+	variants?: VariantDTO[]
+}
+
+// Update your OrderItemDTO to use the Preview version
+// export type OrderItemDTO = {
+//   id: string;
+//   itemId: string;
+//   quantity: number;
+//   unitPrice: number;
+//   item: ItemPreviewDTO | null; // <--- Use the smaller version here
+//   size: string | null;
+// };
