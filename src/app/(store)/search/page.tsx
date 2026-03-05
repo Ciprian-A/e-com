@@ -19,6 +19,11 @@ const SearchPage = async ({
 		favourites: product.favourites.map(fav => ({
 			...fav,
 			createdAt: fav.createdAt.toISOString()
+		})),
+		variants: product.variants.map(variant => ({
+			...variant,
+			createdAt: variant.createdAt.toISOString(),
+			updatedAt: variant.updatedAt.toISOString()
 		}))
 	}))
 	if (!products.length) {

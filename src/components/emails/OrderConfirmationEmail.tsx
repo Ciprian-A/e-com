@@ -11,9 +11,10 @@ import {
 	Section,
 	Text
 } from '@react-email/components'
+import {Prisma} from '../../../config/db'
 interface EmailProps {
 	orderId: string
-	items: any[]
+	items: Prisma.OrderItemGetPayload<{include: {item: true}}>[]
 	total: number
 	cardBrand: string
 	last4: string

@@ -11,7 +11,12 @@ const CategoryPage = async ({params}: {params: Promise<{slug: string}>}) => {
 		updatedAt: product.updatedAt.toISOString(),
 		productDetails: Array.isArray(product.productDetails)
 			? (product.productDetails as {key: string; value: string}[])
-			: []
+			: [],
+		variants: product.variants.map(variant => ({
+			...variant,
+			createdAt: variant.createdAt.toISOString(),
+			updatedAt: variant.updatedAt.toISOString()
+		}))
 	}))
 	return (
 		<div className='flex flex-col items-center justify-top min-h-screen bg-gray-100 p-4 w-full'>

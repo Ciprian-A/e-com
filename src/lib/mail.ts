@@ -1,5 +1,6 @@
 import OrderConfirmationEmail from '@/components/emails/OrderConfirmationEmail'
 import {Resend} from 'resend'
+import {Prisma} from '../../config/db'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -11,8 +12,10 @@ export async function sendOrderConfirmationEmail({
 	last4
 }: {
 	to: string
-	order: any
-	items: any[]
+	order: Prisma.OrderGetPayload<{include: {orderItems: true}}>
+	items: Prisma.OrderItemGetPayload<{
+		include: {item: {include: {orderItems: true}}}
+	}>[]
 	cardBrand: string
 	last4: string
 }) {

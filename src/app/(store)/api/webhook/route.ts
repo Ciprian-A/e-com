@@ -63,11 +63,29 @@ export async function POST(req: NextRequest) {
 				}
 			})
 			console.log('WEBHOOK ORDER ITEMS=>>>>>>', {orderItems})
+			// Transform orderItems to match expected structure
+			const transformedItems = orderItems.map(orderItem => ({
+				...orderItem,
+				item: {
+					...orderItem.item,
+					orderItems: [orderItem]
+				}
+			}))
 			// Send confirmation email
 			await sendOrderConfirmationEmail({
 				to: order.customerEmail,
-				order,
-				items: orderItems,
+				order: {
+					...order,
+					orderItems: orderItems.map(item => ({
+						id: item.id,
+						orderId: item.orderId,
+						itemId: item.itemId,
+						quantity: item.quantity,
+						size: item.size,
+						unitPrice: item.unitPrice
+					}))
+				},
+				items: transformedItems,
 				cardBrand,
 				last4
 			})

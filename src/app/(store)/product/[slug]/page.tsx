@@ -26,6 +26,11 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 		updatedAt: product.updatedAt.toISOString(),
 		favourites: product.favourites.map(fav => ({
 			...fav
+		})),
+		variants: (product.variants ?? []).map(variant => ({
+			...variant,
+			createdAt: variant.createdAt.toISOString(),
+			updatedAt: variant.updatedAt.toISOString()
 		}))
 	}
 	const isVariantProductType = product.type === 'VARIANT'

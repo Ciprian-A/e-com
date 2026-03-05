@@ -20,6 +20,11 @@ export default async function Home() {
 		favourites: product.favourites.map(fav => ({
 			...fav,
 			createdAt: fav.createdAt.toISOString()
+		})),
+		variants: product.variants.map(variant => ({
+			...variant,
+			createdAt: variant.createdAt.toISOString(),
+			updatedAt: variant.updatedAt.toISOString()
 		}))
 	}))
 	console.log(
