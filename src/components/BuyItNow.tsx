@@ -16,6 +16,8 @@ interface BuyItNowProps {
 	price: number
 	image: string
 	variants: {size: string; stock: number}[]
+	productType: 'SIMPLE' | 'VARIANT'
+	availableStock: number
 }
 
 const BuyItNow = ({
@@ -24,7 +26,9 @@ const BuyItNow = ({
 	slug,
 	price,
 	image,
-	variants
+	variants,
+	productType,
+	availableStock
 }: BuyItNowProps) => {
 	const [isLoading, setIsloading] = useState(false)
 	const {isSignedIn} = useAuth()
@@ -32,27 +36,33 @@ const BuyItNow = ({
 	const activeSize = useStore(state => state.getSelectedSize(productId))
 	const quantity = useStore(state => state.getSelectedQuantity(productId))
 	const addToBasket = useStore(state => state.addItemToBasket)
+	const clearBasket = useStore(state => state.clearBasket)
 
+	const isSimpleProductType = productType === 'SIMPLE'
 	const selectedVariant = variants.find(v => v.size === activeSize)
-	const availableStock = selectedVariant?.stock ?? 0
+	const isDisabled = isSimpleProductType
+		? quantity < 1 || quantity > availableStock
+		: !activeSize || quantity < 1 || quantity > availableStock
 
-	const isDisabled = !activeSize || quantity < 1 || quantity > availableStock
-
+	console.log({isDisabled, selectedVariant, availableStock})
 	const handleBuyItNow = async () => {
 		if (!isSignedIn || isDisabled) return
 		setIsloading(true)
 		try {
 			const basketItem = {
-				uniqueKey: `${productId}-${activeSize}`,
+				uniqueKey: isSimpleProductType
+					? `${productId}-simple`
+					: `${productId}-${activeSize}`,
 				productId,
 				name,
 				slug,
 				price,
-				size: activeSize,
+				size: isSimpleProductType ? null : activeSize,
 				quantity,
 				image
 			}
 			addToBasket(basketItem)
+
 			const metadata: Metadata = {
 				orderNumber: crypto.randomUUID(),
 				customerName: user?.fullName ?? 'Unknown',
@@ -63,6 +73,7 @@ const BuyItNow = ({
 			if (checkoutUrl) {
 				window.location.href = checkoutUrl
 			}
+			clearBasket()
 		} catch (error) {
 			console.error('Error creating checkout session:', error)
 		} finally {

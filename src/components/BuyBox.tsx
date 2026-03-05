@@ -63,6 +63,8 @@ const BuyBox = ({
 						price={price}
 						image={image}
 						variants={variants}
+						productType={product.type}
+						availableStock={availableStock ?? 0}
 					/>
 					<AddToBasket
 						productId={id}

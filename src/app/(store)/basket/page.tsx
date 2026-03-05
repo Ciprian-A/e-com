@@ -59,6 +59,7 @@ function BasketPage() {
 			if (checkoutUrl) {
 				window.location.href = checkoutUrl
 			}
+			clearBasket()
 		} catch (error) {
 			console.error('Error crating checkout session:', error)
 		} finally {
