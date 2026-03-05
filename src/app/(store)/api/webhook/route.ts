@@ -1,8 +1,10 @@
+import {sendOrderConfirmationEmail} from '@/lib/mail'
 import {createOrder} from '@/lib/orders/actions/orders'
 import stripe from '@/lib/stripe'
 import {headers} from 'next/headers'
 import {NextRequest, NextResponse} from 'next/server'
 import Stripe from 'stripe'
+import {prisma} from '../../../../../config/db'
 
 export async function POST(req: NextRequest) {
 	const body = await req.text()
@@ -36,10 +38,43 @@ export async function POST(req: NextRequest) {
 	) {
 		const session = event.data.object as Stripe.Checkout.Session
 		try {
+			// Create order in database
 			const order = await createOrder(session)
 			console.log('Order created in Database:', order)
+
+			// Retrieve full Stripe session with expanded payment method
+
+			const fullSession = await stripe.checkout.sessions.retrieve(session.id, {
+				expand: ['payment_intent.payment_method']
+			})
+
+			// Extract card details safely
+			const paymentIntent = fullSession.payment_intent as Stripe.PaymentIntent
+			const paymentMethod = paymentIntent.payment_method as Stripe.PaymentMethod
+
+			const cardBrand = paymentMethod?.card?.brand ?? 'card'
+			const last4 = paymentMethod?.card?.last4 ?? '****'
+
+			// Fetch order items from DB to send in email
+			const orderItems = await prisma.orderItem.findMany({
+				where: {orderId: order.orderNumber},
+				include: {
+					item: true // assuming relation exists
+				}
+			})
+			console.log('WEBHOOK ORDER ITEMS=>>>>>>', {orderItems})
+			// Send confirmation email
+			await sendOrderConfirmationEmail({
+				to: order.customerEmail,
+				order,
+				items: orderItems,
+				cardBrand,
+				last4
+			})
+
+			console.log('Confirmation email sent successfully')
 		} catch (error) {
-			console.log('Error creating order in Database:', error)
+			console.log('Error creating order:', error)
 			return NextResponse.json({error: 'Error creating order'}, {status: 500})
 		}
 	}

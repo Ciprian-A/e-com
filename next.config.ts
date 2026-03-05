@@ -10,7 +10,11 @@ const nextConfig: NextConfig = {
 		remotePatterns: [
 			{
 				protocol: 'https',
-				hostname: 'eedsamywzhpxhjumxbcp.supabase.co'
+				hostname: process.env.NEXT_PUBLIC_SUPABASE_HOSTNAME!
+			},
+			{
+				protocol: 'https',
+				hostname: process.env.NEXT_PUBLIC_SHOPPY_HOSTNAME!
 			}
 		]
 	}

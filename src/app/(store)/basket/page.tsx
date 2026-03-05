@@ -98,9 +98,11 @@ function BasketPage() {
 												{item.name}
 											</h2>
 										</Link>
-										<p className='text-sm font-semibold'>
-											<span className='font-bold'>Size:</span> {item.size} UK
-										</p>
+										{item.size && (
+											<p className='text-sm font-semibold'>
+												<span className='font-bold'>Size:</span> {item.size} UK
+											</p>
+										)}
 										<div className='flex items-center flex-shrink-0 space-x-4'>
 											<IncrementAndDecrementButton
 												uniqueKey={item.uniqueKey}

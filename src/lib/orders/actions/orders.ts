@@ -17,14 +17,31 @@ export async function createOrder(session: Stripe.Checkout.Session) {
 		total_details
 	} = session
 
-	const existingOrder = await prisma.order.findUnique({
-		where: {stripeCheckoutSessionId: session.id}
-	})
-	if (existingOrder) {
-		return existingOrder
-	}
 	if (!metadata?.storeUserId) {
 		throw new Error('Missing storeUserId in Stripe metadata')
+	}
+	const order = await prisma.order.upsert({
+		where: {stripeCheckoutSessionId: checkoutSessionId},
+		update: {}, // do nothing if order exists
+		create: {
+			stripeCheckoutSessionId: checkoutSessionId,
+			stripePaymentIntentId: payment_intent as string,
+			stripeCustomerID: customer as string,
+			storeUserId: metadata.storeUserId,
+			customerName: metadata.customerName ?? '',
+			customerEmail: metadata.customerEmail ?? '',
+			totalPrice: (amount_total ?? 0) / 100,
+			amountDiscounted: total_details?.amount_discount
+				? total_details.amount_discount / 100
+				: 0,
+			currency: normalizeStripeCurrency(currency!),
+			orderStatus: 'PAID',
+			promoCodeId: metadata.promoCodeId ?? null,
+			emailSent: false // track email status
+		}
+	})
+	if (order.emailSent) {
+		return order
 	}
 
 	const lineItems = await stripe.checkout.sessions.listLineItems(
@@ -34,24 +51,6 @@ export async function createOrder(session: Stripe.Checkout.Session) {
 		}
 	)
 	return prisma.$transaction(async tx => {
-		const order = await tx.order.create({
-			data: {
-				stripeCheckoutSessionId: checkoutSessionId,
-				stripePaymentIntentId: payment_intent as string,
-				stripeCustomerID: customer as string,
-				storeUserId: metadata.storeUserId,
-				customerName: metadata.customerName ?? '',
-				customerEmail: metadata.customerEmail ?? '',
-				totalPrice: (amount_total ?? 0) / 100,
-				amountDiscounted: total_details?.amount_discount
-					? total_details.amount_discount / 100
-					: 0,
-				currency: normalizeStripeCurrency(currency!),
-				orderStatus: 'PAID',
-				promoCodeId: metadata.promoCodeId ?? null
-			}
-		})
-
 		for (const item of lineItems.data) {
 			const product = item.price?.product as Stripe.Product
 			const price = item.price as Stripe.Price
@@ -139,6 +138,13 @@ export async function createOrder(session: Stripe.Checkout.Session) {
 			}
 			throw new Error(`Unknown product type for item ${dbItem.id}`)
 		}
+
+		// Mark emailSent = true
+		await prisma.order.update({
+			where: {orderNumber: order.orderNumber},
+			data: {emailSent: true}
+		})
+
 		return order
 	})
 }
