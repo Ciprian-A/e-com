@@ -2,6 +2,7 @@ import AuthRequiredModal from '@/components/AuthRequiredModal'
 import ClientLayout from '@/components/ClientLayout.tsx'
 import Header from '@/components/Header'
 import {SidebarProvider} from '@/components/ui/sidebar'
+import {Toaster} from '@/components/ui/sonner'
 import {ClerkProvider} from '@clerk/nextjs'
 import type {Metadata} from 'next'
 import '../globals.css'
@@ -29,7 +30,10 @@ export default async function RootLayout({
 					<main>
 						<Header />
 						<SidebarProvider>
-							<ClientLayout>{children}</ClientLayout>
+							<ClientLayout>
+								{children}
+								<Toaster position='top-center' />
+							</ClientLayout>
 						</SidebarProvider>
 						<AuthRequiredModal />
 					</main>

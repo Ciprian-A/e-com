@@ -8,6 +8,7 @@ import {OrderItemDTO} from '@/types/item'
 import {SignInButton, useAuth, useUser} from '@clerk/nextjs'
 import {Loader2} from 'lucide-react'
 import {useState} from 'react'
+import {toast} from 'sonner' // or your specific toast library
 import {Button} from '../ui/button'
 
 interface BuyAgainProps {
@@ -46,8 +47,14 @@ const BuyAgainButton = ({orderItems}: BuyAgainProps) => {
 				return false
 			})
 			if (outOfStockItems.length > 0) {
-				const names = outOfStockItems.map(i => i.item?.name).join(', ')
-				alert(`Sorry, the following items are out of stock: ${names}`)
+				const names = outOfStockItems
+					.map(i => `${i.item?.name}${i.size ? ` (${i.size})` : ''}`)
+					.join(', ')
+
+				toast.error('Stock Issue', {
+					description: `The following items are unavailable: ${names}`,
+					duration: 5000
+				})
 
 				setIsLoading(false)
 				return
@@ -76,14 +83,17 @@ const BuyAgainButton = ({orderItems}: BuyAgainProps) => {
 				customerEmail: user?.emailAddresses[0].emailAddress ?? 'Unknown',
 				storeUserId: user!.id
 			}
-
+			toast.success('Redirecting to checkout...')
 			const checkoutUrl = await createCheckoutSession(checkoutItems, metadata)
 
 			if (checkoutUrl) {
 				window.location.href = checkoutUrl
 			}
 		} catch (error) {
-			console.error('Error during re-order checkout:', error)
+			toast.error('Checkout Error', {
+				description: 'Something went wrong while creating your session.'
+			})
+			console.log('Error during re-order checkout:', error)
 		} finally {
 			setIsLoading(false)
 		}
