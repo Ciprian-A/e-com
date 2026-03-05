@@ -21,7 +21,7 @@ async function Orders() {
 						<p>You have not placed any orders yet.</p>
 					</div>
 				) : (
-					<div className='space-y- sm:space-y-8'>
+					<div className='space-y-4 sm:space-y-8'>
 						{orders.map(order => (
 							<div
 								key={order.orderNumber}
