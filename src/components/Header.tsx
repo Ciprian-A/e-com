@@ -12,8 +12,8 @@ const Header = async () => {
 	const {sessionClaims} = await auth()
 	const categories = await getCategories()
 	return (
-		<header className='border-b-2 '>
-			<div className='grid grid-cols-3 grid-rows-3 items-center space-y-0.5 p-2 md:flex md:w-full md:flex-wrap md:items-center lg:space-x-4 lg:px-4 lg:py-2'>
+		<header className='border-b-2'>
+			<div className='grid grid-cols-3 grid-rows-3 items-center space-y-0.5 p-2 md:flex md:w-full md:flex-wrap md:items-center lg:space-x-4 lg:px-4 lg:py-2 print:hidden'>
 				<div className='grid row-start-1 row-end-1 col-start-1 col-end-2 md:flex md:flex-row'>
 					<Logo />
 				</div>

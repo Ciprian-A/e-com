@@ -1,3 +1,4 @@
+import PrintButton from '@/components/orders/PrintOrderButton'
 import {formatCurrency} from '@/lib/formatCurrency'
 import {getOrderById} from '@/lib/orders/orders'
 import Image from 'next/image'
@@ -31,9 +32,7 @@ export default async function OrderDetails({
 						<span className='font-mono text-sm'>{order.orderNumber}</span>
 					</p>
 				</div>
-				<button className='px-4 py-2 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-50 transition-colors'>
-					Download Invoice (PDF)
-				</button>
+				<PrintButton />
 			</header>
 
 			<div className='grid md:grid-cols-3 gap-8 bg-gray-50 p-6 rounded-xl border border-gray-100'>
