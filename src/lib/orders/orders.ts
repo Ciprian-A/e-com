@@ -18,7 +18,9 @@ export const getUserOrders = async (userId: string) => {
 							slug: true,
 							imageUrl: true,
 							price: true,
-							variants: true
+							variants: true,
+							stock: true,
+							type: true
 						}
 					}
 				}
@@ -68,7 +70,9 @@ export const getOrderById = async (id: string) => {
 							slug: true,
 							imageUrl: true,
 							price: true,
-							variants: true
+							variants: true,
+							type: true,
+							stock: true
 						}
 					}
 				}

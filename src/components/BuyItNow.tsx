@@ -26,7 +26,6 @@ const BuyItNow = ({
 	slug,
 	price,
 	image,
-	variants,
 	productType,
 	availableStock
 }: BuyItNowProps) => {
@@ -39,12 +38,10 @@ const BuyItNow = ({
 	const clearBasket = useStore(state => state.clearBasket)
 
 	const isSimpleProductType = productType === 'SIMPLE'
-	const selectedVariant = variants.find(v => v.size === activeSize)
 	const isDisabled = isSimpleProductType
 		? quantity < 1 || quantity > availableStock
 		: !activeSize || quantity < 1 || quantity > availableStock
 
-	console.log({isDisabled, selectedVariant, availableStock})
 	const handleBuyItNow = async () => {
 		if (!isSignedIn || isDisabled) return
 		setIsloading(true)

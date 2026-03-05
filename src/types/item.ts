@@ -1,3 +1,4 @@
+import {ItemSize} from '@/app/(store)/store/storeSlice'
 import {Currency, OrderStatus} from '../../generated/prisma/enums'
 export type ProductType = 'SIMPLE' | 'VARIANT'
 
@@ -44,7 +45,7 @@ export type OrderItemDTO = {
 	quantity: number
 	unitPrice: number
 	item: ItemPreviewDTO | null
-	size: string | null
+	size: ItemSize | null
 }
 export type OrderDTO = {
 	orderNumber: string
@@ -74,20 +75,7 @@ export type PromoCodeDTO = {
 	startDate: string
 	endDate: string
 }
-// Define what a "Preview" version of an Item looks like
 export type ItemPreviewDTO = Pick<
 	ItemDTO,
-	'id' | 'name' | 'slug' | 'price' | 'imageUrl'
-> & {
-	variants?: VariantDTO[]
-}
-
-// Update your OrderItemDTO to use the Preview version
-// export type OrderItemDTO = {
-//   id: string;
-//   itemId: string;
-//   quantity: number;
-//   unitPrice: number;
-//   item: ItemPreviewDTO | null; // <--- Use the smaller version here
-//   size: string | null;
-// };
+	'id' | 'name' | 'slug' | 'price' | 'imageUrl' | 'type' | 'stock' | 'variants'
+>

@@ -1,10 +1,12 @@
+'use client'
+
 import {formatCurrency} from '@/lib/formatCurrency'
 import {OrderDTO} from '@/types/item'
 import Image from 'next/image'
 import Link from 'next/link'
+import BuyAgainButton from './BuyAgainButton'
 
 function OrderCard({order}: {order: OrderDTO}) {
-	// Limit the thumbnails to the first 4 items
 	const displayItems = order.orderItems?.slice(0, 4) || []
 	const remainingCount = (order.orderItems?.length || 0) - displayItems.length
 
@@ -43,10 +45,8 @@ function OrderCard({order}: {order: OrderDTO}) {
 				</div>
 			</div>
 
-			{/* Body: Item Thumbnails & Status */}
 			<div className='p-4 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-6'>
 				<div className='flex flex-1 items-center gap-4'>
-					{/* Item Preview Strip */}
 					<div className='flex -space-x-2 overflow-hidden'>
 						{displayItems.map(item => (
 							<div
@@ -86,16 +86,13 @@ function OrderCard({order}: {order: OrderDTO}) {
 					</div>
 				</div>
 
-				{/* Actions */}
 				<div className='flex flex-row md:flex-col gap-2'>
 					<Link
 						href={`/orders/${order.orderNumber}`}
 						className='flex-1 text-center px-4 py-2 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-50 transition-colors'>
 						View Order
 					</Link>
-					<button className='flex-1 text-center px-4 py-2 bg-black text-white rounded-md text-sm font-medium hover:bg-gray-800 transition-colors'>
-						Buy Again
-					</button>
+					<BuyAgainButton orderItems={order.orderItems} />
 				</div>
 			</div>
 		</div>

@@ -2,6 +2,7 @@ import OrderCard from '@/components/orders/OrderCard'
 import {getUserOrders} from '@/lib/orders/orders'
 import {auth} from '@clerk/nextjs/server'
 import {redirect} from 'next/navigation'
+import {ItemSize} from '../store/storeSlice'
 
 async function Orders() {
 	const {userId} = await auth()
@@ -15,8 +16,10 @@ async function Orders() {
 		updatedAt: order.updatedAt.toISOString(),
 		orderItems: order.orderItems.map(item => ({
 			...item,
+			size: item.size as ItemSize,
 			item: {
 				...item.item,
+				stock: item.item.stock ?? 0,
 				variants: item.item.variants.map(variant => ({
 					...variant,
 					createdAt: variant.createdAt.toISOString(),
