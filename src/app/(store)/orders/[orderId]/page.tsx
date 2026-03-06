@@ -34,7 +34,6 @@ export default async function OrderDetails({
 				</div>
 				<PrintButton />
 			</header>
-
 			<div className='grid md:grid-cols-3 gap-8 bg-gray-50 p-6 rounded-xl border border-gray-100'>
 				<section>
 					<h3 className='text-sm uppercase tracking-wider font-bold text-gray-500 mb-2'>
@@ -45,7 +44,6 @@ export default async function OrderDetails({
 					</p>
 					<p className='text-sm text-gray-600'>{order.customerEmail}</p>
 				</section>
-
 				<section>
 					<h3 className='text-sm uppercase tracking-wider font-bold text-gray-500 mb-2'>
 						Payment Status
@@ -62,7 +60,6 @@ export default async function OrderDetails({
 						Stripe ID: {order.stripePaymentIntentId.slice(0, 12)}...
 					</p>
 				</section>
-
 				<section>
 					<h3 className='text-sm uppercase tracking-wider font-bold text-gray-500 mb-2'>
 						Order Summary
@@ -87,8 +84,6 @@ export default async function OrderDetails({
 					</div>
 				</section>
 			</div>
-
-			{/* 3. Items List */}
 			<div className='space-y-6'>
 				<h2 className='text-xl font-bold'>Items ({order.orderItems.length})</h2>
 				<div className='border border-gray-200 rounded-lg overflow-hidden'>

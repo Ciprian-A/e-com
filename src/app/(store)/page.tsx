@@ -27,9 +27,6 @@ export default async function Home() {
 			updatedAt: variant.updatedAt.toISOString()
 		}))
 	}))
-	console.log(
-		`${crypto.randomUUID().slice(0, 5)} >>> Rendered the home page chache with ${items.length} products and ${categories.length} categories`
-	)
 	return (
 		<div className='w-full p-4'>
 			<PromoBanner />

@@ -36,9 +36,6 @@ const ProductPage = async ({params}: {params: Promise<{slug: string}>}) => {
 	const isVariantProductType = product.type === 'VARIANT'
 	const sizeList = (mappedProduct.variants ?? []).map(p => p.size)
 
-	console.log(
-		`${crypto.randomUUID().slice(0, 5)} >>> Rendered the product page chache for ${slug}`
-	)
 	if (!mappedProduct) {
 		return notFound()
 	}
