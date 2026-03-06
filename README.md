@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Shoppy E‑Commerce
 
-## Getting Started
+Shoppy is a full‑stack e‑commerce application designed to demonstrate scalable
+architecture, type‑safe development, and real‑world commerce flows. It includes
+authentication, product CRUD, Stripe checkout, promo codes, confirmation emails,
+search, filtering, favorites, and a smooth, responsive UI.
 
-First, run the development server:
+**Live Demo:** https://shoppy.dev-ltd.cloud
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Highlights
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Monorepo architecture** using Next.js, TypeScript, Prisma, and PostgreSQL
+- **Secure Stripe checkout** with server‑side validation and promo code support
+- **Authentication & authorization** powered by Clerk
+- **Transactional emails** via Resend (order confirmations)
+- **Admin dashboard** for product management (CRUD, stock, pricing)
+- **Modern shopping experience** with filtering, search, favorites, basket
+  logic, “buy it now,” and “buy again”
+- **Optimistic UI updates** for a fast, responsive feel
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+### **Frontend**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Framework:** React 19 + Next.js (App Router)
+- **Language:** TypeScript
+- **UI Components:** Shadcn-UI
+- **Styling:** Tailwind CSS
+- **Transactional Emails:** Resend
+- **Authentication:** Clerk
+- **State Management / Store:** Zustand
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### **Backend**
 
-## Deploy on Vercel
+- **Framework:** Next.js server routes / API routes / Server Actions
+- **Language:** TypeScript
+- **Database:** PostgreSQL and Prisma
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### **Infrastructure**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Stripe for payments
+- Clerk for auth & RBAC
+- Resend for transactional emails
+- Cloud hosting (Cloud Run / Render)
+- Environment‑based configuration
+
+---
+
+## Core Features
+
+### User Experience
+
+- Product browsing with filtering & search
+- Favorites system with instant UI updates
+- Basket logic with quantity management
+- “Buy it now” for single‑item checkout
+- “Buy again” for quick repeat purchases
+- Optimistic updates for responsiveness
+
+### Commerce Logic
+
+- Stripe checkout session creation
+- Promo code validation
+- Secure server‑side payment handling
+- Order creation & confirmation emails
+
+### Admin Dashboard
+
+- Product CRUD (create, update, delete)
+- Stock, pricing, and metadata management
+- Image uploads
+- Role‑based access (admin vs. customer)
+
+---
+
+## Database Design
+
+The PostgreSQL schema is modeled with Prisma and supports:
+
+- Products, categories, and variants
+- Orders, order items, and payment metadata
+- Favorites and user‑product relationships
+- Promo codes and discount logic
+- Clerk user IDs for authentication consistency
+
+The schema is optimized for clean relational modeling and predictable queries.
+
+---
